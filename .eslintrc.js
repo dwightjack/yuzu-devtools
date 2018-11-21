@@ -13,5 +13,7 @@ module.exports = {
   rules: {
     'arrow-body-style': 0,
     'prettier/prettier': ['error'],
+    'no-underscore-dangle': 0,
+    camelcase: 0,
   },
 };
