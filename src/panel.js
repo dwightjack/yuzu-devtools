@@ -1,30 +1,25 @@
-import { bind, wire } from 'hyperhtml';
+import App from './components/App/App';
+import createStore from './store';
+import reducers from './store/reducers';
+import initialState from './store/initialState';
 
-const tree = [];
-const container = bind(document.querySelector('#container'));
+const store = createStore(initialState, reducers);
 
-container.textContent = '';
+const app = App({
+  container: document.querySelector('#container'),
+});
 
 const port = chrome.extension.connect({
   name: `${chrome.devtools.inspectedWindow.tabId}`,
 });
 chrome.devtools.network.onNavigated.addListener(() => {
-  container.textContent = 'loaded!';
+  store.resetState();
   port.postMessage({ type: 'initialize' });
 });
 
 port.postMessage({ type: 'initialize' });
 
-port.onMessage.addListener(({ type, instance, args }) => {
-  if (type === 'init') {
-    tree.push(instance);
-  }
-  return container`
-  <section>
-  ${tree.map(
-    (inst) =>
-      wire(inst)`<div>&lt;${inst.Component} uid="${inst.uid}" /&gt;<div>`,
-  )}
-  </section>
-  `;
+port.onMessage.addListener((message) => {
+  store.updateState(message);
+  app.render(store.getState());
 });

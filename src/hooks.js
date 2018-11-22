@@ -3,6 +3,11 @@
  * initialize `InitialHookClass` and add methods to the hook object.
  */
 
+const extractData = (instance) => ({
+  uid: instance.$uid,
+  Component: instance.constructor.name || 'Component',
+});
+
 const hook = () => {
   if (!window.__YUZU_DEVTOOLS_GLOBAL_HOOK__) {
     const _events = Object.create(null);
@@ -78,21 +83,16 @@ const hook = () => {
 
         proto.init = function __dev_init(state) {
           init.call(this, state);
-          self.notify(
-            'init',
-            {
-              uid: this.$uid,
-              Component: this.constructor.name || 'Component',
-            },
+          self.notify('init', {
+            ...extractData(this),
             state,
-          );
+          });
           return this;
         };
 
         proto.destroy = function __dev_destroy() {
           self.notify('destroy', {
             uid: this.$uid,
-            Component: this.constructor.name || 'Component',
           });
 
           return destroy.call(this);
