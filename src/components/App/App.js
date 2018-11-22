@@ -6,6 +6,7 @@ export default function App({ container }) {
 
   return {
     $root,
+
     render(state) {
       const { tree } = state;
       return $root`

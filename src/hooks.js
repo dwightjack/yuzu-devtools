@@ -71,10 +71,15 @@ const hook = () => {
         const proto = Component.prototype;
         const { mount, init, setRef, destroy } = proto;
 
-        // proto.setRef = function __dev_setRef(...args) {
-        //   self.emit('setRef', this, ...args);
-        //   return setRef.apply(this, args);
-        // };
+        proto.setRef = function __dev_setRef(...args) {
+          return setRef.apply(this, args).then((ref) => {
+            self.notify('ref', {
+              parent: this.$uid,
+              child: ref.$uid,
+            });
+            return ref;
+          });
+        };
 
         // proto.mount = function __dev_mount(...args) {
         //   self.emit('mount', {}, ...args);
