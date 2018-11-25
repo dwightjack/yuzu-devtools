@@ -1,44 +1,45 @@
 const componentInit = (state, { type, instance }) => {
   if (type === 'init') {
+    let { tree } = state;
+    // check for a parent
+    if (instance.parent && state.byId[instance.parent]) {
+      const parent = state.byId[instance.parent];
+      parent.children = (parent.children || []).concat(instance);
+    } else {
+      tree = [...tree, instance];
+    }
     return {
       ...state,
-      byIds: {
-        ...state.byIds,
+      byId: {
+        ...state.byId,
         [instance.uid]: instance,
       },
-      tree: [...state.tree, instance],
+      tree,
     };
-  }
-  return state;
-};
-
-const reference = (state, { type, instance }) => {
-  if (type === 'ref') {
-    const { parent, child } = instance;
-    const { tree, byIds } = state;
-    // find the child
-    const childInst = byIds[child];
-    const parentInst = byIds[parent];
-    if (childInst && parentInst) {
-      parentInst.children = (parentInst.children || []).concat(childInst);
-      // remove the child from the main tree
-      return {
-        ...state,
-        tree: tree.filter(({ uid }) => uid !== child),
-      };
-    }
   }
   return state;
 };
 
 const componentDestroy = (state, { type, instance }) => {
   if (type === 'destroy') {
+    let { tree, byId } = state;
+    if (instance.parent && byId[instance.parent]) {
+      const parent = byId[instance.parent];
+      parent.children = parent.children.filter(
+        ({ uid }) => uid !== instance.uid,
+      );
+      byId = Object.assign({}, byId);
+      byId[instance.uid] = undefined;
+    } else {
+      tree = tree.filter(({ uid }) => uid !== instance.uid);
+    }
     return {
       ...state,
-      tree: state.tree.filter(({ uid }) => uid !== instance.uid),
+      byId,
+      tree,
     };
   }
   return state;
 };
 
-export default [componentInit, componentDestroy, reference];
+export default [componentInit, componentDestroy];

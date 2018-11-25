@@ -12,6 +12,7 @@ export default function App({ container }) {
       return $root`
   <section>
   ${tree.map(Instance)}
+  <pre>${JSON.stringify(tree, null, 2)}</pre>
   </section>
   `;
     },

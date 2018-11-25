@@ -6,6 +6,7 @@
 const extractData = (instance) => ({
   uid: instance.$uid,
   Component: instance.constructor.name || 'Component',
+  parent: instance.$parent && instance.$parent.$uid,
 });
 
 const hook = () => {
@@ -71,15 +72,11 @@ const hook = () => {
         const proto = Component.prototype;
         const { mount, init, setRef, destroy } = proto;
 
-        proto.setRef = function __dev_setRef(...args) {
-          return setRef.apply(this, args).then((ref) => {
-            self.notify('ref', {
-              parent: this.$uid,
-              child: ref.$uid,
-            });
-            return ref;
-          });
-        };
+        // proto.setRef = function __dev_setRef(...args) {
+        //   return setRef.apply(this, args).then((ref) => {
+        //     return ref;
+        //   });
+        // };
 
         // proto.mount = function __dev_mount(...args) {
         //   self.emit('mount', {}, ...args);
@@ -98,6 +95,7 @@ const hook = () => {
         proto.destroy = function __dev_destroy() {
           self.notify('destroy', {
             uid: this.$uid,
+            parent: this.$parent && this.$parent.$uid,
           });
 
           return destroy.call(this);
@@ -108,8 +106,9 @@ const hook = () => {
         });
 
         this.on('destroy', (component) => {
-          if (_store.includes(component)) {
-            _store.splice(_store.indexOf(component), 1);
+          const idx = _store.findIndex(({ uid }) => uid === component.uid);
+          if (idx !== -1) {
+            _store.splice(idx, 1);
           }
         });
       },

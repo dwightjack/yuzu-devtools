@@ -1,4 +1,4 @@
 export default {
   tree: [],
-  byIds: {},
+  byId: {},
 };
