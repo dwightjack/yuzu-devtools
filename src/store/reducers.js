@@ -42,4 +42,18 @@ const componentDestroy = (state, { type, instance }) => {
   return state;
 };
 
-export default [componentInit, componentDestroy];
+const uiComponentClick = (state, { type, instance }) => {
+  if (type === 'ui:componentclick' && state.byId[instance.uid]) {
+    const inst = state.byId[instance.uid];
+    inst.expanded = !inst.expanded;
+    return {
+      ...state,
+      byId: {
+        ...state.byId,
+      },
+    };
+  }
+  return state;
+};
+
+export default [componentInit, componentDestroy, uiComponentClick];
