@@ -1,59 +1,88 @@
-const componentInit = (state, { type, instance }) => {
-  if (type === 'init') {
-    let { tree } = state;
-    // check for a parent
-    if (instance.parent && state.byId[instance.parent]) {
-      const parent = state.byId[instance.parent];
-      parent.children = (parent.children || []).concat(instance);
-    } else {
-      tree = [...tree, instance];
+const hooksInit = (state, { type, action }) => {
+  if (type === 'hooks:init') {
+    const { roots } = state;
+
+    const tree = {
+      ...state.tree,
+      [action.uid]: action,
+    };
+
+    if (action.parent && tree[action.parent]) {
+      const parent = tree[action.parent];
+
+      tree[action.parent] = {
+        ...tree[action.parent],
+        childIds: (parent.childIds || []).concat(action.uid),
+      };
+
+      return {
+        ...state,
+        tree,
+      };
     }
     return {
       ...state,
-      byId: {
-        ...state.byId,
-        [instance.uid]: instance,
-      },
+      roots: [...roots, action.uid],
       tree,
     };
   }
   return state;
 };
 
-const componentDestroy = (state, { type, instance }) => {
-  if (type === 'destroy') {
-    let { tree, byId } = state;
-    if (instance.parent && byId[instance.parent]) {
-      const parent = byId[instance.parent];
-      parent.children = parent.children.filter(
-        ({ uid }) => uid !== instance.uid,
-      );
-      byId = Object.assign({}, byId);
-      byId[instance.uid] = undefined;
-    } else {
-      tree = tree.filter(({ uid }) => uid !== instance.uid);
+const hooksDestroy = (state, { type, action }) => {
+  if (type === 'hooks:destroy') {
+    const { roots } = state;
+    const { uid } = action;
+
+    const tree = { ...state.tree };
+
+    delete tree[uid];
+
+    if (roots.includes(uid)) {
+      return {
+        ...state,
+        tree,
+        roots: roots.filter((id) => id !== uid),
+      };
     }
+
+    Object.keys(tree).some((key) => {
+      const inst = tree[key];
+      if (inst.childIds && inst.childIds.includes(uid)) {
+        tree[key] = {
+          ...inst,
+          childIds: inst.childIds.filter((id) => id !== uid),
+        };
+        return true;
+      }
+      return false;
+    });
+
     return {
       ...state,
-      byId,
       tree,
     };
   }
   return state;
 };
 
-const uiComponentClick = (state, { type, instance }) => {
-  if (type === 'ui:componentclick' && state.byId[instance.uid]) {
-    const inst = state.byId[instance.uid];
-    inst.expanded = !inst.expanded;
-    return {
-      ...state,
-      byId: {
-        ...state.byId,
-      },
-    };
+const ui = (state, { type, action }) => {
+  switch (type) {
+    case 'ui:expand': {
+      const { uid, expanded } = action;
+      const inst = { ...state.tree[uid], expanded };
+
+      return {
+        ...state,
+        tree: {
+          ...state.tree,
+          [uid]: inst,
+        },
+      };
+    }
+    default:
+      return state;
   }
-  return state;
 };
 
-export default [componentInit, componentDestroy, uiComponentClick];
+export default [hooksInit, hooksDestroy, ui];

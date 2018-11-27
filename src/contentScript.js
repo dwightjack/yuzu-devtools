@@ -2,13 +2,13 @@ const script = document.createElement('script');
 
 function bindMessage() {
   if (window.__YUZU_DEVTOOLS_GLOBAL_HOOK__) {
-    window.__YUZU_DEVTOOLS_GLOBAL_HOOK__.on('*', (type, instance, ...args) => {
+    window.__YUZU_DEVTOOLS_GLOBAL_HOOK__.on('*', (type, action, ...args) => {
       window.postMessage(
         {
           source: 'yuzu-devtools',
           payload: {
             type,
-            instance,
+            action,
             args,
           },
         },

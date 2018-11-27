@@ -19,7 +19,7 @@ chrome.devtools.network.onNavigated.addListener(() => {
 
 port.postMessage({ type: 'initialize' });
 
-port.onMessage.addListener((message) => {
-  store.updateState(message);
+port.onMessage.addListener((message = {}) => {
+  store.action(message);
   app.render(store.getState());
 });

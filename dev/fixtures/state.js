@@ -1,18 +1,46 @@
-const tree = require('./tree');
-
-function traverse(branch, obj) {
-  branch.forEach((inst) => {
-    obj[inst.uid] = inst; // eslint-disable-line no-param-reassign
-    if (Array.isArray(inst.children)) {
-      traverse(inst.children, obj);
-    }
-  });
-  return obj;
-}
-
-const byId = traverse(tree, {});
-
 module.exports = {
-  tree,
-  byId,
+  roots: ['_ui.0'],
+  tree: {
+    '_ui.0': {
+      uid: '_ui.0',
+      Component: 'App',
+      state: {},
+      childIds: ['_ui.1', '_ui.2'],
+    },
+    '_ui.1': {
+      uid: '_ui.1',
+      Component: 'Form',
+      parent: '_ui.0',
+      state: {},
+    },
+    '_ui.2': {
+      uid: '_ui.2',
+      Component: 'TodoList',
+      parent: '_ui.0',
+      state: {
+        todos: [],
+      },
+      childIds: ['_ui.3', '_ui.4'],
+    },
+    '_ui.3': {
+      uid: '_ui.3',
+      Component: 'Todo',
+      parent: '_ui.2',
+      state: {
+        text: 'Test',
+        completed: false,
+        id: 'todo-1',
+      },
+    },
+    '_ui.4': {
+      uid: '_ui.4',
+      Component: 'Todo',
+      parent: '_ui.2',
+      state: {
+        text: 'Test',
+        completed: false,
+        id: 'todo-2',
+      },
+    },
+  },
 };

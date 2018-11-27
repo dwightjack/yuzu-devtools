@@ -70,7 +70,7 @@ const hook = () => {
         hooks.Component = Component;
         const self = this;
         const proto = Component.prototype;
-        const { mount, init, setRef, destroy } = proto;
+        const { init, destroy } = proto;
 
         // proto.setRef = function __dev_setRef(...args) {
         //   return setRef.apply(this, args).then((ref) => {
@@ -85,7 +85,7 @@ const hook = () => {
 
         proto.init = function __dev_init(state) {
           init.call(this, state);
-          self.notify('init', {
+          self.notify('hooks:init', {
             ...extractData(this),
             state,
           });
@@ -93,7 +93,7 @@ const hook = () => {
         };
 
         proto.destroy = function __dev_destroy() {
-          self.notify('destroy', {
+          self.notify('hooks:destroy', {
             uid: this.$uid,
             parent: this.$parent && this.$parent.$uid,
           });
@@ -101,11 +101,11 @@ const hook = () => {
           return destroy.call(this);
         };
 
-        this.on('init', (component) => {
+        this.on('hooks:init', (component) => {
           _store.push(component);
         });
 
-        this.on('destroy', (component) => {
+        this.on('hooks:destroy', (component) => {
           const idx = _store.findIndex(({ uid }) => uid === component.uid);
           if (idx !== -1) {
             _store.splice(idx, 1);

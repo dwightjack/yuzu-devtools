@@ -12,13 +12,18 @@ const store = createStore(
   reducers,
 );
 
+const actions = {
+  expandBranch(action) {
+    store.action({ type: 'ui:expand', action });
+  },
+  removeTodo(action) {
+    store.action({ type: 'hooks:destroy', action });
+  },
+};
+
 const app = App({
   container: document.querySelector('#container'),
-  actions: {
-    onComponentClick(instance) {
-      store.updateState({ type: 'ui:componentclick', instance });
-    },
-  },
+  actions,
 });
 
 store.subscribe((state) => app.render(state));
@@ -26,3 +31,4 @@ store.subscribe((state) => app.render(state));
 app.render(store.getState());
 
 window.store = store;
+window.action = actions;

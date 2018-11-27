@@ -5,31 +5,46 @@ import * as styles from './Instance.styles';
 const noop = () => {};
 
 export default function Instance(props = {}) {
-  const { Component, children, expanded = false, onClick = noop } = props;
+  const {
+    Component,
+    childIds,
+    expanded = false,
+    onClick = noop,
+    renderChild = noop,
+    uid,
+  } = props;
   const classes = [styles.root];
 
-  if (Array.isArray(children) && children.length > 0) {
+  const tagStart = wire(props, ':uid')`<span class="${
+    styles.tag
+  }">${Component}</span>`;
+  const tagEnd = wire(props, ':uid')`<span class="${
+    styles.tag
+  }">${Component}</span>`;
+
+  const expander = wire(props, ':expanded')`
+    <button 
+      type="button"
+      class="${styles.expander}"
+      onclick="${() => onClick({ uid, expanded: !expanded })}" 
+      aria-label="Expand / collapse children"
+    >${expanded ? '▼' : '▶'}</button>`;
+
+  if (Array.isArray(childIds) && childIds.length > 0) {
     classes.push({ [styles.isExpanded]: expanded });
 
     return wire(props)`
      <div class="${cc(classes)}">
-        <button 
-          type="button"
-          class="${styles.expander}"
-          onclick="${() => onClick(props)}" 
-          aria-label="Expand / collapse children"
-        >${expanded ? '▼' : '▶'}
-        </button
-        ><span class="${styles.tag}">${Component}</span>
+        ${expander}${tagStart}
         <div class="${styles.childList}" hidden="${!expanded}">
-          ${children.map((child) => Instance({ ...child, onClick }))}
+          ${renderChild(childIds)}
         </div>
-        <span class="${styles.tag}">${Component}</span>
+        ${tagEnd}
       </div>`;
   }
 
   return wire(props)`
     <div class="${cc(classes)}">
-      <span class="${styles.tag}">${Component}</span>
+      ${tagStart}
     </div>`;
 }

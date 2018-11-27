@@ -4,8 +4,8 @@ export default function createStore(initialState = {}, reducers = []) {
   const fns = [];
 
   return {
-    updateState(action) {
-      state = reducers.reduce((s, fn) => fn(s, action), state);
+    action(payload = {}) {
+      state = reducers.reduce((s, fn) => fn(s, payload), state);
       fns.forEach((fn) => fn(this.getState()));
     },
 
