@@ -1,9 +1,8 @@
 import { css } from 'emotion';
 
 export const root = css`
-  color: rgb(136, 136, 136);
+  color: var(--color-quiet);
   font-size: 0.875rem;
-  white-space: nowrap;
   padding-left: 1rem;
   line-height: 1.5em;
 `;
@@ -19,7 +18,7 @@ export const expander = css`
   border-radius: 0;
   background: none;
   box-shadow: none;
-  color: rgb(136, 136, 136);
+  color: currentColor;
   font-size: 0.5rem;
   vertical-align: middle;
   text-align: center;
@@ -28,11 +27,13 @@ export const expander = css`
 export const isExpanded = css``;
 
 export const tag = css`
-  color: rgb(136, 18, 128);
+  white-space: nowrap;
+  color: var(--color-accent);
+
   &::after,
   &::before {
     content: '';
-    color: rgb(136, 136, 136);
+    color: var(--color-quiet);
   }
 
   &::after {
