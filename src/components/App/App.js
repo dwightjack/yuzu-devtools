@@ -1,13 +1,15 @@
 import { bind } from 'hyperhtml';
+import Panels from '../Panels/Panels';
+import SidePanel from '../SidePanel/SidePanel';
 import Instance from '../Instance/Instance';
 import './App.styles';
 
 export default function App({ container, actions = {} }) {
   const $root = bind(container);
 
-  const renderTree = (tree, onClick) => {
+  const renderTree = (tree, acts) => {
     return function renderChild(ids) {
-      return ids.map((id) => Instance({ ...tree[id], onClick, renderChild }));
+      return ids.map((id) => Instance({ ...tree[id], ...acts, renderChild }));
     };
   };
 
@@ -15,13 +17,24 @@ export default function App({ container, actions = {} }) {
     $root,
 
     render(state) {
-      const { roots } = state;
-      const renderer = renderTree(state.tree, actions.expandBranch);
+      const { roots, uiPanels, tree, uiSelectedInstance } = state;
+      const treeRenderer = renderTree(tree, {
+        onClick: actions.expandBranch,
+        onSelect: actions.selectInstance,
+      });
+
       return $root`
-  <section>
-    ${renderer(roots)}
-  </section>
-  `;
+        <section>
+          ${Panels({
+            main: () => treeRenderer(roots),
+            side: () =>
+              SidePanel(
+                uiSelectedInstance ? tree[uiSelectedInstance] : undefined,
+              ),
+            config: uiPanels,
+          })}
+        </section>
+        `;
     },
   };
 }

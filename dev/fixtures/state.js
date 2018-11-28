@@ -18,7 +18,18 @@ module.exports = {
       Component: 'TodoList',
       parent: '_ui.0',
       state: {
-        todos: [],
+        todos: [
+          {
+            text: 'Test',
+            completed: false,
+            id: 'todo-1',
+          },
+          {
+            text: 'Test',
+            completed: false,
+            id: 'todo-2',
+          },
+        ],
       },
       childIds: ['_ui.3', '_ui.4'],
     },

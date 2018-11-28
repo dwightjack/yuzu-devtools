@@ -10,23 +10,25 @@ export default function Instance(props = {}) {
     childIds,
     expanded = false,
     onClick = noop,
+    onSelect = noop,
     renderChild = noop,
     uid,
   } = props;
   const classes = [styles.root];
 
-  const tagStart = wire(props, ':uid')`<span class="${
-    styles.tag
-  }">${Component}</span>`;
+  const tagStart = wire(props, ':uid')`<span
+    class="${styles.tag}"
+    onclick="${() => onSelect({ uid })}"
+    >${Component}</span>`;
   const tagEnd = wire(props, ':uid')`<span class="${
     styles.tag
   }">${Component}</span>`;
 
   const expander = wire(props, ':expanded')`
-    <button 
+    <button
       type="button"
       class="${styles.expander}"
-      onclick="${() => onClick({ uid, expanded: !expanded })}" 
+      onclick="${() => onClick({ uid, expanded: !expanded })}"
       aria-label="Expand / collapse children"
     >${expanded ? '▼' : '▶'}</button>`;
 

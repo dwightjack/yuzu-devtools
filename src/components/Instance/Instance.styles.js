@@ -2,7 +2,7 @@ import { css } from 'emotion';
 
 export const root = css`
   color: var(--color-quiet);
-  font-size: 0.875rem;
+  font-size: var(--font-size-m);
   padding-left: 1rem;
   line-height: 1.5em;
 `;

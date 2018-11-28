@@ -28,6 +28,8 @@
   "dependencies": {
     "classcat": "^3.2.3",
     "emotion": "^9.2.12",
-    "hyperhtml": "^2.16.4"
+    "hyperhtml": "^2.16.4",
+    "lodash": "^4.17.11",
+    "split-grid": "^1.0.9"
   }
 }

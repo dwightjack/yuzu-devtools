@@ -80,6 +80,11 @@ const ui = (state, { type, action }) => {
         },
       };
     }
+    case 'ui:select':
+      return {
+        ...state,
+        uiSelectedInstance: action.uid,
+      };
     default:
       return state;
   }
