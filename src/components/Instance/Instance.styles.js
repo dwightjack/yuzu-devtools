@@ -29,7 +29,7 @@ export const childList = css``;
 export const expander = css`
   display: inline-block;
   width: 1rem;
-  margin-left: -1rem;
+  margin: -0.1em 0 0 -1rem;
   padding: 0;
   border: none;
   border-radius: 0;
@@ -39,6 +39,16 @@ export const expander = css`
   font-size: 0.5rem;
   vertical-align: middle;
   text-align: center;
+
+  &::before {
+    content: '\\25b6';
+  }
+`;
+
+export const isExpanderActive = css`
+  &::before {
+    content: '\\25bc';
+  }
 `;
 
 export const isExpanded = css``;

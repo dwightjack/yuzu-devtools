@@ -28,10 +28,10 @@ export default function Instance(props = {}) {
   const expander = wire(props, ':expanded')`
     <button
       type="button"
-      class="${styles.expander}"
+      class="${cc([styles.expander, { [styles.isExpanderActive]: expanded }])}"
       onclick="${() => onClick({ uid, expanded: !expanded })}"
       aria-label="Expand / collapse children"
-    >${expanded ? '▼' : '▶'}</button>`;
+    ></button>`;
 
   if (Array.isArray(childIds) && childIds.length > 0) {
     classes.push({ [styles.isExpanded]: expanded });
