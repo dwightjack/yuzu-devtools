@@ -2,8 +2,12 @@ const createActions = (store) => ({
   expandBranch(action) {
     store.action({ type: 'ui:expand', action });
   },
-  removeTodo(action) {
+  removeChild(action) {
     store.action({ type: 'hooks:destroy', action });
+  },
+
+  updateState(action) {
+    store.action({ type: 'hooks:statechange', action });
   },
 
   selectInstance(action) {

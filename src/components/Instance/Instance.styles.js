@@ -1,10 +1,27 @@
 import { css } from 'emotion';
 
 export const root = css`
+  position: relative;
   color: var(--color-quiet);
   font-size: var(--font-size-m);
   padding-left: 1rem;
   line-height: 1.5em;
+  cursor: default;
+
+  &::before {
+    content: '$yuzu0';
+    position: absolute;
+    top: 0;
+    left: calc(50% - 50vw);
+    right: 0;
+    z-index: -1;
+    height: 1.5em;
+    padding-right: 1em;
+    background: var(--color-lighter);
+    visibility: hidden;
+    text-align: right;
+    font-style: italic;
+  }
 `;
 
 export const childList = css``;
@@ -25,6 +42,12 @@ export const expander = css`
 `;
 
 export const isExpanded = css``;
+
+export const isSelected = css`
+  &::before {
+    visibility: visible;
+  }
+`;
 
 export const tag = css`
   white-space: nowrap;

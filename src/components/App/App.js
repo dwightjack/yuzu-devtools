@@ -7,9 +7,16 @@ import './App.styles';
 export default function App({ container, actions = {} }) {
   const $root = bind(container);
 
-  const renderTree = (tree, acts) => {
+  const renderTree = (tree, selected, acts) => {
     return function renderChild(ids) {
-      return ids.map((id) => Instance({ ...tree[id], ...acts, renderChild }));
+      return ids.map((id) =>
+        Instance({
+          ...tree[id],
+          ...acts,
+          renderChild,
+          selected: id === selected,
+        }),
+      );
     };
   };
 
@@ -18,7 +25,7 @@ export default function App({ container, actions = {} }) {
 
     render(state) {
       const { roots, uiPanels, tree, uiSelectedInstance } = state;
-      const treeRenderer = renderTree(tree, {
+      const treeRenderer = renderTree(tree, uiSelectedInstance, {
         onClick: actions.expandBranch,
         onSelect: actions.selectInstance,
       });

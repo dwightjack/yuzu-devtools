@@ -5,8 +5,11 @@ export default function createStore(initialState = {}, reducers = []) {
 
   return {
     action(payload = {}) {
+      const prevState = state;
       state = reducers.reduce((s, fn) => fn(s, payload), state);
-      fns.forEach((fn) => fn(this.getState()));
+      if (state !== prevState) {
+        fns.forEach((fn) => fn(this.getState()));
+      }
     },
 
     getState() {

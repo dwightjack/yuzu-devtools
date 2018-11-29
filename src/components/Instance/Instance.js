@@ -12,9 +12,10 @@ export default function Instance(props = {}) {
     onClick = noop,
     onSelect = noop,
     renderChild = noop,
+    selected = false,
     uid,
   } = props;
-  const classes = [styles.root];
+  const classes = [styles.root, { [styles.isSelected]: selected }];
 
   const tagStart = wire(props, ':uid')`<span
     class="${styles.tag}"

@@ -29,6 +29,23 @@ const hooksInit = (state, { type, action }) => {
   return state;
 };
 
+const hooksState = (state, { type, action }) => {
+  if (type === 'hooks:statechange') {
+    const { uid } = action;
+    const tree = { ...state.tree };
+    tree[uid] = {
+      ...tree[uid],
+      state: action.state,
+    };
+
+    return {
+      ...state,
+      tree,
+    };
+  }
+  return state;
+};
+
 const hooksDestroy = (state, { type, action }) => {
   if (type === 'hooks:destroy') {
     const { roots } = state;
@@ -90,4 +107,4 @@ const ui = (state, { type, action }) => {
   }
 };
 
-export default [hooksInit, hooksDestroy, ui];
+export default [hooksInit, hooksDestroy, ui, hooksState];
