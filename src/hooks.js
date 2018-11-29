@@ -3,11 +3,22 @@
  * initialize `InitialHookClass` and add methods to the hook object.
  */
 
-const extractData = (instance) => ({
-  uid: instance.$uid,
-  Component: instance.constructor.name || 'Component',
-  parent: instance.$parent && instance.$parent.$uid,
-});
+const extractData = (instance) => {
+  try {
+    const obj = {
+      uid: instance.$uid,
+      Component: instance.constructor.name || 'Component',
+      parent: instance.$parent && instance.$parent.$uid,
+      options: instance.options,
+      state: instance.state,
+    };
+
+    return obj;
+  } catch (e) {
+    console.warn(e); // eslint-disable-line no-console
+  }
+  return {};
+};
 
 const hook = () => {
   if (!window.__YUZU_DEVTOOLS_GLOBAL_HOOK__) {
@@ -72,22 +83,20 @@ const hook = () => {
         const proto = Component.prototype;
         const { init, destroy } = proto;
 
-        // proto.setRef = function __dev_setRef(...args) {
-        //   return setRef.apply(this, args).then((ref) => {
-        //     return ref;
-        //   });
-        // };
-
-        // proto.mount = function __dev_mount(...args) {
-        //   self.emit('mount', {}, ...args);
-        //   return mount.apply(this, args);
-        // };
-
         proto.init = function __dev_init(state) {
           init.call(this, state);
           self.notify('hooks:init', {
             ...extractData(this),
-            state,
+          });
+          this.on('change:*', (newState) => {
+            try {
+              self.notify('hooks:statechange', {
+                uid: this.$uid,
+                state: newState,
+              });
+            } catch (e) {
+              console.warn(e); // eslint-disable-line no-console
+            }
           });
           return this;
         };
