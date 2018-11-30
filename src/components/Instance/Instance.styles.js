@@ -3,6 +3,7 @@ import { css } from 'emotion';
 export const root = css`
   position: relative;
   color: var(--color-quiet);
+  font-family: var(--font-monospace);
   font-size: var(--font-size-m);
   padding-left: 1rem;
   line-height: 1.5em;
@@ -87,4 +88,9 @@ export const tag = css`
   & ~ &::after {
     content: '\\003e';
   }
+`;
+
+export const attribute = css`
+  margin: 0 0.5em;
+  color: var(--color-accent-ter);
 `;

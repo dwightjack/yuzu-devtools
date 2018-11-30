@@ -1,5 +1,5 @@
 module.exports = {
-  roots: ['_ui.0'],
+  roots: ['_ui.0', '_ui.5'],
   tree: {
     '_ui.0': {
       uid: '_ui.0',
@@ -52,6 +52,12 @@ module.exports = {
         completed: false,
         id: 'todo-2',
       },
+    },
+    '_ui.5': {
+      uid: '_ui.5',
+      Component: 'Store',
+      state: {},
+      detached: true,
     },
   },
 };

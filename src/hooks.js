@@ -11,6 +11,7 @@ const extractData = (instance) => {
       parent: instance.$parent && instance.$parent.$uid,
       options: instance.options,
       state: instance.state,
+      detached: instance.detached,
     };
 
     return obj;

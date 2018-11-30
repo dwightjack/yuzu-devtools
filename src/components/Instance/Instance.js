@@ -14,13 +14,17 @@ export default function Instance(props = {}) {
     renderChild = noop,
     selected = false,
     uid,
+    detached = false,
   } = props;
   const classes = [styles.root, { [styles.isSelected]: selected }];
 
+  const detachedAttr = wire(props, ':detached')`<span class="${
+    styles.attribute
+  }">detached</span>`;
   const tagStart = wire(props, ':uid')`<span
     class="${styles.tag}"
     onclick="${() => onSelect({ uid })}"
-    >${Component}</span>`;
+    >${Component}${detached ? detachedAttr : ''}</span>`;
   const tagEnd = wire(props, ':uid')`<span class="${
     styles.tag
   }">${Component}</span>`;

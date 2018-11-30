@@ -5,6 +5,7 @@ injectGlobal`
   :root {
     --color-accent: rgb(136, 18, 128);
     --color-accent-secondary: rgb(200, 0, 0);
+    --color-accent-ter: rgb(153, 69, 0);
     --color-quiet: rgb(136, 136, 136);
     --color-light: rgb(218, 218, 218);
     --color-dark: #333;
