@@ -89,6 +89,7 @@ const hook = () => {
           self.notify('hooks:init', {
             ...extractData(this),
           });
+          _store.push(this);
           this.on('change:*', (newState) => {
             try {
               self.notify('hooks:statechange', {
@@ -108,19 +109,13 @@ const hook = () => {
             parent: this.$parent && this.$parent.$uid,
           });
 
-          return destroy.call(this);
-        };
-
-        this.on('hooks:init', (component) => {
-          _store.push(component);
-        });
-
-        this.on('hooks:destroy', (component) => {
-          const idx = _store.findIndex(({ uid }) => uid === component.uid);
+          const idx = _store.findIndex((c) => c === this);
           if (idx !== -1) {
             _store.splice(idx, 1);
           }
-        });
+
+          return destroy.call(this);
+        };
       },
 
       notify(type, ...args) {
@@ -136,6 +131,33 @@ const hook = () => {
           this.emit(...args);
         });
         _queue.length = 0;
+      },
+
+      get(uid) {
+        return _store.find((inst) => inst.$uid === uid);
+      },
+
+      logStart(uid) {
+        const inst = this.get(uid);
+        if (inst) {
+          inst.$$logStart();
+        }
+      },
+
+      logEnd(uid) {
+        const inst = this.get(uid);
+        if (inst) {
+          inst.$$logEnd();
+        }
+      },
+
+      setGlobal(uid) {
+        const inst = uid && this.get(uid);
+        if (inst) {
+          window.$yuzu0 = inst;
+        } else if (window.$yuzu0) {
+          delete window.$yuzu0;
+        }
       },
     };
 

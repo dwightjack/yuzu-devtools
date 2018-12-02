@@ -2,18 +2,21 @@ import { css } from 'emotion';
 
 export const root = css`
   display: grid;
-  min-height: 100vh;
+  height: 100vh;
   grid-template-columns: 1fr 6px 0.5fr;
-  grid-template-rows: 1fr 6px 0px;
+  grid-template-rows: 1fr;
   grid-template-areas: 'main gutter side';
 `;
 
 export const main = css`
   grid-area: main;
+  height: 100vh;
+  overflow-y: auto;
   border-right: 1px solid var(--color-light);
 `;
 export const side = css`
   grid-area: side;
+  height: 100vh;
   border-left: 1px solid var(--color-light);
 `;
 

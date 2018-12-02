@@ -1,5 +1,6 @@
 import { wire } from 'hyperhtml';
 import PropList from '../PropList/PropList';
+import { noop } from '../utils';
 import * as styles from './SidePanel.styles';
 
 const blankSlate = wire({ blank: true })`
@@ -9,13 +10,27 @@ const blankSlate = wire({ blank: true })`
 `;
 
 export default function SidePanel(props = {}) {
-  const { uid, Component, state, options } = props;
+  const { uid, Component, state, options, logged, toggleLog = noop } = props;
+
   if (!uid) {
     return blankSlate;
   }
-  return wire(props)`<section>
-    <h2 class="${styles.title}">${Component || 'Component'}<em>#${uid}</em></h2>
-    ${PropList({ title: 'Options', props: options })}
-    ${PropList({ title: 'State', props: state })}
+
+  const Title = wire(props, ':uid')`<h2 class="${styles.title}">
+    ${Component || 'Component'}<em>#${uid}</em>
+  </h2>`;
+
+  return wire(props)`<section class="${styles.root}">
+    ${Title}
+    <div class="${styles.options}">
+      <label class="${
+        styles.option
+      }"><input type="checkbox" name="logger" checked=${logged} onclick="${() =>
+    toggleLog({ uid })}" /> <span>Log state changes</span></label>
+    </div>
+    <div class="${styles.panelWrap}">
+      ${PropList({ title: 'Options', props: options })}
+      ${PropList({ title: 'State', props: state })}
+    </div>
   </section>`;
 }

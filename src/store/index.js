@@ -8,7 +8,7 @@ export default function createStore(initialState = {}, reducers = []) {
       const prevState = state;
       state = reducers.reduce((s, fn) => fn(s, payload), state);
       if (state !== prevState) {
-        fns.forEach((fn) => fn(this.getState()));
+        fns.forEach((fn) => fn(this.getState(), prevState, payload));
       }
     },
 

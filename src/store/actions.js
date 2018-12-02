@@ -13,6 +13,9 @@ const createActions = (store) => ({
   selectInstance(action) {
     store.action({ type: 'ui:select', action });
   },
+  toggleLogger(action) {
+    store.action({ type: 'ui:logstate', action });
+  },
 });
 
 export default createActions;

@@ -97,6 +97,21 @@ const ui = (state, { type, action }) => {
         },
       };
     }
+    case 'ui:logstate': {
+      const { uid } = action;
+      const logs = [...state.logs];
+      const idx = logs.indexOf(uid);
+      if (idx !== -1) {
+        logs.splice(idx, 1);
+      } else {
+        logs.push(uid);
+      }
+      return {
+        ...state,
+        logs,
+      };
+    }
+
     case 'ui:select':
       return {
         ...state,

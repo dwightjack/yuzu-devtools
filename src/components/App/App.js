@@ -24,7 +24,7 @@ export default function App({ container, actions = {} }) {
     $root,
 
     render(state) {
-      const { roots, uiPanels, tree, uiSelectedInstance } = state;
+      const { roots, uiPanels, tree, uiSelectedInstance, logs } = state;
       const treeRenderer = renderTree(tree, uiSelectedInstance, {
         onClick: actions.expandBranch,
         onSelect: actions.selectInstance,
@@ -36,7 +36,14 @@ export default function App({ container, actions = {} }) {
             main: () => treeRenderer(roots),
             side: () =>
               SidePanel(
-                uiSelectedInstance ? tree[uiSelectedInstance] : undefined,
+                Object.assign(
+                  {
+                    toggleLog: actions.toggleLogger,
+                    logged:
+                      uiSelectedInstance && logs.includes(uiSelectedInstance),
+                  },
+                  uiSelectedInstance && tree[uiSelectedInstance],
+                ),
               ),
             config: uiPanels,
           })}

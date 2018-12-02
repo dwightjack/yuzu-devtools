@@ -26,12 +26,11 @@ injectGlobal`
 
   html,
   body {
+    height: 100vh;
     margin: 0;
     padding: 0;
     font-family: var(--font-default);
     font-size: 100%;
     color: var(--color-dark);
   }
-
-
 `;

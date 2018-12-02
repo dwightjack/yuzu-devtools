@@ -15,5 +15,6 @@ module.exports = {
     'prettier/prettier': ['error'],
     'no-underscore-dangle': 0,
     camelcase: 0,
+    'import/prefer-default-export': 0,
   },
 };

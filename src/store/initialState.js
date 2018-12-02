@@ -3,4 +3,5 @@ export default {
   roots: [],
   uiPanels: {},
   uiSelectedInstance: null,
+  logs: [],
 };
