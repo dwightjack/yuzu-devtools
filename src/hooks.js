@@ -3,14 +3,29 @@
  * initialize `InitialHookClass` and add methods to the hook object.
  */
 
+const serialize = (obj) => {
+  const cleaned = Object.keys(obj).reduce((acc, key) => {
+    let value = obj[key];
+    if (typeof obj[key] === 'function') {
+      value = `[function ${obj[key].name || '...'}]`;
+    }
+    acc[key] = value;
+    return acc;
+  }, {});
+  return JSON.stringify(cleaned);
+};
+
 const extractData = (instance) => {
   try {
     const obj = {
       uid: instance.$uid,
-      Component: instance.constructor.name || 'Component',
+      Component:
+        instance.constructor.displayName ||
+        instance.constructor.name ||
+        'Component',
       parent: instance.$parent && instance.$parent.$uid,
-      options: instance.options,
-      state: instance.state,
+      options: serialize(instance.options),
+      state: serialize(instance.state),
       detached: instance.detached,
     };
 
@@ -31,6 +46,8 @@ const hook = () => {
     const _queue = [];
 
     const _store = [];
+
+    let selected = null;
 
     const hooks = {
       Component: null,
@@ -90,16 +107,16 @@ const hook = () => {
             ...extractData(this),
           });
           _store.push(this);
-          this.on('change:*', (newState) => {
-            try {
-              self.notify('hooks:statechange', {
-                uid: this.$uid,
-                state: newState,
-              });
-            } catch (e) {
-              console.warn(e); // eslint-disable-line no-console
-            }
-          });
+          // this.on('change:*', (newState) => {
+          //   try {
+          //     self.notify('hooks:statechange', {
+          //       uid: this.$uid,
+          //       state: newState,
+          //     });
+          //   } catch (e) {
+          //     console.warn(e); // eslint-disable-line no-console
+          //   }
+          // });
           return this;
         };
 
@@ -133,6 +150,19 @@ const hook = () => {
         _queue.length = 0;
       },
 
+      stateChangeListener(newState) {
+        try {
+          if (selected) {
+            hooks.notify('hooks:statechange', {
+              uid: selected.$uid,
+              state: serialize(newState),
+            });
+          }
+        } catch (e) {
+          console.warn(e); // eslint-disable-line no-console
+        }
+      },
+
       get(uid) {
         return _store.find((inst) => inst.$uid === uid);
       },
@@ -157,6 +187,17 @@ const hook = () => {
           window.$yuzu0 = inst;
         } else if (window.$yuzu0) {
           delete window.$yuzu0;
+        }
+      },
+
+      setCurrent(uid) {
+        if (selected) {
+          selected.off('change:*', this.stateChangeListener);
+        }
+        selected = uid && this.get(uid);
+        if (selected) {
+          selected.on('change:*', this.stateChangeListener);
+          this.stateChangeListener(selected.state);
         }
       },
     };

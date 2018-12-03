@@ -43,4 +43,6 @@ export default {
       delete window.$yuzu0;
     }
   },
+
+  setCurrent() {},
 };

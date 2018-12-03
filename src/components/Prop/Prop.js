@@ -11,6 +11,9 @@ const getType = (value) => {
     return 'array';
   }
   if (typeof value === 'string') {
+    if (value.startsWith('[function ')) {
+      return 'function';
+    }
     return 'string';
   }
   return null;

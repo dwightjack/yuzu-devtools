@@ -2,6 +2,7 @@ import { bind } from 'hyperhtml';
 import Panels from '../Panels/Panels';
 import SidePanel from '../SidePanel/SidePanel';
 import Instance from '../Instance/Instance';
+import { getSidePanelData } from '../../store/selectors';
 import './App.styles';
 
 export default function App({ container, actions = {} }) {
@@ -24,27 +25,22 @@ export default function App({ container, actions = {} }) {
     $root,
 
     render(state) {
-      const { roots, uiPanels, tree, uiSelectedInstance, logs } = state;
+      const { roots, uiPanels, tree, uiSelectedInstance } = state;
       const treeRenderer = renderTree(tree, uiSelectedInstance, {
         onClick: actions.expandBranch,
         onSelect: actions.selectInstance,
       });
 
+      const SidePanelData = {
+        toggleLog: actions.toggleLogger,
+        ...getSidePanelData(state),
+      };
+
       return $root`
         <section>
           ${Panels({
             main: () => treeRenderer(roots),
-            side: () =>
-              SidePanel(
-                Object.assign(
-                  {
-                    toggleLog: actions.toggleLogger,
-                    logged:
-                      uiSelectedInstance && logs.includes(uiSelectedInstance),
-                  },
-                  uiSelectedInstance && tree[uiSelectedInstance],
-                ),
-              ),
+            side: () => SidePanel(SidePanelData),
             config: uiPanels,
           })}
         </section>

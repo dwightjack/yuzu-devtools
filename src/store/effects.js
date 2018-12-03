@@ -15,6 +15,7 @@ export const createEffects = (hooksExec) => ({
 
   'ui:select': function uiSelect({ uiSelectedInstance }) {
     hooksExec(`setGlobal`, uiSelectedInstance);
+    hooksExec(`setCurrent`, uiSelectedInstance);
   },
 });
 
