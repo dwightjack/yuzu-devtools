@@ -10,27 +10,43 @@ const blankSlate = wire({ blank: true })`
 `;
 
 export default function SidePanel(props = {}) {
-  const { uid, Component, state, options, logged, toggleLog = noop } = props;
+  const {
+    uid,
+    Component,
+    state,
+    options,
+    watchers,
+    toggleLog = noop,
+    onPropCheck = noop,
+    ctx,
+  } = props;
 
   if (!uid) {
     return blankSlate;
   }
 
-  const Title = wire(props, ':uid')`<h2 class="${styles.title}">
+  const Lists = [
+    { title: 'Options', props: options },
+    {
+      title: 'State',
+      props: state,
+      uid,
+      onSelect: onPropCheck,
+      watchers,
+      watchable: true,
+    },
+  ].map(PropList);
+
+  const Title = wire(ctx, ':uid')`<h2 class="${styles.title}">
     ${Component || 'Component'}<em>#${uid}</em>
   </h2>`;
 
-  return wire(props)`<section class="${styles.root}">
+  return wire(ctx, ':sidepanel')`<section class="${styles.root}">
     ${Title}
-    <div class="${styles.options}">
-      <label class="${
-        styles.option
-      }"><input type="checkbox" name="logger" checked=${logged} onclick="${() =>
-    toggleLog({ uid })}" /> <span>Log state changes</span></label>
-    </div>
     <div class="${styles.panelWrap}">
-      ${PropList({ title: 'Options', props: options })}
-      ${PropList({ title: 'State', props: state })}
+        <div class="${styles.panelScroll}">
+      ${Lists}
+      </div>
     </div>
   </section>`;
 }

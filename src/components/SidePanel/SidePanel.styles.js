@@ -1,18 +1,21 @@
 import { css } from 'emotion';
 
 export const root = css`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 1fr;
+  grid-template-areas: 'title' 'wrap';
   height: 100%;
 `;
 export const title = css`
+  grid-area: title;
   margin: 0;
   padding: 8px var(--gutter);
   font-size: var(--font-size-l);
   font-weight: bold;
   line-height: 1.2;
   background-color: var(--color-lighter);
-  flex: 0 0 auto;
+
   & > em {
     font-size: 0.75em;
   }
@@ -26,20 +29,12 @@ export const blankSlate = css`
   font-style: italic;
 `;
 
-export const options = css`
-  padding: 4px var(--gutter);
-  border-bottom: 1px solid var(--color-light);
-  background: var(--color-lighter);
-  flex: 0 0 auto;
-  font-size: var(--font-size-m);
-`;
-
-export const option = css`
-  display: flex;
-  align-items: center;
-`;
-
 export const panelWrap = css`
+  grid-area: wrap;
+  min-height: 0;
+`;
+
+export const panelScroll = css`
   overflow-y: auto;
-  flex-grow: 1;
+  height: 100%;
 `;
