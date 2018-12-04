@@ -1,5 +1,5 @@
 export const getSidePanelData = (state = {}) => {
-  const { uiSelectedInstance, tree, logs } = state;
+  const { uiSelectedInstance, tree, watchers } = state;
 
   if (!uiSelectedInstance) {
     return {};
@@ -10,7 +10,7 @@ export const getSidePanelData = (state = {}) => {
   baseObj.options = baseObj.options && JSON.parse(baseObj.options);
 
   return {
-    logged: logs.includes(uiSelectedInstance),
+    watchers: watchers.filter((w) => w.startsWith(`${uiSelectedInstance}:`)),
     ...baseObj,
   };
 };
