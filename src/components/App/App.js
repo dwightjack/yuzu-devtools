@@ -21,19 +21,28 @@ export default function App({ container, actions = {} }) {
     };
   };
 
+  let ctx = {};
+
   return {
     $root,
 
     render(state) {
-      const { roots, uiPanels, tree, uiSelectedInstance } = state;
+      const { roots, tree, uiSelectedInstance } = state;
+
+      if (uiSelectedInstance !== ctx.uid) {
+        ctx = { uid: uiSelectedInstance };
+      }
+
       const treeRenderer = renderTree(tree, uiSelectedInstance, {
         onClick: actions.expandBranch,
         onSelect: actions.selectInstance,
       });
 
       const SidePanelData = {
-        toggleLog: actions.toggleLogger,
+        onPropCheck: (uid, key, watched) =>
+          actions.toggleWatcher({ uid, key, watched }),
         ...getSidePanelData(state),
+        ctx,
       };
 
       return $root`
@@ -41,7 +50,7 @@ export default function App({ container, actions = {} }) {
           ${Panels({
             main: () => treeRenderer(roots),
             side: () => SidePanel(SidePanelData),
-            config: uiPanels,
+            ctx,
           })}
         </section>
         `;

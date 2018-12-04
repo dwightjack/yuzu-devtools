@@ -5,8 +5,8 @@ import * as styles from './Panels.styles';
 
 const noop = () => {};
 
-export default function Panels({ main = noop, side = noop, config = {} }) {
-  const gutter = wire(config, ':gutter')`<div class="${styles.gutter}" />`;
+export default function Panels({ main = noop, side = noop, ctx = {} }) {
+  const gutter = wire(ctx, ':gutter')`<div class="${styles.gutter}" />`;
 
   const onconnected = () => {
     Split({
@@ -19,7 +19,7 @@ export default function Panels({ main = noop, side = noop, config = {} }) {
     });
   };
 
-  return wire(config, ':panels')`<div class="${
+  return wire(ctx, ':panels')`<div class="${
     styles.root
   }" onconnected="${onconnected}">
     <div class="${styles.main}">${main()}</div>

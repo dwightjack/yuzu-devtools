@@ -10,13 +10,13 @@ export const root = css`
 
 export const main = css`
   grid-area: main;
-  height: 100vh;
+  min-height: 0;
   overflow-y: auto;
   border-right: 1px solid var(--color-light);
 `;
 export const side = css`
   grid-area: side;
-  height: 100vh;
+  min-height: 0;
   border-left: 1px solid var(--color-light);
 `;
 

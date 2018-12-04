@@ -24,9 +24,15 @@ injectGlobal`
     box-sizing: border-box;
   }
 
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
+
   html,
   body {
     height: 100vh;
+    overflow: hidden;
     margin: 0;
     padding: 0;
     font-family: var(--font-default);
