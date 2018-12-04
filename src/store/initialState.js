@@ -1,7 +1,7 @@
 export default {
   tree: {},
   roots: [],
-  uiPanels: {},
+  // uiPanels: {},
   uiSelectedInstance: null,
-  logs: [],
+  watchers: [],
 };

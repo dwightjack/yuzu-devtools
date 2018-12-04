@@ -4,14 +4,14 @@ const hooksInit = (state, { type, action }) => {
 
     const tree = {
       ...state.tree,
-      [action.uid]: action,
+      [action.uid]: Object.assign({}, state.tree[action.uid], action),
     };
 
-    if (action.parent && tree[action.parent]) {
-      const parent = tree[action.parent];
+    if (action.parent) {
+      const parent = tree[action.parent] || {};
 
       tree[action.parent] = {
-        ...tree[action.parent],
+        ...parent,
         childIds: (parent.childIds || []).concat(action.uid),
       };
 
@@ -97,18 +97,37 @@ const ui = (state, { type, action }) => {
         },
       };
     }
-    case 'ui:logstate': {
-      const { uid } = action;
-      const logs = [...state.logs];
-      const idx = logs.indexOf(uid);
-      if (idx !== -1) {
-        logs.splice(idx, 1);
-      } else {
-        logs.push(uid);
+    case 'ui:watchstate': {
+      const { uid, key, watched } = action;
+      let watchers = [...state.watchers];
+      const hash = `${uid}:${key}`;
+
+      const idx = watchers.indexOf(hash);
+
+      if (!watched && idx !== -1) {
+        watchers.splice(idx, 1);
+
+        return {
+          ...state,
+          watchers,
+        };
       }
+
+      if (watched && idx !== -1) {
+        // already watching
+        return state;
+      }
+
+      if (key === '*') {
+        // remove all key watchers from the same uid
+        watchers = watchers.filter((h) => h.startsWith(`${uid}:`) === false);
+      }
+
+      watchers.push(hash);
+
       return {
         ...state,
-        logs,
+        watchers,
       };
     }
 

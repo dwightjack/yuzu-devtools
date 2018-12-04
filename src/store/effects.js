@@ -1,15 +1,15 @@
 import difference from 'lodash/difference';
 
 export const createEffects = (hooksExec) => ({
-  'ui:logstate': function logState(state, prevState) {
-    const removed = difference(prevState.logs, state.logs);
-    const added = difference(state.logs, prevState.logs);
+  'ui:watchstate': function logState(state, prevState) {
+    const removed = difference(prevState.watchers, state.watchers);
+    const added = difference(state.watchers, prevState.watchers);
     if (removed.length > 0) {
-      removed.forEach((uid) => hooksExec(`logEnd`, uid));
+      removed.forEach((watchHash) => hooksExec(`logEnd`, watchHash));
     }
 
     if (added.length > 0) {
-      added.forEach((uid) => hooksExec(`logStart`, uid));
+      added.forEach((watchHash) => hooksExec(`logStart`, watchHash));
     }
   },
 
