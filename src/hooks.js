@@ -29,6 +29,18 @@ const extractData = (instance) => {
       detached: instance.detached,
     };
 
+    if (instance.$parent) {
+      // try to retrieve the id used in the parent
+      let refId;
+      instance.$parent.$refsStore.forEach((child, ref) => {
+        if (child === instance) {
+          refId = ref;
+        }
+      });
+      obj.parent = instance.$parent.$uid;
+      obj.ref = refId;
+    }
+
     return obj;
   } catch (e) {
     console.warn(e); // eslint-disable-line no-console
@@ -167,17 +179,29 @@ const hook = () => {
         return _store.find((inst) => inst.$uid === uid);
       },
 
-      logStart(uid) {
-        const inst = this.get(uid);
+      parseWatcher(hash = '') {
+        const matches = hash.match(/^([^:]+):(.+)$/);
+        if (matches) {
+          const [, uid, prop = '*'] = matches;
+          return {
+            uid,
+            event: `change:${prop}`,
+            inst: this.get(uid),
+          };
+        }
+        return {};
+      },
+      logStart(hash) {
+        const { inst, event } = this.parseWatcher(hash);
         if (inst) {
-          inst.$$logStart();
+          inst.$$logStart(null, event);
         }
       },
 
-      logEnd(uid) {
-        const inst = this.get(uid);
+      logEnd(hash) {
+        const { inst, event } = this.parseWatcher(hash);
         if (inst) {
-          inst.$$logEnd();
+          inst.$$logEnd(event);
         }
       },
 
