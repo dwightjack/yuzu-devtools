@@ -14,20 +14,28 @@ export default function Instance(props = {}) {
     renderChild = noop,
     selected = false,
     uid,
-    detached = false,
   } = props;
   const classes = [styles.root, { [styles.isSelected]: selected }];
 
-  const detachedAttr = wire(props, ':detached')`<span class="${
-    styles.attribute
-  }">detached</span>`;
+  const attrs = ['ref', 'detached']
+    .map((attr) => {
+      const val = props[attr];
+      const bool = typeof val === 'boolean' ? null : val;
+      return val
+        ? wire(props)`<span class="${
+            styles.attribute
+          }" data-value="${bool}">${attr + (bool ? '=' : '')}</span>`
+        : null;
+    })
+    .filter((x) => x);
+
   const tagStart = wire(props, ':uid')`<span
     class="${styles.tag}"
     onclick="${() => onSelect({ uid })}"
-    >${Component}${detached ? detachedAttr : ''}</span>`;
-  const tagEnd = wire(props, ':uid')`<span class="${
-    styles.tag
-  }">${Component}</span>`;
+    >${Component}${attrs}</span>`;
+  const tagEnd = wire(props, ':uid')`<span
+      class="${styles.tag}"
+    >${Component}</span>`;
 
   const expander = wire(props, ':expanded')`
     <button

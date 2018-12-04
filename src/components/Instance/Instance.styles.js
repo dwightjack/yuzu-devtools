@@ -93,4 +93,9 @@ export const tag = css`
 export const attribute = css`
   margin: 0 0.5em;
   color: var(--color-accent-ter);
+
+  &[data-value]::after {
+    content: '"' attr(data-value) '"';
+    color: var(--color-accent);
+  }
 `;
