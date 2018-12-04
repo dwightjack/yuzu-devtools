@@ -1,17 +1,12 @@
 const path = require('path');
+const base = require('./config/webpack.base');
 
-module.exports = {
+module.exports = Object.assign({}, base, {
   entry: {
     standalone: './dev/standalone.js',
   },
-  devtool: 'cheap-module-source-map',
-  output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
-  },
-  plugins: [],
   devServer: {
     publicPath: '/dist/',
     contentBase: [path.join(__dirname, 'dev')],
   },
-};
+});

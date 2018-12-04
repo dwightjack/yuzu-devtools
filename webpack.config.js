@@ -1,8 +1,9 @@
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const base = require('./config/webpack.base');
 
-module.exports = {
+module.exports = Object.assign({}, base, {
   entry: {
     devtools: './src/devtools.js',
     panel: './src/panel.js',
@@ -10,24 +11,19 @@ module.exports = {
     contentScript: './src/contentScript.js',
     initialize: './src/initialize.js',
   },
-  devtool: 'cheap-module-source-map',
-  output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
-  },
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new CopyWebpackPlugin([
       {
         from: './src/*.html',
-        to: path.resolve(__dirname, 'dist'),
+        to: base.output.path,
         flatten: true,
       },
       {
         from: './static/**/*',
-        to: path.resolve(__dirname, 'dist'),
+        to: base.output.path,
         flatten: true,
       },
     ]),
   ],
-};
+});
