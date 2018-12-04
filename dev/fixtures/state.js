@@ -47,11 +47,13 @@ module.exports = {
       uid: '_ui.4',
       Component: 'Todo',
       parent: '_ui.2',
+      options: JSON.stringify({ demo: true }),
       state: JSON.stringify({
         text: 'Test',
         completed: false,
         id: 'todo-2',
       }),
+      ref: 'todo-2',
     },
     '_ui.5': {
       uid: '_ui.5',

@@ -21,17 +21,30 @@ export default {
     }
     return $store.get(uid);
   },
-  logStart(uid) {
-    const inst = this.get(uid);
+
+  parseWatcher(hash = '') {
+    const matches = hash.match(/^([^:]+):(.+)$/);
+    if (matches) {
+      const [, uid, prop = '*'] = matches;
+      return {
+        uid,
+        event: `change:${prop}`,
+        inst: this.get(uid),
+      };
+    }
+    return {};
+  },
+  logStart(hash) {
+    const { inst, event } = this.parseWatcher(hash);
     if (inst) {
-      inst.$$logStart();
+      inst.$$logStart(null, event);
     }
   },
 
-  logEnd(uid) {
-    const inst = this.get(uid);
+  logEnd(hash) {
+    const { inst, event } = this.parseWatcher(hash);
     if (inst) {
-      inst.$$logEnd();
+      inst.$$logEnd(event);
     }
   },
 
