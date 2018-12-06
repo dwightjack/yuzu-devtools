@@ -16,5 +16,19 @@ module.exports = {
     'no-underscore-dangle': 0,
     camelcase: 0,
     'import/prefer-default-export': 0,
+    'import/no-extraneous-dependencies': [
+      'error',
+      { devDependencies: ['**/*.test.js', 'config/*.js'] },
+    ],
   },
+  overrides: [
+    {
+      files: ['*.test.js'],
+      env: {
+        browser: true,
+        es6: true,
+        jest: true,
+      },
+    },
+  ],
 };

@@ -9,9 +9,14 @@
     "start": "webpack-dev-server --mode=development --config=webpack.dev.js",
     "release": "webpack --mode=production",
     "dev": "webpack --mode=development",
-    "lint": "eslint src/**/*.js"
+    "lint": "eslint src/**/*.js",
+    "test": "jest"
   },
   "devDependencies": {
+    "@babel/core": "^7.2.0",
+    "@babel/preset-env": "^7.2.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.6.0",
     "eslint": "^5.8.0",
@@ -19,6 +24,11 @@
     "eslint-config-prettier": "^3.1.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-prettier": "^3.0.0",
+    "hyperhtml-serializer": "^1.0.2",
+    "jest": "^23.6.0",
+    "jest-dom": "^3.0.0",
+    "jest-emotion": "^10.0.4",
+    "jest-environment-basichtml": "^1.1.0",
     "prettier": "^1.15.1",
     "raw-loader": "^0.5.1",
     "svg-inline-loader": "^0.8.0",
@@ -33,5 +43,27 @@
     "lodash": "^4.17.11",
     "material-design-icons": "^3.0.1",
     "split-grid": "^1.0.9"
+  },
+  "jest": {
+    "verbose": true,
+    "bail": false,
+    "testURL": "http://localhost",
+    "collectCoverageFrom": [],
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "collectCoverage": false,
+    "testMatch": [
+      "**/*.test.js"
+    ],
+    "testEnvironment": "basichtml",
+    "snapshotSerializers": [
+      "hyperhtml-serializer",
+      "jest-emotion"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/config/jest.setup.js",
+    "moduleNameMapper": {
+      "^@[/](.+)": "<rootDir>/src/$1"
+    }
   }
 }
