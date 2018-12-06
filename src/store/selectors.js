@@ -14,3 +14,14 @@ export const getSidePanelData = (state = {}) => {
     ...baseObj,
   };
 };
+
+export const hasWatchers = (state, uid) =>
+  state.watchers.some((hash) => hash.startsWith(`${uid}:`));
+
+export const selectInstance = (state, uid) => {
+  return {
+    ...(state.tree[uid] || {}),
+    selected: uid === state.uiSelectedInstance,
+    watched: hasWatchers(state, uid),
+  };
+};
