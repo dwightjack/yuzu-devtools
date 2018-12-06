@@ -1,8 +1,3 @@
-/**
- * Adds `__YUZU_DEVTOOLS_GLOBAL_HOOK__` hook to window object. This allows us to
- * initialize `InitialHookClass` and add methods to the hook object.
- */
-
 const serialize = (obj) => {
   const cleaned = Object.keys(obj).reduce((acc, key) => {
     let value = obj[key];
@@ -119,16 +114,6 @@ const hook = () => {
             ...extractData(this),
           });
           _store.push(this);
-          // this.on('change:*', (newState) => {
-          //   try {
-          //     self.notify('hooks:statechange', {
-          //       uid: this.$uid,
-          //       state: newState,
-          //     });
-          //   } catch (e) {
-          //     console.warn(e); // eslint-disable-line no-console
-          //   }
-          // });
           return this;
         };
 
