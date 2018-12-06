@@ -16,7 +16,6 @@ export default function SidePanel(props = {}) {
     state,
     options,
     watchers,
-    toggleLog = noop,
     onPropCheck = noop,
     ctx,
   } = props;
@@ -44,8 +43,8 @@ export default function SidePanel(props = {}) {
   return wire(ctx, ':sidepanel')`<section class="${styles.root}">
     ${Title}
     <div class="${styles.panelWrap}">
-        <div class="${styles.panelScroll}">
-      ${Lists}
+      <div class="${styles.panelScroll}">
+        ${Lists}
       </div>
     </div>
   </section>`;

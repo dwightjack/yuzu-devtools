@@ -1,41 +1,31 @@
 import { bind } from 'hyperhtml';
 import Panels from '../Panels/Panels';
 import SidePanel from '../SidePanel/SidePanel';
-import Instance from '../Instance/Instance';
+import MainPanel from '../MainPanel/MainPanel';
+import Tree from '../Tree/Tree';
 import { getSidePanelData } from '../../store/selectors';
 import './App.styles';
 
 export default function App({ container, actions = {} }) {
   const $root = bind(container);
 
-  const renderTree = (tree, selected, acts) => {
-    return function renderChild(ids) {
-      return ids.map((id) =>
-        Instance({
-          ...tree[id],
-          ...acts,
-          renderChild,
-          selected: id === selected,
-        }),
-      );
-    };
-  };
+  // fixed context to prevent some elements to re-render
+  const ctx = {};
 
-  let ctx = {};
+  const renderActions = {
+    onClick: actions.expandBranch,
+    onSelect: actions.selectInstance,
+  };
 
   return {
     $root,
 
     render(state) {
-      const { roots, tree, uiSelectedInstance } = state;
+      const { roots } = state;
 
-      if (uiSelectedInstance !== ctx.uid) {
-        ctx = { uid: uiSelectedInstance };
-      }
-
-      const treeRenderer = renderTree(tree, uiSelectedInstance, {
-        onClick: actions.expandBranch,
-        onSelect: actions.selectInstance,
+      const treeRenderer = Tree({
+        state,
+        actions: renderActions,
       });
 
       const SidePanelData = {
@@ -48,7 +38,7 @@ export default function App({ container, actions = {} }) {
       return $root`
         <section>
           ${Panels({
-            main: () => treeRenderer(roots),
+            main: () => MainPanel({ ctx, render: () => treeRenderer(roots) }),
             side: () => SidePanel(SidePanelData),
             ctx,
           })}

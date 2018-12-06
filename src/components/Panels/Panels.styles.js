@@ -11,7 +11,6 @@ export const root = css`
 export const main = css`
   grid-area: main;
   min-height: 0;
-  overflow-y: auto;
   border-right: 1px solid var(--color-light);
 `;
 export const side = css`

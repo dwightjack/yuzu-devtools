@@ -46,21 +46,8 @@ export const expander = css`
   }
 `;
 
-export const isExpanderActive = css`
-  &::before {
-    content: '\\25bc';
-  }
-`;
-
-export const isExpanded = css``;
-
-export const isSelected = css`
-  &::before {
-    visibility: visible;
-  }
-`;
-
 export const tag = css`
+  position: relative;
   white-space: nowrap;
   color: var(--color-accent);
 
@@ -90,6 +77,16 @@ export const tag = css`
   }
 `;
 
+export const watchMark = css`
+  display: inline-block;
+  width: 0.8em;
+  height: 0.8em;
+  margin-top: -1em;
+  margin-right: 0.2em;
+  vertical-align: super;
+  fill: currentColor;
+`;
+
 export const attribute = css`
   margin: 0 0.5em;
   color: var(--color-accent-ter);
@@ -97,5 +94,25 @@ export const attribute = css`
   &[data-value]::after {
     content: '"' attr(data-value) '"';
     color: var(--color-accent);
+  }
+`;
+
+export const isExpanderActive = css`
+  &::before {
+    content: '\\25bc';
+  }
+`;
+
+export const isExpanded = css``;
+
+export const isWatched = css`
+  & > .${tag} {
+    font-weight: bold;
+  }
+`;
+
+export const isSelected = css`
+  &::before {
+    visibility: visible;
   }
 `;
