@@ -1,5 +1,6 @@
 module.exports = {
-  roots: ['_ui.0', '_ui.5'],
+  roots: ['_ui.0', '_ui.5', '_ui.6', '_ui.7', '_ui.8'],
+  watchers: ['_ui.4:*'],
   tree: {
     '_ui.0': {
       uid: '_ui.0',
@@ -57,6 +58,24 @@ module.exports = {
     },
     '_ui.5': {
       uid: '_ui.5',
+      Component: 'Store',
+      state: JSON.stringify({}),
+      detached: true,
+    },
+    '_ui.6': {
+      uid: '_ui.6',
+      Component: 'Store',
+      state: JSON.stringify({}),
+      detached: true,
+    },
+    '_ui.7': {
+      uid: '_ui.7',
+      Component: 'Store',
+      state: JSON.stringify({}),
+      detached: true,
+    },
+    '_ui.8': {
+      uid: '_ui.8',
       Component: 'Store',
       state: JSON.stringify({}),
       detached: true,
