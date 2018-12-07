@@ -50,8 +50,12 @@
     "testURL": "http://localhost",
     "collectCoverageFrom": [],
     "transform": {
-      "^.+\\.js$": "babel-jest"
+      "^.+\\.js$": "babel-jest",
+      "^.+\\.svg$": "<rootDir>/config/jest-svg-transform.js"
     },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!material-design-icons/)"
+    ],
     "collectCoverage": false,
     "testMatch": [
       "**/*.test.js"
@@ -61,6 +65,7 @@
       "hyperhtml-serializer",
       "jest-emotion"
     ],
+
     "setupTestFrameworkScriptFile": "<rootDir>/config/jest.setup.js",
     "moduleNameMapper": {
       "^@[/](.+)": "<rootDir>/src/$1"

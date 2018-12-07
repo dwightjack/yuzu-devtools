@@ -3,7 +3,7 @@ import MainPanel from './MainPanel';
 const ctx = {};
 
 describe('MainPanel', () => {
-  test('it renders', () => {
+  test('matches default snapshot', () => {
     expect(MainPanel({ ctx, render: () => 'DEMO' })).toMatchSnapshot();
   });
 

@@ -1,26 +1,13 @@
 import { wire } from 'hyperhtml';
 import cc from 'classcat';
 import visibility from 'material-design-icons/action/svg/production/ic_visibility_24px.svg';
+import AttrList from '../AttrList/AttrList';
+import { noop } from '../utils';
+
 import * as styles from './Instance.styles';
 
-const noop = () => {};
-
-const ATTRS = ['ref', 'detached'];
-
-function renderAttrs(props) {
-  return ATTRS.map((attr) => {
-    const val = props[attr];
-    const bool = typeof val === 'boolean' ? null : val;
-    return val
-      ? wire(props)`<span class="${
-          styles.attribute
-        }" data-value="${bool}">${attr + (bool ? '=' : '')}</span>`
-      : null;
-  }).filter((x) => x);
-}
-
 function TagOpen(props) {
-  const { Component, uid, onSelect, attrs, watched, ctx } = props;
+  const { Component, uid, onSelect, attrs, watched } = props;
   const watchMark = watched
     ? wire(props, ':watched')`<span class="${styles.watchMark}">${{
         html: visibility,
@@ -59,7 +46,6 @@ export default function Instance(props = {}) {
     renderChild: Children = noop,
     selected = false,
     watched = false,
-    ctx = {},
     uid,
   } = props;
 
@@ -73,13 +59,13 @@ export default function Instance(props = {}) {
     onSelect,
     uid,
     watched,
-    attrs: renderAttrs(props),
+    attrs: AttrList(props),
   });
 
   if (Array.isArray(childIds) && childIds.length > 0) {
     classes.push({ [styles.isExpanded]: expanded });
 
-    return wire(ctx, ':uid')`
+    return wire(props, ':uid')`
      <div class="${cc(classes)}">
         ${ExpandBtn({ uid, onClick, expanded })}${tagOpen}
         <div class="${styles.childList}" hidden="${!expanded}">
@@ -89,7 +75,7 @@ export default function Instance(props = {}) {
       </div>`;
   }
 
-  return wire(ctx, ':uid')`
+  return wire(props, ':uid')`
     <div class="${cc(classes)}">
       ${tagOpen}
     </div>`;

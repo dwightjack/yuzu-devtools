@@ -1,0 +1,132 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Instance matches default snapshot 1`] = `
+<div
+  class="css-eus7rr"
+  style=""
+>
+  
+      
+  <span
+    class="css-1g7xg9f"
+    style=""
+  >
+    DemoComponent
+    
+    
+    
+    
+  </span>
+  
+  
+    
+</div>
+`;
+
+exports[`Instance matches nested snapshot 1`] = `
+<div
+  class="css-eus7rr"
+  style=""
+>
+  
+        
+  <button
+    aria-label="Expand / collapse children"
+    class="css-a1ymjf"
+    style=""
+    type="button"
+  />
+  
+  <span
+    class="css-1g7xg9f"
+    style=""
+  >
+    DemoComponent
+    
+    
+    
+    
+  </span>
+  
+  
+        
+  <div
+    class="css-0"
+    hidden={true}
+    style=""
+  >
+    
+          
+    CHILDREN
+    
+    
+        
+  </div>
+  
+        
+  <span
+    class="css-1g7xg9f"
+    style=""
+  >
+    DemoComponent
+    
+  </span>
+  
+  
+      
+</div>
+`;
+
+exports[`Instance passes childIds to renderChild  1`] = `
+<div
+  class="css-eus7rr"
+  style=""
+>
+  
+        
+  <button
+    aria-label="Expand / collapse children"
+    class="css-a1ymjf"
+    style=""
+    type="button"
+  />
+  
+  <span
+    class="css-1g7xg9f"
+    style=""
+  >
+    DemoComponent
+    
+    
+    
+    
+  </span>
+  
+  
+        
+  <div
+    class="css-0"
+    hidden={true}
+    style=""
+  >
+    
+          
+    CHILDREN
+    
+    
+        
+  </div>
+  
+        
+  <span
+    class="css-1g7xg9f"
+    style=""
+  >
+    DemoComponent
+    
+  </span>
+  
+  
+      
+</div>
+`;

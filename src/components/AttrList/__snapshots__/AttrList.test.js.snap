@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AttrList matches default snapshot 1`] = `
+Array [
+  <span
+    style=""
+  >
+    detached
+    
+  </span>,
+  <span
+    style=""
+  >
+    detached
+    
+  </span>,
+]
+`;
