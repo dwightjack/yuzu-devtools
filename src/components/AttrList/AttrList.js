@@ -8,9 +8,8 @@ export default function AttrList(props) {
     const val = props[attr];
     const bool = typeof val === 'boolean' ? null : val;
     return val
-      ? wire(props)`<span class="${
-          styles.attribute
-        }" data-value="${bool}">${attr + (bool ? '=' : '')}</span>`
+      ? wire(props)`<span class="${styles.root}" data-value="${bool}">${attr +
+          (bool ? '=' : '')}</span>`
       : null;
   }).filter((x) => x);
 }

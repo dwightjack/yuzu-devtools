@@ -3,12 +3,14 @@
 exports[`AttrList matches default snapshot 1`] = `
 Array [
   <span
+    class="css-168bjza"
     style=""
   >
     detached
     
   </span>,
   <span
+    class="css-168bjza"
     style=""
   >
     detached

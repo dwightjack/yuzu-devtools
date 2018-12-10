@@ -1,5 +1,5 @@
 module.exports = {
-  roots: ['_ui.0', '_ui.5', '_ui.6', '_ui.7', '_ui.8'],
+  roots: ['_ui.0', '_ui.5'],
   watchers: ['_ui.4:*'],
   tree: {
     '_ui.0': {
@@ -18,6 +18,10 @@ module.exports = {
       uid: '_ui.2',
       Component: 'TodoList',
       parent: '_ui.0',
+      options: JSON.stringify({
+        template:
+          '<span class="todo-text"></span> <div class="btn-group" role="group"> <button type="button" data-action="complete" aria-label="Toggle completed"> <i class="fas fa-check"></i> </button> <button type="button" data-action="remove" aria-label="Delete"> <i class="fas fa-trash-alt"></i> </button> </div>',
+      }),
       state: JSON.stringify({
         todos: [
           {
@@ -58,24 +62,6 @@ module.exports = {
     },
     '_ui.5': {
       uid: '_ui.5',
-      Component: 'Store',
-      state: JSON.stringify({}),
-      detached: true,
-    },
-    '_ui.6': {
-      uid: '_ui.6',
-      Component: 'Store',
-      state: JSON.stringify({}),
-      detached: true,
-    },
-    '_ui.7': {
-      uid: '_ui.7',
-      Component: 'Store',
-      state: JSON.stringify({}),
-      detached: true,
-    },
-    '_ui.8': {
-      uid: '_ui.8',
       Component: 'Store',
       state: JSON.stringify({}),
       detached: true,
