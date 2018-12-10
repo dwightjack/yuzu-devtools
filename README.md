@@ -1,36 +1,65 @@
-# Yuzu Inspector
-Show contextual Ractive data in DevTools
+# Yuzu Inspector (WIP)
 
-Download: [Chrome WebStore](https://chrome.google.com/webstore/detail/more-ractive-data/ifbnmdpghgpcceednkpklhfkmjgipaih?hl=en-GB&gl=GB)
+This Chrome extension lets you inspect and track changes to Yuzu Components in a webpage.
 
+![](images/devtools.jpg)
 
-Known issues:
- - Data does not update (solved with contentscript I think)
- - Data should be editable (not sure how/if it is possible)
+## Installation
 
+(WIP)
 
-# License
-This is free and unencumbered software released into the public domain.
+## Usage
 
-Anyone is free to copy, modify, publish, use, compile, sell, or
-distribute this software, either in source code form or as a compiled
-binary, for any purpose, commercial or non-commercial, and by any
-means.
+In order to use this extension you need to enable [yuzu's development tools](https://dwightjack.github.io/yuzu/#/packages/yuzu/?id=developer-tools) on the JavaScript main entrypoint of the page.
 
-In jurisdictions that recognize copyright laws, the author or authors
-of this software dedicate any and all copyright interest in the
-software to the public domain. We make this dedication for the benefit
-of the public at large and to the detriment of our heirs and
-successors. We intend this dedication to be an overt act of
-relinquishment in perpetuity of all present and future rights to this
-software under copyright law.
+```js
+import { Component, devtools } from 'yuzu';
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
+devtools(Component); // enable development tools
+```
 
-For more information, please refer to <http://unlicense.org/>
+**Note**: this extension will work in development mode only (`(process.env.NODE_ENV !== 'production'`).
+
+When detected, a new panel called _Yuzu_ will be added to Chrome's development tools window.
+
+### Component Tree Panel
+
+The panel on the left will let you navigate the component tree.
+
+![Extension left panel](images/left-panel.png)
+
+The currently selected component instance will be stored as the `$yuzu0` variable on the global object (`window`). To inspect its state in the Chrome console run:
+
+```js
+$yuzu0.state;
+```
+
+### Component Inspection Panel
+
+When you select a component on the left, the right panel will show its options and state.
+
+![Extension right panel](images/right-panel.png)
+
+By clicking on the _eye_ icon that appears by hovering the left edge of a state's property Yuzu Inspector will watch that properties changes and log them to the Chrome console.
+
+You can watch the entire state by selecting the _eye_ icon on the right of the panel's title (**Note**: If you watch the entire state, every other property state watcher will be removed).
+
+## Development
+
+```
+git clone https://github.com/dwightjack/yuzu-devtools
+cd yuzu-devtools
+yarn
+yarn start
+```
+
+## Build from source
+
+The following commands will generated a builded extension inside the `yuzu-devtools/dist` folder.
+
+```
+git clone https://github.com/dwightjack/yuzu-devtools
+cd yuzu-devtools
+yarn
+yarn release
+```
