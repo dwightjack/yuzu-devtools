@@ -3,7 +3,7 @@ import Panels from '../Panels/Panels';
 import SidePanel from '../SidePanel/SidePanel';
 import MainPanel from '../MainPanel/MainPanel';
 import Tree from '../Tree/Tree';
-import { getSidePanelData } from '../../store/selectors';
+import { getSidePanelData, selectInstance } from '../../store/selectors';
 import './App.styles';
 
 export default function App({ container, actions = {} }) {
@@ -24,8 +24,8 @@ export default function App({ container, actions = {} }) {
       const { roots } = state;
 
       const treeRenderer = Tree({
-        state,
         actions: renderActions,
+        getData: (id) => selectInstance(state, id),
       });
 
       const SidePanelData = {

@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PropList matches default snapshot 1`] = `
+<section
+  class="css-1ak8wuw"
+  style=""
+>
+  
+      
+  <h3
+    class="css-9omne8"
+    style=""
+  >
+    <span
+      style=""
+    >
+      TITLE
+      
+    </span>
+    
+    
+  </h3>
+  
+      
+  <prop
+    key="name"
+    onSelect={[Function]}
+    style=""
+    uid="_0"
+    value="John"
+    watchable={false}
+    watched={false}
+  />
+  <prop
+    key="surname"
+    onSelect={[Function]}
+    style=""
+    uid="_0"
+    value="Doe"
+    watchable={false}
+    watched={false}
+  />
+  
+  
+    
+</section>
+`;
+
+exports[`PropList matches watchable snapshot 1`] = `
+<section
+  class="css-1ak8wuw"
+  style=""
+>
+  
+      
+  <h3
+    class="css-9omne8"
+    style=""
+  >
+    <span
+      style=""
+    >
+      WATCHABLE LIST
+      
+    </span>
+    <propwatcher
+      key="*"
+      onSelect={[Function]}
+      style=""
+      uid="_0"
+      watched={false}
+    />
+    
+  </h3>
+  
+      
+  <prop
+    key="name"
+    onSelect={[Function]}
+    style=""
+    uid="_0"
+    value="John"
+    watchable={true}
+    watched={true}
+  />
+  <prop
+    key="surname"
+    onSelect={[Function]}
+    style=""
+    uid="_0"
+    value="Doe"
+    watchable={true}
+    watched={false}
+  />
+  
+  
+    
+</section>
+`;

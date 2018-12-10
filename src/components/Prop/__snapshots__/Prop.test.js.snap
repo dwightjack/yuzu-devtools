@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Prop matches default snapshot 1`] = `
+<div
+  class="css-1yfdty6"
+  style=""
+>
+  
+      
+  
+  
+  
+      
+  <span
+    class="css-13e2p0j"
+    style=""
+  >
+    name
+    
+    : 
+  </span>
+  <span
+    class="css-fw3nso css-zeat2x"
+    style=""
+  >
+    DEMO
+    
+  </span>
+  
+    
+</div>
+`;

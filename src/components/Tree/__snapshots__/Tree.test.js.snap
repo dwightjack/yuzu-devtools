@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SidePanel matches default snapshot 1`] = `
+Array [
+  <instance
+    id="_0"
+    myAction={[Function]}
+    renderChild={[Function]}
+    style=""
+  />,
+  <instance
+    id="_1"
+    myAction={[Function]}
+    renderChild={[Function]}
+    style=""
+  />,
+]
+`;

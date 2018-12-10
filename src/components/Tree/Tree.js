@@ -1,11 +1,10 @@
 import Instance from '../Instance/Instance';
-import { selectInstance } from '../../store/selectors';
 
-export default function Tree({ state, actions }) {
+export default function Tree({ actions, getData = () => ({}) }) {
   return function renderChild(ids) {
     return ids.map((id) =>
       Instance({
-        ...selectInstance(state, id),
+        ...getData(id),
         ...actions,
         renderChild,
       }),

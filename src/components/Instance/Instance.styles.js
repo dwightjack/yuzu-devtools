@@ -87,16 +87,6 @@ export const watchMark = css`
   fill: currentColor;
 `;
 
-export const attribute = css`
-  margin: 0 0.5em;
-  color: var(--color-accent-ter);
-
-  &[data-value]::after {
-    content: '"' attr(data-value) '"';
-    color: var(--color-accent);
-  }
-`;
-
 export const isExpanderActive = css`
   &::before {
     content: '\\25bc';

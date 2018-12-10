@@ -20,11 +20,11 @@ export default function Panels({ main = noop, side = noop, ctx = {} }) {
   };
 
   return wire(ctx, ':panels')`<div
-    class="${styles.root}"
-    onconnected="${onconnected}"
-  >
-    <div class="${styles.main}">${main()}</div>
-    ${gutter}
-    <div class="${styles.side}">${side()}</div>
-  <div>`;
+      class="${styles.root}"
+      onconnected="${onconnected}"
+    >
+      <div class="${styles.main}">${main()}</div>
+      ${gutter}
+      <div class="${styles.side}">${side()}</div>
+    <div>`;
 }

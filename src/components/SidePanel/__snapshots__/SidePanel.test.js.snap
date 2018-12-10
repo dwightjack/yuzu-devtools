@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SidePanel matches default snapshot 1`] = `
+<section
+  class="css-lfmitb"
+  style=""
+>
+  
+    
+  <h2
+    class="css-br4xm3"
+    style=""
+  >
+    
+    
+    DemoCmp
+    
+    <em
+      style=""
+    >
+      #
+      _0
+      
+    </em>
+    
+  
+  </h2>
+  
+  
+    
+  <div
+    class="css-10c7rqy"
+    style=""
+  >
+    
+      
+    <div
+      class="css-1ypao5f"
+      style=""
+    >
+      
+        
+      <proplist
+        props={undefined}
+        style=""
+        title="Options"
+      />
+      <proplist
+        onSelect={[Function]}
+        props={undefined}
+        style=""
+        title="State"
+        uid="_0"
+        watchable={true}
+        watchers={undefined}
+      />
+      
+      
+      
+    </div>
+    
+    
+  </div>
+  
+  
+</section>
+`;

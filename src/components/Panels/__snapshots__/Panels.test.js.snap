@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Panels matches default snapshot 1`] = `
+<div
+  class="css-1ghr0kq"
+  style=""
+>
+  
+      
+  <div
+    class="css-w30ivp"
+    style=""
+  >
+    MAIN
+    
+  </div>
+  
+      
+  <div
+    class="css-1rf3nmi"
+    style=""
+  />
+  
+  
+      
+  <div
+    class="css-1f36d0o"
+    style=""
+  >
+    SIDE
+    
+  </div>
+  
+    
+  <div
+    style=""
+  />
+</div>
+`;

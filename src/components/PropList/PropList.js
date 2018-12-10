@@ -1,15 +1,15 @@
 import { wire } from 'hyperhtml';
 import Prop from '../Prop/Prop';
 import PropWatcher from '../PropWatcher/PropWatcher';
-
+import { noop } from '../utils';
 import * as styles from './PropList.styles';
 
 const empty = (keys) => wire(keys)`<p class="${styles.empty}">empty object</p>`;
 
 export default function PropList({
+  uid,
   title = '',
-  uid = '',
-  onSelect,
+  onSelect = noop,
   props = {},
   watchers = [],
   watchable = false,

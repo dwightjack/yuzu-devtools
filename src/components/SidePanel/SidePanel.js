@@ -16,8 +16,8 @@ export default function SidePanel(props = {}) {
     state,
     options,
     watchers,
-    onPropCheck = noop,
     ctx,
+    onPropCheck = noop,
   } = props;
 
   if (!uid) {

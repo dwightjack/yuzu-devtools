@@ -9,7 +9,9 @@ import * as styles from './Instance.styles';
 function TagOpen(props) {
   const { Component, uid, onSelect, attrs, watched } = props;
   const watchMark = watched
-    ? wire(props, ':watched')`<span class="${styles.watchMark}">${{
+    ? wire(props, ':watched')`<span class="${
+        styles.watchMark
+      }" aria-label="Watching Component State">${{
         html: visibility,
       }}</span>`
     : '';
@@ -33,20 +35,21 @@ function ExpandBtn(props) {
       class="${cc([styles.expander, { [styles.isExpanderActive]: expanded }])}"
       onclick="${() => onClick({ uid, expanded: !expanded })}"
       aria-label="Expand / collapse children"
+      aria-expanded="${expanded}"
     ></button>`;
 }
 
 export default function Instance(props = {}) {
   const {
     Component,
+    uid,
     childIds,
-    expanded = false,
     onClick = noop,
     onSelect = noop,
     renderChild: Children = noop,
+    expanded = false,
     selected = false,
     watched = false,
-    uid,
   } = props;
 
   const classes = [
