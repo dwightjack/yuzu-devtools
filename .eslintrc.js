@@ -18,7 +18,7 @@ module.exports = {
     'import/prefer-default-export': 0,
     'import/no-extraneous-dependencies': [
       'error',
-      { devDependencies: ['**/*.test.js', 'config/*.js'] },
+      { devDependencies: ['**/*.test.js', 'config/*.js', 'webpack.*.js'] },
     ],
   },
   overrides: [
