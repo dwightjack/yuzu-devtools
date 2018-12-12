@@ -34,7 +34,7 @@ export default function SidePanel(props = {}) {
       watchers,
       watchable: true,
     },
-  ].map(PropList);
+  ].map((p) => PropList(p));
 
   const Title = wire(ctx, ':uid')`<h2 class="${styles.title}">
     ${Component || 'Component'}<em>#${uid}</em>
