@@ -1,15 +1,20 @@
-/**
- * Handles message passing between devtools and the injected scripts.
- */
-
 chrome.runtime.onMessage.addListener((message, sender) => {
-  if (message.type === 'yuzu-detected' && sender.tab) {
-    chrome.browserAction.setIcon({
-      path: {
-        128: 'icon.png',
-      },
-      tabId: sender.tab.id,
-    });
+  if (sender.tab) {
+    if (message.type === 'yuzu-detected') {
+      chrome.browserAction.setIcon({
+        path: {
+          128: 'icon.png',
+        },
+        tabId: sender.tab.id,
+      });
+    } else if (message.type === 'yuzu-idle') {
+      chrome.browserAction.setIcon({
+        path: {
+          128: 'icon-off.png',
+        },
+        tabId: sender.tab.id,
+      });
+    }
   }
 });
 
