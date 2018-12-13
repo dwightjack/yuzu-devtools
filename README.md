@@ -36,11 +36,11 @@ $yuzu0.state;
 
 ### Component Inspection Panel
 
-When you select a component on the left, the right panel will show its options and state.
+When you select a component on the left panel, its options and state will be shown on the right.
 
 ![Extension right panel](images/right-panel.png)
 
-By clicking on the _eye_ icon that appears by hovering the left edge of a state's property Yuzu Inspector will watch that properties changes and log them to the Chrome console.
+By clicking on the _eye_ icon that appears by hovering the left edge of a state's property, Yuzu Inspector will watch that properties changes and log them to the Chrome console.
 
 You can watch the entire state by selecting the _eye_ icon on the right of the panel's title (**Note**: If you watch the entire state, every other property state watcher will be removed).
 

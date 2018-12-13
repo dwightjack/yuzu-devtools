@@ -1,4 +1,3 @@
-let panelShown = false;
 let created = false;
 let checkCount = 0;
 let createPanelInterval = null;
@@ -7,12 +6,10 @@ let createPanelInterval = null;
 
 function onPanelShown() {
   chrome.runtime.sendMessage({ type: 'yuzu:panel-shown' });
-  panelShown = true;
 }
 
 function onPanelHidden() {
   chrome.runtime.sendMessage({ type: 'yuzu:panel-hidden' });
-  panelShown = false;
 }
 
 function createPanel() {
@@ -21,7 +18,6 @@ function createPanel() {
     clearInterval(createPanelInterval);
     return;
   }
-  panelShown = false;
   chrome.devtools.inspectedWindow.eval(
     '!!(window.__YUZU_DEVTOOLS_GLOBAL_HOOK__.Component)',
     (hasYuzu) => {
