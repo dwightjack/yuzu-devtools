@@ -53,6 +53,8 @@ yarn
 yarn start
 ```
 
+To generate an unpacked extension run `yarn dev`.
+
 ## Build from source
 
 The following commands will generated a builded extension inside the `yuzu-devtools/dist` folder.
