@@ -33,10 +33,10 @@ const port = chrome.extension.connect({
 
 chrome.devtools.network.onNavigated.addListener(() => {
   store.resetState();
-  port.postMessage({ type: 'initialize' });
+  port.postMessage({ type: 'ui:initialize' });
 });
 
-port.postMessage({ type: 'initialize' });
+port.postMessage({ type: 'ui:initialize' });
 
 port.onMessage.addListener((message = {}) => {
   store.action(message);

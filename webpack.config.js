@@ -6,6 +6,7 @@ module.exports = Object.assign({}, base, {
   entry: {
     devtools: './src/devtools.js',
     panel: './src/panel.js',
+    detector: './src/detector.js',
     background: './src/background.js',
     contentScript: './src/contentScript.js',
     initialize: './src/initialize.js',

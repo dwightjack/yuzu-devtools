@@ -37,7 +37,7 @@ window.addEventListener('message', (event) => {
   if (
     typeof message !== 'object' ||
     message === null ||
-    !message.source === 'yuzu-devtools'
+    message.source !== 'yuzu-devtools'
   ) {
     return;
   }

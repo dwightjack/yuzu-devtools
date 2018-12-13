@@ -6,12 +6,12 @@ let createPanelInterval = null;
 // Manage panel visibility
 
 function onPanelShown() {
-  chrome.runtime.sendMessage({ type: 'yuzu-panel-shown' });
+  chrome.runtime.sendMessage({ type: 'yuzu:panel-shown' });
   panelShown = true;
 }
 
 function onPanelHidden() {
-  chrome.runtime.sendMessage({ type: 'yuzu-panel-hidden' });
+  chrome.runtime.sendMessage({ type: 'yuzu:panel-hidden' });
   panelShown = false;
 }
 
@@ -28,7 +28,6 @@ function createPanel() {
       if (!hasYuzu || created) {
         return;
       }
-      chrome.runtime.sendMessage({ type: 'yuzu-detected' });
       clearInterval(createPanelInterval);
       created = true;
 

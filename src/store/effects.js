@@ -17,6 +17,10 @@ export const createEffects = (hooksExec) => ({
     hooksExec(`setGlobal`, uiSelectedInstance);
     hooksExec(`setCurrent`, uiSelectedInstance);
   },
+
+  'yuzu:panel-hidden': function hidePanel() {
+    hooksExec(`stop`);
+  },
 });
 
 export const match = (effects) => (state, prevState, { type } = {}) => {
