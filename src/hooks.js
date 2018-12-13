@@ -227,31 +227,4 @@
   };
 
   hook();
-
-  setTimeout(() => {
-    try {
-      if (window.__YUZU_DEVTOOLS_GLOBAL_HOOK__.Component) {
-        window.postMessage(
-          {
-            source: 'yuzu-devtools',
-            payload: {
-              type: 'yuzu-detected',
-            },
-          },
-          '*',
-        );
-      }
-    } catch (e) {
-      // silently fail
-      window.postMessage(
-        {
-          source: 'yuzu-devtools',
-          payload: {
-            type: 'yuzu-idle',
-          },
-        },
-        '*',
-      );
-    }
-  }, 1000);
 })();
