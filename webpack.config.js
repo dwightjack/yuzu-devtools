@@ -4,11 +4,7 @@ const base = require('./config/webpack.base');
 
 module.exports = Object.assign({}, base, {
   entry: {
-    devtools: './src/devtools.js',
     panel: './src/panel.js',
-    detector: './src/detector.js',
-    background: './src/background.js',
-    contentScript: './src/contentScript.js',
     initialize: './src/initialize.js',
   },
   plugins: [
@@ -16,6 +12,11 @@ module.exports = Object.assign({}, base, {
     new CopyWebpackPlugin([
       {
         from: './src/*.html',
+        to: base.output.path,
+        flatten: true,
+      },
+      {
+        from: './src/{background,contentScript,detector,devtools}.js',
         to: base.output.path,
         flatten: true,
       },
