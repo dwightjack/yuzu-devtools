@@ -16,10 +16,10 @@ export const label = css`
   line-height: 1.5;
   flex-shrink: 1;
   flex-grow: 0;
+`;
 
-  &:first-child {
-    padding-left: 1.4em;
-  }
+export const labelFirst = css`
+  padding-left: 1.4em;
 `;
 
 export const value = css`
@@ -46,7 +46,7 @@ export const inspect = css`
   color: var(--color-quiet);
   visibility: hidden;
 
-  .${root}:hover & {
+  [data-prop]:hover & {
     visibility: visible;
   }
 `;

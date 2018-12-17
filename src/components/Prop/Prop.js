@@ -16,9 +16,12 @@ export default function Prop({
   const typeStyle = type ? styles[`${type}Style`] : '';
 
   return wire(null, ':prop')`
-    <div class="${styles.root}">
+    <div class="${styles.root}" data-prop>
       ${watchable ? PropWatcher({ uid, key, watched, onSelect }) : ''}
-      <span class="${styles.label}">${key}: </span><span class="${cc([
+      <span class="${cc([
+        styles.label,
+        { [styles.labelFirst]: !watchable },
+      ])}">${key}: </span><span class="${cc([
     styles.value,
     typeStyle,
   ])}">${val}</span>

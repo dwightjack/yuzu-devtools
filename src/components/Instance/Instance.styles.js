@@ -96,9 +96,7 @@ export const isExpanderActive = css`
 export const isExpanded = css``;
 
 export const isWatched = css`
-  & > .${tag} {
-    font-weight: bold;
-  }
+  font-weight: bold;
 `;
 
 export const isSelected = css`

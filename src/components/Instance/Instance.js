@@ -16,14 +16,14 @@ function TagOpen(props) {
       }}</span>`
     : '';
   return wire(props, ':uid')`<span
-  class="${styles.tag}"
+  class="${cc([styles.tag, { [styles.isWatched]: watched }])}"
   onclick="${() => onSelect({ uid })}"
   >${Component}${watchMark}${attrs}</span>`;
 }
 
 function TagClose(props) {
   return wire(props, ':uid')`<span
-      class="${styles.tag}"
+      class="${cc([styles.tag, { [styles.isWatched]: props.watched }])}"
     >${props.Component}</span>`;
 }
 
@@ -52,10 +52,7 @@ export default function Instance(props = {}) {
     watched = false,
   } = props;
 
-  const classes = [
-    styles.root,
-    { [styles.isSelected]: selected, [styles.isWatched]: watched },
-  ];
+  const classes = [styles.root, { [styles.isSelected]: selected }];
 
   const tagOpen = TagOpen({
     Component,
@@ -74,7 +71,7 @@ export default function Instance(props = {}) {
         <div class="${styles.childList}" hidden="${!expanded}">
           ${Children(childIds)}
         </div>
-        ${TagClose({ Component })}
+        ${TagClose({ Component, watched })}
       </div>`;
   }
 

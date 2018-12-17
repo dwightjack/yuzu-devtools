@@ -41,7 +41,9 @@ export default function PropList({
 
   return wire(props)`
     <section class="${styles.root}">
-      <h3 class="${styles.title}"><span>${title}</span>${globalWatcher}</h3>
+      <h3 class="${
+        styles.title
+      }"><span>${title}</span>&nbsp;${globalWatcher}</h3>
       ${list}
     </section>
   `;

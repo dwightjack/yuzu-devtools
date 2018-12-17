@@ -9,10 +9,6 @@ export const root = css`
   padding: 0.5em;
   box-sizing: content-box;
 
-  &:not(:first-child) {
-    margin-left: -0.3em;
-  }
-
   & > svg {
     visibility: hidden;
     width: 1.25em;
