@@ -2,7 +2,7 @@
 
 exports[`PropWatcher matches checked snapshot 1`] = `
 <label
-  class="css-u00jpy"
+  class="css-93z073"
   style=""
   title="Watch changes"
 >
@@ -38,7 +38,7 @@ exports[`PropWatcher matches checked snapshot 1`] = `
 
 exports[`PropWatcher matches default snapshot 1`] = `
 <label
-  class="css-u00jpy"
+  class="css-93z073"
   style=""
   title="Watch changes"
 >

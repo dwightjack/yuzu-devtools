@@ -3,6 +3,7 @@
 exports[`Prop matches default snapshot 1`] = `
 <div
   class="css-1yfdty6"
+  data-prop=""
   style=""
 >
   
@@ -12,7 +13,7 @@ exports[`Prop matches default snapshot 1`] = `
   
       
   <span
-    class="css-13e2p0j"
+    class="css-68p123 css-1508h3c"
     style=""
   >
     name

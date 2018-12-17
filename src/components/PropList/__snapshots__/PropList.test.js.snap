@@ -17,6 +17,7 @@ exports[`PropList matches default snapshot 1`] = `
       TITLE
       
     </span>
+    &nbsp;
     
     
   </h3>
@@ -63,6 +64,7 @@ exports[`PropList matches watchable snapshot 1`] = `
       WATCHABLE LIST
       
     </span>
+    &nbsp;
     <propwatcher
       key="*"
       onSelect={[Function]}
