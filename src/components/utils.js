@@ -19,5 +19,8 @@ export const parseValue = (value) => {
     }
     return { type: 'string', value };
   }
+  if (value === null || value === undefined) {
+    return { type: 'other', value: String(value) };
+  }
   return { type: 'other', value };
 };
