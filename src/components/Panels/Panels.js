@@ -1,26 +1,28 @@
 import { html } from 'lit-html';
-import { useEffect } from 'haunted';
+import { useEffect, virtual } from 'haunted';
 import Split from 'split-grid';
 
 import * as styles from './Panels.styles';
 
 const noop = () => {};
 
-export default function Panels({ main = noop, side = noop }) {
-  const gutter = html`
-    <div class="${styles.gutter}"></div>
-  `;
+function Panels({ main = noop, side = noop }) {
+  const gutter = document.createElement('div');
+  gutter.className = styles.gutter;
 
-  useEffect(() => {
-    Split({
-      columnGutters: [
-        {
-          track: 1,
-          element: gutter,
-        },
-      ],
-    });
-  }, []);
+  useEffect(
+    () => {
+      Split({
+        columnGutters: [
+          {
+            track: 1,
+            element: gutter,
+          },
+        ],
+      });
+    },
+    [gutter],
+  );
 
   return html`
     <div class="${styles.root}">
@@ -31,3 +33,5 @@ export default function Panels({ main = noop, side = noop }) {
     </div>
   `;
 }
+
+export default virtual(Panels);

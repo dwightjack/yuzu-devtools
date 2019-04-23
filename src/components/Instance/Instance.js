@@ -9,12 +9,9 @@ import * as styles from './Instance.styles';
 
 function TagOpen(props) {
   const { Component, uid, onSelect, attrs, watched } = props;
+  // prettier-ignore
   const watchMark = watched
-    ? html`
-        <span class="${styles.watchMark}" aria-label="Watching Component State"
-          >${unsafeHTML(visibility)}</span
-        >
-      `
+    ? html`<span class="${styles.watchMark}" aria-label="Watching Component State">${unsafeHTML(visibility)}</span>`
     : '';
   return html`
     <span
@@ -71,7 +68,7 @@ export default function Instance(props = {}) {
 
   if (Array.isArray(childIds) && childIds.length > 0) {
     classes.push({ [styles.isExpanded]: expanded });
-
+    // prettier-ignore
     return html`
       <div class="${cc(classes)}">
         ${ExpandBtn({ uid, onClick, expanded })}${tagOpen}

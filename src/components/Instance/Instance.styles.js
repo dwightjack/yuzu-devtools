@@ -8,6 +8,7 @@ export const root = css`
   padding-left: 1rem;
   line-height: 1.5em;
   cursor: default;
+  user-select: none;
 
   &::before {
     content: '$yuzu0';
