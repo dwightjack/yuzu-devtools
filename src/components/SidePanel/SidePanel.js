@@ -1,12 +1,12 @@
-import { wire } from 'hyperhtml';
+import { html } from 'lit-html';
 import PropList from '../PropList/PropList';
 import { noop } from '../utils';
 import * as styles from './SidePanel.styles';
 
-const blankSlate = wire({ blank: true })`
-  <p class="${
-    styles.blankSlate
-  }">Select a component on the left panel to inspect its properties</p>
+const blankSlate = html`
+  <p class="${styles.blankSlate}">
+    Select a component on the left panel to inspect its properties
+  </p>
 `;
 
 export default function SidePanel(props = {}) {
@@ -36,16 +36,16 @@ export default function SidePanel(props = {}) {
     },
   ].map((p) => PropList(p));
 
-  const Title = wire(ctx, ':uid')`<h2 class="${styles.title}">
-    ${Component || 'Component'}<em>#${uid}</em>
-  </h2>`;
+  const Title = html`
+    <h2 class="${styles.title}">${Component || 'Component'}<em>#${uid}</em></h2>
+  `;
 
-  return wire(ctx, ':sidepanel')`<section class="${styles.root}">
-    ${Title}
-    <div class="${styles.panelWrap}">
-      <div class="${styles.panelScroll}">
-        ${Lists}
+  return html`
+    <section class="${styles.root}">
+      ${Title}
+      <div class="${styles.panelWrap}">
+        <div class="${styles.panelScroll}">${Lists}</div>
       </div>
-    </div>
-  </section>`;
+    </section>
+  `;
 }

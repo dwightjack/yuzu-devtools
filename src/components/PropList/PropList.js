@@ -1,10 +1,13 @@
-import { wire } from 'hyperhtml';
+import { html } from 'lit-html';
 import Prop from '../Prop/Prop';
 import PropWatcher from '../PropWatcher/PropWatcher';
 import { noop } from '../utils';
 import * as styles from './PropList.styles';
 
-const empty = (keys) => wire(keys)`<p class="${styles.empty}">empty object</p>`;
+const empty = (keys) =>
+  html`
+    <p class="${styles.empty}">empty object</p>
+  `;
 
 export default function PropList({
   uid,
@@ -39,11 +42,11 @@ export default function PropList({
         })
       : '';
 
-  return wire(props)`
+  return html`
     <section class="${styles.root}">
-      <h3 class="${
-        styles.title
-      }"><span>${title}</span>&nbsp;${globalWatcher}</h3>
+      <h3 class="${styles.title}">
+        <span>${title}</span>&nbsp;${globalWatcher}
+      </h3>
       ${list}
     </section>
   `;

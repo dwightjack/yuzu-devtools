@@ -1,4 +1,4 @@
-import { bind } from 'hyperhtml';
+import { render, html } from 'lit-html';
 import Panels from '../Panels/Panels';
 import SidePanel from '../SidePanel/SidePanel';
 import MainPanel from '../MainPanel/MainPanel';
@@ -7,8 +7,6 @@ import { getSidePanelData, selectInstance } from '../../store/selectors';
 import './App.styles';
 
 export default function App({ container, actions = {} }) {
-  const $root = bind(container);
-
   // fixed context to prevent some elements to re-render
   const ctx = {};
 
@@ -18,8 +16,6 @@ export default function App({ container, actions = {} }) {
   };
 
   return {
-    $root,
-
     render(state) {
       const { roots } = state;
 
@@ -35,15 +31,21 @@ export default function App({ container, actions = {} }) {
         ctx,
       };
 
-      return $root`
-        <section>
-          ${Panels({
-            main: () => MainPanel({ ctx, render: () => treeRenderer(roots) }),
-            side: () => SidePanel(SidePanelData),
-            ctx,
-          })}
-        </section>
-        `;
+      render(
+        html`
+          <section>
+            ${
+              Panels({
+                main: () =>
+                  MainPanel({ ctx, render: () => treeRenderer(roots) }),
+                side: () => SidePanel(SidePanelData),
+                ctx,
+              })
+            }
+          </section>
+        `,
+        container,
+      );
     },
   };
 }

@@ -1,4 +1,4 @@
-import { wire } from 'hyperhtml';
+import { html } from 'lit-html';
 import cc from 'classcat';
 import * as styles from './Prop.styles';
 import { noop, parseValue } from '../utils';
@@ -15,16 +15,12 @@ export default function Prop({
   const { type, value: val /* , inspectable = false */ } = parseValue(value);
   const typeStyle = type ? styles[`${type}Style`] : '';
 
-  return wire(null, ':prop')`
+  return html`
     <div class="${styles.root}" data-prop>
       ${watchable ? PropWatcher({ uid, key, watched, onSelect }) : ''}
-      <span class="${cc([
-        styles.label,
-        { [styles.labelFirst]: !watchable },
-      ])}">${key}: </span><span class="${cc([
-    styles.value,
-    typeStyle,
-  ])}">${val}</span>
+      <span class="${cc([styles.label, { [styles.labelFirst]: !watchable }])}"
+        >${key}: </span
+      ><span class="${cc([styles.value, typeStyle])}">${val}</span>
     </div>
   `;
 }

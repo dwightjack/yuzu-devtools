@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['airbnb-base', 'prettier'],
+  extends: ['airbnb-base', 'plugin:lit/recommended', 'prettier'],
   root: true,
   env: {
     browser: true,
@@ -9,7 +9,7 @@ module.exports = {
     chrome: true,
     $0: true,
   },
-  plugins: ['prettier'],
+  plugins: ['lit', 'prettier'],
   rules: {
     'arrow-body-style': 0,
     'prettier/prettier': ['error'],

@@ -1,4 +1,4 @@
-import { wire } from 'hyperhtml';
+import { html } from 'lit-html';
 import * as styles from './AttrList.styles';
 
 const ATTRS = ['ref', 'detached'];
@@ -8,8 +8,11 @@ export default function AttrList(props) {
     const val = props[attr];
     const bool = typeof val === 'boolean' ? null : val;
     return val
-      ? wire(props)`<span class="${styles.root}" data-value="${bool}">${attr +
-          (bool ? '=' : '')}</span>`
+      ? html`
+          <span class="${styles.root}" data-value="${bool}"
+            >${attr + (bool ? '=' : '')}</span
+          >
+        `
       : null;
   }).filter((x) => x);
 }
