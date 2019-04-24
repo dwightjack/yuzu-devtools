@@ -1,18 +1,19 @@
 import { html } from 'lit-html';
-import { useEffect, virtual } from 'haunted';
+import { useEffect, component } from 'haunted';
 import Split from 'split-grid';
 
-import * as styles from './Panels.styles';
+// import * as styles from './Panels.styles';
 
-const noop = () => {};
-
-function Panels({ main = noop, side = noop }) {
+export default function Panels() {
   const gutter = document.createElement('div');
-  gutter.className = styles.gutter;
+  gutter.className = 'gutter';
 
   useEffect(
     () => {
       Split({
+        // breaks as a custom element
+        // so explicitly set the initial value
+        gridTemplateColumns: '1fr 6px 0.5fr',
         columnGutters: [
           {
             track: 1,
@@ -25,13 +26,51 @@ function Panels({ main = noop, side = noop }) {
   );
 
   return html`
-    <div class="${styles.root}">
-      <div class="${styles.main}">${main()}</div>
+    <style>
+      :host {
+        display: block;
+      }
+      .root {
+        display: grid;
+        height: 100vh;
+        grid-template-columns: 1fr 6px 0.5fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: 'main gutter side';
+      }
+      .main {
+        grid-area: main;
+        min-height: 0;
+        border-right: 1px solid var(--color-light);
+      }
+      .side {
+        grid-area: side;
+        min-height: 0;
+        border-left: 1px solid var(--color-light);
+      }
+      .main > *,
+      .side > * {
+        height: 100%;
+      }
+      .gutter {
+        grid-area: gutter;
+        background: var(--color-lighter);
+        background-image: linear-gradient(
+          to top,
+          var(--color-quiet),
+          var(--color-quiet)
+        );
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 2px 30px;
+      }
+    </style>
+    <div class="root">
+      <div class="main"><slot name="main"></slot></div>
       ${gutter}
-      <div class="${styles.side}">${side()}</div>
+      <div class="side"><slot name="side"></slot></div>
       <div></div>
     </div>
   `;
 }
 
-export default virtual(Panels);
+customElements.define('yzdt-panels', component(Panels));

@@ -1,8 +1,18 @@
 import { html } from 'lit-html';
-import * as styles from './MainPanel.styles';
+import { component } from 'haunted';
+// import * as styles from './MainPanel.styles';
 
-export default function MainPanel({ ctx, render }) {
+export default function MainPanel() {
   return html`
-    <div class="${styles.root}">${render(ctx)}</div>
+    <style>
+      :host {
+        display: block;
+        overflow: auto;
+        height: 100%;
+      }
+    </style>
+    <div><slot></slot></div>
   `;
 }
+
+customElements.define('yzdt-main-panel', component(MainPanel));

@@ -1,7 +1,8 @@
 import { html } from 'lit-html';
-import PropList from '../PropList/PropList';
 import { noop } from '../utils';
 import * as styles from './SidePanel.styles';
+import '../PropList/PropList';
+import '../Prop/Prop';
 
 const blankSlate = html`
   <p class="${styles.blankSlate}">
@@ -13,10 +14,9 @@ export default function SidePanel(props = {}) {
   const {
     uid,
     Component,
-    state,
-    options,
+    state = {},
+    options = {},
     watchers,
-    ctx,
     onPropCheck = noop,
   } = props;
 
@@ -24,27 +24,44 @@ export default function SidePanel(props = {}) {
     return blankSlate;
   }
 
-  const Lists = [
-    { title: 'Options', props: options },
-    {
-      title: 'State',
-      props: state,
-      uid,
-      onSelect: onPropCheck,
-      watchers,
-      watchable: true,
-    },
-  ].map((p) => PropList(p));
+  const optionProps = Object.entries(options).map(
+    ([key, value]) =>
+      html`
+        <yzdt-prop key=${key} .value=${value}></yzdt-prop>
+      `,
+  );
 
-  const Title = html`
-    <h2 class="${styles.title}">${Component || 'Component'}<em>#${uid}</em></h2>
-  `;
+  const stateProps = Object.entries(state).map(
+    ([key, value]) =>
+      html`
+        <yzdt-prop
+          uid=${uid}
+          key=${key}
+          .value=${value}
+          watchable
+          .onWatchChange=${onPropCheck}
+          ?watched=${watchers.includes(`${key}:${uid}`)}
+        >
+        </yzdt-prop>
+      `,
+  );
 
   return html`
     <section class="${styles.root}">
-      ${Title}
+      <h2 class="${styles.title}">
+        ${Component || 'Component'}<em>#${uid}</em>
+      </h2>
       <div class="${styles.panelWrap}">
-        <div class="${styles.panelScroll}">${Lists}</div>
+        <div class="${styles.panelScroll}">
+          <yzdt-prop-list title="Options">${optionProps}</yzdt-prop-list>
+          <yzdt-prop-list
+            title="State"
+            uid=${uid}
+            ?watchable=${true}
+            .onSelect=${onPropCheck}
+            >${stateProps}</yzdt-prop-list
+          >
+        </div>
       </div>
     </section>
   `;

@@ -1,15 +1,12 @@
 import { render, html } from 'lit-html';
-import Panels from '../Panels/Panels';
+import '../Panels/Panels';
 import SidePanel from '../SidePanel/SidePanel';
-import MainPanel from '../MainPanel/MainPanel';
+import '../MainPanel/MainPanel';
 import Tree from '../Tree/Tree';
 import { getSidePanelData, selectInstance } from '../../store/selectors';
 import './App.styles';
 
 export default function App({ container, actions = {} }) {
-  // fixed context to prevent some elements to re-render
-  const ctx = {};
-
   const renderActions = {
     onClick: actions.expandBranch,
     onSelect: actions.selectInstance,
@@ -24,24 +21,28 @@ export default function App({ container, actions = {} }) {
         getData: (id) => selectInstance(state, id),
       });
 
-      const SidePanelData = {
-        onPropCheck: (uid, key, watched) =>
-          actions.toggleWatcher({ uid, key, watched }),
-        ...getSidePanelData(state),
-        ctx,
-      };
+      // const SidePanelData = {
+      //   onPropCheck: (uid, key, watched) =>
+      //     actions.toggleWatcher({ uid, key, watched }),
+      //   ...getSidePanelData(state),
+      // };
+
+      // ${
+      //   Panels({
+      //     main: MainPanel({ render: () =>  }),
+      //     side: SidePanel(SidePanelData),
+      //   })
+      // }
 
       render(
         html`
           <section>
-            ${
-              Panels({
-                main: () =>
-                  MainPanel({ ctx, render: () => treeRenderer(roots) }),
-                side: () => SidePanel(SidePanelData),
-                ctx,
-              })
-            }
+            <yzdt-panels>
+              <yzdt-main-panel slot="main">
+                ${treeRenderer(roots)}
+              </yzdt-main-panel>
+            </yzdt-main-panel>
+
           </section>
         `,
         container,
