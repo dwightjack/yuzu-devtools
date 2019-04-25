@@ -1,86 +1,209 @@
-import { html } from 'lit-html';
+import { html, nothing } from 'lit-html';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
-import cc from 'classcat';
+import { classMap } from 'lit-html/directives/class-map';
+import { component } from 'haunted';
 import visibility from 'material-design-icons/action/svg/production/ic_visibility_24px.svg';
 import AttrList from '../AttrList/AttrList';
 import { noop } from '../utils';
 
-import * as styles from './Instance.styles';
+// import * as styles from './Instance.styles';
 
-function TagOpen(props) {
-  const { Component, uid, onSelect, attrs, watched } = props;
-  // prettier-ignore
-  const watchMark = watched
-    ? html`<span class="${styles.watchMark}" aria-label="Watching Component State">${unsafeHTML(visibility)}</span>`
-    : '';
+const Tag = component(() => {
   return html`
-    <span
-      class="${cc([styles.tag, { [styles.isWatched]: watched }])}"
-      @click="${() => onSelect({ uid })}"
-      >${Component}${watchMark}${attrs}</span
-    >
-  `;
-}
+    <style>
+      :host {
+        position: relative;
+        white-space: nowrap;
+        color: var(--color-accent);
+      }
 
-function TagClose(props) {
-  return html`
-    <span class="${cc([styles.tag, { [styles.isWatched]: props.watched }])}"
-      >${props.Component}</span
-    >
+      :host::after,
+      :host::before {
+        content: '';
+        color: var(--color-quiet);
+      }
+
+      :host::after {
+        content: '\\003e';
+      }
+      :host::before {
+        content: '\\003c';
+      }
+
+      :host(:last-child)::after {
+        content: '\\002f\\003e';
+      }
+
+      :host([watched]) {
+        font-weight: bold;
+      }
+    </style>
+    <slot></slot>
   `;
-}
+});
+
+customElements.define('yzdt-tag', Tag);
+
+// function TagOpen(props) {
+//   const { Component, uid, onSelect, attrs, watched } = props;
+//   // prettier-ignore
+//   const watchMark = watched
+//     ? html`<span class="${styles.watchMark}" aria-label="Watching Component State">${unsafeHTML(visibility)}</span>`
+//     : '';
+//   return html`
+//     <span
+//       class="${cc([styles.tag, { [styles.isWatched]: watched }])}"
+//       @click="${() => onSelect({ uid })}"
+//       >${Component}${watchMark}${attrs}</span
+//     >
+//   `;
+// }
+
+// function TagClose(props) {
+//   return html`
+//     <span class="${cc([styles.tag, { [styles.isWatched]: props.watched }])}"
+//       >${props.Component}</span
+//     >
+//   `;
+// }
 
 function ExpandBtn(props) {
   const { onClick, expanded, uid } = props;
   return html`
+    <style>
+      :host {
+        display: inline-block;
+        width: 1rem;
+        margin: -0.1em 0 0 -1rem;
+      }
+      button {
+        display: inline-block;
+        width: 1rem;
+        padding: 0;
+        border: none;
+        border-radius: 0;
+        background: none;
+        box-shadow: none;
+        color: currentColor;
+        font-size: 0.5rem;
+        vertical-align: middle;
+        text-align: center;
+      }
+
+      button::before {
+        content: '\\25b6';
+      }
+
+      button[aria-expanded='true']::before {
+        content: '\\25bc';
+      }
+    </style>
     <button
       type="button"
-      class="${cc([styles.expander, { [styles.isExpanderActive]: expanded }])}"
       @click="${() => onClick({ uid, expanded: !expanded })}"
       aria-label="Expand / collapse children"
       aria-expanded="${expanded}"
     ></button>
   `;
 }
+ExpandBtn.observedAttributes = ['expanded', 'uid'];
+customElements.define('yzdt-expand', component(ExpandBtn));
 
 export default function Instance(props = {}) {
   const {
-    Component,
+    name,
     uid,
-    childIds,
+    expandable = false,
     onClick = noop,
     onSelect = noop,
-    renderChild: Children = noop,
     expanded = false,
     selected = false,
     watched = false,
   } = props;
 
-  const classes = [styles.root, { [styles.isSelected]: selected }];
+  // prettier-ignore
+  const watchMark = watched
+    ? html`<span
+          class="watchMark"
+          aria-label="Watching Component State"
+          >${unsafeHTML(visibility)}</span
+        >
+      `
+    : nothing;
 
-  const tagOpen = TagOpen({
-    Component,
-    onSelect,
-    uid,
-    watched,
-    attrs: AttrList(props),
+  const classes = classMap({
+    root: true,
+    isSelected: selected,
   });
 
-  if (Array.isArray(childIds) && childIds.length > 0) {
-    classes.push({ [styles.isExpanded]: expanded });
-    // prettier-ignore
-    return html`
-      <div class="${cc(classes)}">
-        ${ExpandBtn({ uid, onClick, expanded })}${tagOpen}
-        <div class="${styles.childList}" ?hidden=${!expanded}>
-          ${Children(childIds)}
-        </div>
-        ${TagClose({ Component, watched })}
+  // prettier-ignore
+  return html`
+      <style>
+        :host {
+          position: relative;
+          display: block;
+          color: var(--color-quiet);
+          font-family: var(--font-monospace);
+          font-size: var(--font-size-m);
+          padding-left: 1rem;
+          line-height: 1.5em;
+          cursor: default;
+          user-select: none;
+        }
+
+        .root::before {
+          content: '$yuzu0';
+          position: absolute;
+          top: 0;
+          left: calc(50% - 50vw);
+          right: 0;
+          z-index: -1;
+          height: 1.5em;
+          padding-right: 1em;
+          background: var(--color-lighter);
+          visibility: hidden;
+          text-align: right;
+          font-style: italic;
+        }
+
+        yzdt-tag ~ yzdt-tag::before {
+          content: '\\003c\\002f';
+        }
+
+        yzdt-tag ~ yzdt-tag::after {
+          content: '\\003e';
+        }
+
+        .isSelected::before {
+          visibility: visible;
+        }
+
+        .watchMark {
+          display: inline-block;
+          width: 0.8em;
+          height: 0.8em;
+          margin-top: -1em;
+          margin-right: 0.2em;
+          vertical-align: super;
+          fill: currentColor;
+        }
+      </style>
+      <div class=${classes}>
+        ${expandable ? html`<yzdt-expand .onClick=${onClick} uid=${uid} ?expanded=${expanded}></yzdt-expand>` : nothing}
+        <yzdt-tag
+          ?watched=${watched}
+          @click=${() => onSelect({ uid })}
+        >${name}${watchMark}${AttrList(props)}</yzdt-tag>
+        ${
+          expandable ? html`
+            <div ?hidden=${!expanded}>
+              <slot></slot>
+            </div>
+            <yzdt-tag ?watched=${watched}>${name}</yzdt-tag>`
+          : nothing
+        }
       </div>
     `;
-  }
-
-  return html`
-    <div class="${cc(classes)}">${tagOpen}</div>
-  `;
 }
+Instance.observedAttributes = ['name', 'uid', 'expanded', 'expandable'];
+customElements.define('yzdt-component', component(Instance));
