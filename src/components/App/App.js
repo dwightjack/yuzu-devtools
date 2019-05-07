@@ -1,9 +1,10 @@
 import { render, html } from 'lit-html';
-import '../Panels/Panels';
-import SidePanel from '../SidePanel/SidePanel';
-import '../MainPanel/MainPanel';
-import Tree from '../Tree/Tree';
 import { getSidePanelData, selectInstance } from '../../store/selectors';
+import Tree from '../Tree/Tree';
+import '../Panels/Panels';
+import '../MainPanel/MainPanel';
+import '../SidePanel/SidePanel';
+import '../PropList/PropList';
 import './App.styles';
 
 export default function App({ container, actions = {} }) {
@@ -11,6 +12,9 @@ export default function App({ container, actions = {} }) {
     onClick: actions.expandBranch,
     onSelect: actions.selectInstance,
   };
+
+  const onPropCheck = (uid, key, watched) =>
+    actions.toggleWatcher({ uid, key, watched });
 
   return {
     render(state) {
@@ -21,18 +25,13 @@ export default function App({ container, actions = {} }) {
         getData: (id) => selectInstance(state, id),
       });
 
-      // const SidePanelData = {
-      //   onPropCheck: (uid, key, watched) =>
-      //     actions.toggleWatcher({ uid, key, watched }),
-      //   ...getSidePanelData(state),
-      // };
-
-      // ${
-      //   Panels({
-      //     main: MainPanel({ render: () =>  }),
-      //     side: SidePanel(SidePanelData),
-      //   })
-      // }
+      const {
+        Component,
+        uid,
+        options: cOptions = {},
+        state: cState = {},
+        watchers,
+      } = getSidePanelData(state);
 
       render(
         html`
@@ -41,7 +40,17 @@ export default function App({ container, actions = {} }) {
               <yzdt-main-panel slot="main">
                 ${treeRenderer(roots)}
               </yzdt-main-panel>
-            </yzdt-main-panel>
+              <yzdt-side-panel slot="side" name=${Component} uid=${uid}>
+                <yzdt-prop-list name="Options" .props=${cOptions}></yzdt-prop-list>
+                <yzdt-prop-list
+                  name="State"
+                  uid=${uid}
+                  ?watchable=${true}
+                  .onSelect=${onPropCheck}
+                  .props=${cState}
+                  .watchers=${watchers}
+                  ></yzdt-prop-list>
+              </yzdt-side-panel>
 
           </section>
         `,

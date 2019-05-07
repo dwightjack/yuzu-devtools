@@ -1,7 +1,5 @@
 import { html } from 'lit-html';
 import { component } from 'haunted';
-import cc from 'classcat';
-import * as styles from './Prop.styles';
 import { noop, parseValue } from '../utils';
 import '../PropWatcher/PropWatcher';
 
@@ -11,11 +9,9 @@ export default function Prop({
   value,
   watchable = false,
   watched = false,
-  onSelect = noop,
+  onWatchChange = noop,
 }) {
   const { type, value: val /* , inspectable = false */ } = parseValue(value);
-  const typeStyle = type ? styles[`${type}Style`] : '';
-
   return html`
     <style>
       :host {
@@ -55,21 +51,19 @@ export default function Prop({
         display: inline-block;
       }
     </style>
-    <div data-prop>
-      ${
-        // prettier-ignore
-        watchable
+    ${
+      // prettier-ignore
+      watchable
           ? html`
               <yzdt-watcher
                 uid=${uid}
                 key=${key}
-                .watched=${watched}
-                .onToggle=${onSelect}
+                ?watched=${watched}
+                .onToggle=${onWatchChange}
               ></yzdt-watcher>`
           : ''
-      }<span class="label">${key}: </span
-      ><span class="value" data-type=${type}>${val}</span>
-    </div>
+    }<span class="label">${key}: </span
+    ><span class="value" data-type=${type}>${val}</span>
   `;
 }
 

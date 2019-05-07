@@ -1,47 +1,29 @@
 import { html } from 'lit-html';
-// import Prop from '../Prop/Prop';
 import { component } from 'haunted';
 import { noop } from '../utils';
 import '../Prop/Prop';
 import '../PropWatcher/PropWatcher';
-// import * as styles from './PropList.styles';
 
 export default function PropList({
   uid,
-  title = '',
+  name = '',
   onSelect = noop,
-  // props = {},
-  watched = false,
-  // watchers = [],
+  props = {},
+  watchers = [],
   watchable = false,
 }) {
-  // const keys = Object.keys(props);
-  // const list =
-  //   keys.length > 0
-  //     ? keys.map((key) => {
-  //         return Prop({
-  //           key,
-  //           uid,
-  //           watchable,
-  //           value: props[key],
-  //           onSelect,
-  //           watched: watchable && watchers.includes(`${uid}:${key}`),
-  //         });
-  //       })
-  //     : html`
-  //         <p class="${styles.empty}">empty object</p>
-  //       `;
-
   const globalWatcher = watchable
     ? html`
         <yzdt-watcher
           key="*"
           uid=${uid}
-          ?watched="${watched}"
+          ?watched="${watchers.includes(`${uid}:*`)}"
           .onToggle=${onSelect}
         ></yzdt-watcher>
       `
     : '';
+
+  const entries = Object.entries(props);
 
   return html`
     <style>
@@ -67,11 +49,37 @@ export default function PropList({
       }
     </style>
     <section>
-      <h3 class="title"><span>${title}</span>&nbsp;${globalWatcher}</h3>
-      <slot> <p class="empty">empty object</p> </slot>
+      <h3 class="title"><span>${name}</span>&nbsp;${globalWatcher}</h3>
+      ${
+        entries.length
+          ? entries.map(
+              ([key, value]) =>
+                html`
+                  <yzdt-prop
+                    uid=${uid}
+                    key=${key}
+                    .value=${value}
+                    ?watchable=${watchable}
+                    .onWatchChange=${onSelect}
+                    ?watched=${watchers.includes(`${uid}:${key}`)}
+                  >
+                  </yzdt-prop>
+                `,
+            )
+          : html`
+              <p class="empty">empty object</p>
+            `
+      }
     </section>
   `;
 }
 
-PropList.observedAttributes = ['uid', 'watched', 'watchable'];
+PropList.observedAttributes = [
+  'name',
+  'uid',
+  'watched',
+  'watchable',
+  'watchers',
+  'props',
+];
 customElements.define('yzdt-prop-list', component(PropList));

@@ -44,7 +44,7 @@ export default function Watcher(props) {
         clip-path: inset(50%);
       }
 
-      input:checked + svg {
+      :host([watched]) svg {
         visibility: visible;
         fill: var(--color-accent-secondary);
       }
@@ -52,7 +52,7 @@ export default function Watcher(props) {
     <label title="Watch changes">
       <input
         type="checkbox"
-        ?checked="${watched}"
+        ?checked=${watched}
         @click="${() => onToggle(uid, key, !watched)}"
         value="${`${uid}:${key}`}"
       />

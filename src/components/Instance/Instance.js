@@ -3,8 +3,8 @@ import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 import { classMap } from 'lit-html/directives/class-map';
 import { component } from 'haunted';
 import visibility from 'material-design-icons/action/svg/production/ic_visibility_24px.svg';
-import AttrList from '../AttrList/AttrList';
 import { noop } from '../utils';
+import '../AttrList/AttrList';
 
 // import * as styles from './Instance.styles';
 
@@ -12,33 +12,34 @@ const Tag = component(() => {
   return html`
     <style>
       :host {
-        position: relative;
-        white-space: nowrap;
         color: var(--color-accent);
       }
 
-      :host::after,
-      :host::before {
-        content: '';
+      span::after,
+      span::before {
         color: var(--color-quiet);
       }
 
-      :host::after {
+      span::after {
         content: '\\003e';
       }
-      :host::before {
+      span::before {
         content: '\\003c';
       }
 
-      :host(:last-child)::after {
+      :host([selfclose]) span::after {
         content: '\\002f\\003e';
+      }
+
+      :host([close]) span::before {
+        content: '\\003c\\002f';
       }
 
       :host([watched]) {
         font-weight: bold;
       }
     </style>
-    <slot></slot>
+    <span><slot></slot></span>
   `;
 });
 
@@ -77,8 +78,8 @@ function ExpandBtn(props) {
         margin: -0.1em 0 0 -1rem;
       }
       button {
-        display: inline-block;
-        width: 1rem;
+        display: block;
+        width: 100%;
         padding: 0;
         border: none;
         border-radius: 0;
@@ -119,6 +120,8 @@ export default function Instance(props = {}) {
     expanded = false,
     selected = false,
     watched = false,
+    ref,
+    detached,
   } = props;
 
   // prettier-ignore
@@ -139,9 +142,11 @@ export default function Instance(props = {}) {
   // prettier-ignore
   return html`
       <style>
-        :host {
+        .root {
           position: relative;
-          display: block;
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
           color: var(--color-quiet);
           font-family: var(--font-monospace);
           font-size: var(--font-size-m);
@@ -149,6 +154,11 @@ export default function Instance(props = {}) {
           line-height: 1.5em;
           cursor: default;
           user-select: none;
+        }
+
+        .children {
+          flex-grow: 1;
+          flex-basis: 100%;
         }
 
         .root::before {
@@ -164,14 +174,6 @@ export default function Instance(props = {}) {
           visibility: hidden;
           text-align: right;
           font-style: italic;
-        }
-
-        yzdt-tag ~ yzdt-tag::before {
-          content: '\\003c\\002f';
-        }
-
-        yzdt-tag ~ yzdt-tag::after {
-          content: '\\003e';
         }
 
         .isSelected::before {
@@ -193,17 +195,26 @@ export default function Instance(props = {}) {
         <yzdt-tag
           ?watched=${watched}
           @click=${() => onSelect({ uid })}
-        >${name}${watchMark}${AttrList(props)}</yzdt-tag>
+          ?selfclose=${!expandable}
+        >${name}${watchMark}<yzdt-attrs .ref=${ref} ?detached=${detached}></yzdt-attrs></yzdt-tag>
         ${
           expandable ? html`
-            <div ?hidden=${!expanded}>
+            <div class="children" ?hidden=${!expanded}>
               <slot></slot>
             </div>
-            <yzdt-tag ?watched=${watched}>${name}</yzdt-tag>`
+            <yzdt-tag ?watched=${watched} close>${name}</yzdt-tag>`
           : nothing
         }
       </div>
     `;
 }
-Instance.observedAttributes = ['name', 'uid', 'expanded', 'expandable'];
+Instance.observedAttributes = [
+  'name',
+  'uid',
+  'expanded',
+  'expandable',
+  'selected',
+  'ref',
+  'detached',
+];
 customElements.define('yzdt-component', component(Instance));

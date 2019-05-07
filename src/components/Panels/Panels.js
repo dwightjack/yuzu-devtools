@@ -37,20 +37,23 @@ export default function Panels() {
         grid-template-rows: 1fr;
         grid-template-areas: 'main gutter side';
       }
-      .main {
+
+      ::slotted([slot='main']) {
         grid-area: main;
         min-height: 0;
         border-right: 1px solid var(--color-light);
       }
-      .side {
+
+      ::slotted([slot='side']) {
         grid-area: side;
         min-height: 0;
         border-left: 1px solid var(--color-light);
       }
-      .main > *,
-      .side > * {
+
+      ::slotted([slot]) > * {
         height: 100%;
       }
+
       .gutter {
         grid-area: gutter;
         background: var(--color-lighter);
@@ -65,9 +68,7 @@ export default function Panels() {
       }
     </style>
     <div class="root">
-      <div class="main"><slot name="main"></slot></div>
-      ${gutter}
-      <div class="side"><slot name="side"></slot></div>
+      <slot name="main"></slot> ${gutter} <slot name="side"></slot>
       <div></div>
     </div>
   `;

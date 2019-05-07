@@ -1,68 +1,64 @@
 import { html } from 'lit-html';
-import { noop } from '../utils';
-import * as styles from './SidePanel.styles';
-import '../PropList/PropList';
-import '../Prop/Prop';
+import { component } from 'haunted';
 
 const blankSlate = html`
-  <p class="${styles.blankSlate}">
+  <style>
+    .blank {
+      margin: 0;
+      padding: var(--gutter);
+      color: var(--color-quiet);
+      font-size: var(--font-size-m);
+      font-style: italic;
+    }
+  </style>
+  <p class="blank">
     Select a component on the left panel to inspect its properties
   </p>
 `;
 
-export default function SidePanel(props = {}) {
-  const {
-    uid,
-    Component,
-    state = {},
-    options = {},
-    watchers,
-    onPropCheck = noop,
-  } = props;
-
+export default function SidePanel({ uid, name } = {}) {
   if (!uid) {
     return blankSlate;
   }
 
-  const optionProps = Object.entries(options).map(
-    ([key, value]) =>
-      html`
-        <yzdt-prop key=${key} .value=${value}></yzdt-prop>
-      `,
-  );
-
-  const stateProps = Object.entries(state).map(
-    ([key, value]) =>
-      html`
-        <yzdt-prop
-          uid=${uid}
-          key=${key}
-          .value=${value}
-          watchable
-          .onWatchChange=${onPropCheck}
-          ?watched=${watchers.includes(`${key}:${uid}`)}
-        >
-        </yzdt-prop>
-      `,
-  );
-
   return html`
-    <section class="${styles.root}">
-      <h2 class="${styles.title}">
-        ${Component || 'Component'}<em>#${uid}</em>
-      </h2>
-      <div class="${styles.panelWrap}">
-        <div class="${styles.panelScroll}">
-          <yzdt-prop-list title="Options">${optionProps}</yzdt-prop-list>
-          <yzdt-prop-list
-            title="State"
-            uid=${uid}
-            ?watchable=${true}
-            .onSelect=${onPropCheck}
-            >${stateProps}</yzdt-prop-list
-          >
-        </div>
+    <style>
+      .root {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        grid-template-columns: 1fr;
+        grid-template-areas: 'title' 'wrap';
+        height: 100%;
+      }
+      .title {
+        grid-area: title;
+        margin: 0;
+        padding: 8px var(--gutter);
+        font-size: var(--font-size-l);
+        font-weight: bold;
+        line-height: 1.2;
+        background-color: var(--color-lighter);
+      }
+      .title > em {
+        font-size: 0.75em;
+      }
+      .panelWrap {
+        grid-area: wrap;
+        min-height: 0;
+      }
+      .panelScroll {
+        overflow-y: auto;
+        height: 100%;
+      }
+    </style>
+    <section class="root">
+      <h2 class="title">${name || 'Component'}<em>#${uid}</em></h2>
+      <div class="panelWrap">
+        <div class="panelScroll"><slot></slot></div>
       </div>
     </section>
   `;
 }
+
+SidePanel.observedAttributes = ['name', 'uid'];
+customElements.define('yzdt-side-panel', component(SidePanel));

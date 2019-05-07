@@ -11,13 +11,18 @@ export default function Tree({ actions, getData = () => ({}) }) {
         expanded = false,
         selected = false,
         watched = false,
+        ref,
+        detached,
       } = getData(id);
+
       const { onClick, onSelect } = actions;
       const hasChildren = Array.isArray(childIds) && childIds.length > 0;
       return html`
         <yzdt-component
           name=${Component}
           uid=${uid}
+          .ref=${ref}
+          ?detached=${detached}
           ?expandable=${hasChildren}
           ?expanded=${expanded}
           ?selected=${selected}
