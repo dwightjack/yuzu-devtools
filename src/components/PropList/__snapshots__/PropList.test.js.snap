@@ -1,101 +1,60 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PropList matches default snapshot 1`] = `
-<section
-  class="css-1ak8wuw"
-  style=""
->
-  
-      
-  <h3
-    class="css-9omne8"
-    style=""
-  >
-    <span
-      style=""
-    >
+<section>
+  <h3 class="title">
+    <span>
       TITLE
-      
     </span>
     &nbsp;
-    
-    
   </h3>
-  
-      
-  <prop
-    key="name"
-    onSelect={[Function]}
-    style=""
-    uid="_0"
-    value="John"
-    watchable={false}
-    watched={false}
-  />
-  <prop
-    key="surname"
-    onSelect={[Function]}
-    style=""
-    uid="_0"
-    value="Doe"
-    watchable={false}
-    watched={false}
-  />
-  
-  
-    
+  <yzdt-prop uid="_0"
+             key="name"
+  >
+  </yzdt-prop>
+  <yzdt-prop uid="_0"
+             key="surname"
+  >
+  </yzdt-prop>
+</section>
+`;
+
+exports[`PropList matches empty snapshot 1`] = `
+<section>
+  <h3 class="title">
+    <span>
+      TITLE
+    </span>
+    &nbsp;
+  </h3>
+  <p class="empty">
+    empty object
+  </p>
 </section>
 `;
 
 exports[`PropList matches watchable snapshot 1`] = `
-<section
-  class="css-1ak8wuw"
-  style=""
->
-  
-      
-  <h3
-    class="css-9omne8"
-    style=""
-  >
-    <span
-      style=""
-    >
+<section>
+  <h3 class="title">
+    <span>
       WATCHABLE LIST
-      
     </span>
     &nbsp;
-    <propwatcher
-      key="*"
-      onSelect={[Function]}
-      style=""
-      uid="_0"
-      watched={false}
-    />
-    
+    <yzdt-watcher key="*"
+                  uid="_0"
+    >
+    </yzdt-watcher>
   </h3>
-  
-      
-  <prop
-    key="name"
-    onSelect={[Function]}
-    style=""
-    uid="_0"
-    value="John"
-    watchable={true}
-    watched={true}
-  />
-  <prop
-    key="surname"
-    onSelect={[Function]}
-    style=""
-    uid="_0"
-    value="Doe"
-    watchable={true}
-    watched={false}
-  />
-  
-  
-    
+  <yzdt-prop uid="_0"
+             key="name"
+             watchable
+             watched
+  >
+  </yzdt-prop>
+  <yzdt-prop uid="_0"
+             key="surname"
+             watchable
+  >
+  </yzdt-prop>
 </section>
 `;

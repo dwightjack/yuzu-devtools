@@ -18,7 +18,7 @@ export default function PropList({
           key="*"
           uid=${uid}
           ?watched="${watchers.includes(`${uid}:*`)}"
-          .onToggle=${onSelect}
+          @toggle=${({ detail }) => onSelect(uid, '*', detail.watched)}
         ></yzdt-watcher>
       `
     : '';

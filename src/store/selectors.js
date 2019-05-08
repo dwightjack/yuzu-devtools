@@ -1,3 +1,11 @@
+const extract = (obj, key) => {
+  const val = obj[key];
+  if (typeof val === 'string') {
+    return JSON.parse(val);
+  }
+  return val;
+};
+
 export const getSidePanelData = (state = {}) => {
   const { uiSelectedInstance, tree, watchers } = state;
 
@@ -6,8 +14,8 @@ export const getSidePanelData = (state = {}) => {
   }
   const baseObj = { ...tree[uiSelectedInstance] };
 
-  baseObj.state = baseObj.state && JSON.parse(baseObj.state);
-  baseObj.options = baseObj.options && JSON.parse(baseObj.options);
+  baseObj.state = extract(baseObj, 'state');
+  baseObj.options = extract(baseObj, 'options');
 
   return {
     watchers: watchers.filter((w) => w.startsWith(`${uiSelectedInstance}:`)),

@@ -1,20 +1,18 @@
 import Tree from './Tree';
-import Instance from '../Instance/Instance';
+import { toHTML } from '../test-utils';
 
-jest.mock('../Instance/Instance', () => {
-  const { mockComponent } = require('../test-utils');
-  return jest.fn(mockComponent('Instance'));
-});
-
-describe('SidePanel', () => {
+describe('Tree', () => {
   let renderer;
   let getData;
+  const dummyData = ['_0', '_1'];
   const actions = {
     myAction: () => {},
   };
 
+  const dataMock = (id) => ({ uid: id, Component: `DEMO${id}` });
+
   beforeEach(() => {
-    getData = jest.fn((id) => ({ id }));
+    getData = jest.fn(dataMock);
     renderer = Tree({
       actions,
       getData,
@@ -22,18 +20,18 @@ describe('SidePanel', () => {
   });
 
   test('matches default snapshot', () => {
-    expect(renderer(['_0', '_1'])).toMatchSnapshot();
+    const { html } = toHTML(renderer(dummyData));
+    expect(html).toMatchSnapshot();
   });
 
-  test('two "PropList"s', () => {
-    Instance.mockClear();
-    renderer(['_0', '_1']);
-    expect(Instance).toHaveBeenCalledTimes(2);
-  });
-
-  test('Instance receive the renderer itself as prop', () => {
-    Instance.mockClear();
-    renderer(['_0']);
-    expect(Instance.mock.calls[0][0].renderChild).toBe(renderer);
+  test('matches nested snapshot', () => {
+    const childIds = ['_0-1'];
+    const spy = jest.fn(renderer);
+    getData.mockImplementationOnce((id) => ({
+      ...dataMock(id),
+      childIds,
+    }));
+    const { html } = toHTML(spy(dummyData));
+    expect(html).toMatchSnapshot();
   });
 });

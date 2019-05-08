@@ -1,184 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Instance matches default snapshot 1`] = `
-<div
-  class="css-eus7rr"
-  style=""
->
-  
-      
-  <span
-    class="css-1g7xg9f"
-    style=""
-  >
+<div class="root">
+  <yzdt-tag selfclose>
     DemoComponent
-    
-    
-    
-    <attrlist
-      Component="DemoComponent"
-      style=""
-      uid="_0"
-    />
-    
-  </span>
-  
-  
-    
+    <yzdt-attrs>
+    </yzdt-attrs>
+  </yzdt-tag>
 </div>
 `;
 
 exports[`Instance matches full props snapshot 1`] = `
-<div
-  class="css-eus7rr css-n12pod css-0"
-  style=""
->
-  
-        
-  <button
-    aria-expanded={true}
-    aria-label="Expand / collapse children"
-    class="css-a1ymjf css-spbx5y"
-    style=""
-    type="button"
-  />
-  
-  <span
-    class="css-1g7xg9f css-1xxe9l9"
-    style=""
+<div class="root isSelected">
+  <button type="button"
+          class="expander"
+          aria-label="Expand / collapse children"
+          aria-expanded="true"
   >
+  </button>
+  <yzdt-tag watched>
     DemoComponent
-    
-    <span
-      aria-label="Watching Component State"
-      class="css-164ro37"
-      style=""
+    <span class="watchMark"
+          aria-label="Watching Component State"
     >
-      <svg
-        height="24"
-        style=""
-        viewBox="0 0 24 24"
-        width="24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
-          style=""
-        />
+      <svg title="ic_visibility_24px.svg">
       </svg>
-      
     </span>
-    
-    <attrlist
-      Component="DemoComponent"
-      childIds={
-        Array [
-          0,
-          1,
-        ]
-      }
-      expanded={true}
-      renderChild={[Function]}
-      selected={true}
-      style=""
-      uid="_0"
-      watched={true}
-    />
-    
-  </span>
-  
-  
-        
-  <div
-    class="css-0"
-    hidden={false}
-    style=""
-  >
-    
-          
-    CHILDREN
-    
-    
-        
+    <yzdt-attrs detached>
+    </yzdt-attrs>
+  </yzdt-tag>
+  <div class="children">
+    <slot>
+    </slot>
   </div>
-  
-        
-  <span
-    class="css-1g7xg9f css-1xxe9l9"
-    style=""
+  <yzdt-tag close
+            watched
   >
     DemoComponent
-    
-  </span>
-  
-  
-      
-</div>
-`;
-
-exports[`Instance matches nested snapshot 1`] = `
-<div
-  class="css-eus7rr"
-  style=""
->
-  
-        
-  <button
-    aria-expanded={false}
-    aria-label="Expand / collapse children"
-    class="css-a1ymjf"
-    style=""
-    type="button"
-  />
-  
-  <span
-    class="css-1g7xg9f"
-    style=""
-  >
-    DemoComponent
-    
-    
-    
-    <attrlist
-      Component="DemoComponent"
-      childIds={
-        Array [
-          0,
-          1,
-        ]
-      }
-      renderChild={[Function]}
-      style=""
-      uid="_0"
-    />
-    
-  </span>
-  
-  
-        
-  <div
-    class="css-0"
-    hidden={true}
-    style=""
-  >
-    
-          
-    CHILDREN
-    
-    
-        
-  </div>
-  
-        
-  <span
-    class="css-1g7xg9f"
-    style=""
-  >
-    DemoComponent
-    
-  </span>
-  
-  
-      
+  </yzdt-tag>
 </div>
 `;

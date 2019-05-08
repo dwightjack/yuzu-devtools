@@ -59,7 +59,7 @@ export default function Prop({
                 uid=${uid}
                 key=${key}
                 ?watched=${watched}
-                .onToggle=${onWatchChange}
+                @toggle=${({ detail }) => onWatchChange(uid, key, detail.watched)}
               ></yzdt-watcher>`
           : ''
     }<span class="label">${key}: </span

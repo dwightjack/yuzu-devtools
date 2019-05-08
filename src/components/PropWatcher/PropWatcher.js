@@ -2,11 +2,14 @@ import { html } from 'lit-html';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 import { component } from 'haunted';
 import visibility from 'material-design-icons/action/svg/production/ic_visibility_24px.svg';
-import { noop } from '../utils';
-// import * as styles from './PropWatcher.styles';
+import { useHostEvent } from '../hooks';
 
 export default function Watcher(props) {
-  const { uid, key, watched = false, onToggle = noop } = props;
+  const { uid, key, watched = false } = props;
+
+  const dispatchClick = useHostEvent('toggle', () => ({ watched: !watched }), [
+    watched,
+  ]);
 
   return html`
     <style>
@@ -53,7 +56,7 @@ export default function Watcher(props) {
       <input
         type="checkbox"
         ?checked=${watched}
-        @click="${() => onToggle(uid, key, !watched)}"
+        @click="${dispatchClick}"
         value="${`${uid}:${key}`}"
       />
       ${unsafeHTML(visibility)}

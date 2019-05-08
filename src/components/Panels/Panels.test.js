@@ -1,21 +1,19 @@
 import Split from 'split-grid';
-import { fireEvent } from 'dom-testing-library';
-import Panels from './Panels';
+import { virtual } from 'haunted';
+import { toHTMLAsync } from '../test-utils';
 
-const ctx = {};
+const Panels = virtual(require('./Panels').default);
 
 jest.mock('split-grid', () => jest.fn(() => ''));
 
 describe('Panels', () => {
-  test('matches default snapshot', () => {
-    expect(
-      Panels({ ctx, main: () => 'MAIN', side: () => 'SIDE' }),
-    ).toMatchSnapshot();
+  test('matches default snapshot', async () => {
+    const { html } = await toHTMLAsync(Panels);
+    expect(html).toMatchSnapshot();
   });
 
-  test('Calls module "Split" on connected', () => {
-    const root = Panels({ ctx, main: () => 'MAIN', side: () => 'SIDE' });
-    fireEvent(root, new Event('connected'));
+  test('Calls module "Split" on connected', async () => {
+    await toHTMLAsync(Panels);
     expect(Split).toHaveBeenCalled();
   });
 });

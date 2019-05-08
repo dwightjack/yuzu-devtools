@@ -5,7 +5,7 @@ import '../Panels/Panels';
 import '../MainPanel/MainPanel';
 import '../SidePanel/SidePanel';
 import '../PropList/PropList';
-import './App.styles';
+import { globalStyles } from './App.styles';
 
 export default function App({ container, actions = {} }) {
   const renderActions = {
@@ -15,6 +15,11 @@ export default function App({ container, actions = {} }) {
 
   const onPropCheck = (uid, key, watched) =>
     actions.toggleWatcher({ uid, key, watched });
+
+  const parent = container.parentElement;
+  const styles = document.createDocumentFragment();
+  render(globalStyles, styles);
+  parent.prepend(styles);
 
   return {
     render(state) {

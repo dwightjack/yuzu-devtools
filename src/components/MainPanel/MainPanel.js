@@ -1,6 +1,5 @@
 import { html } from 'lit-html';
 import { component } from 'haunted';
-// import * as styles from './MainPanel.styles';
 
 export default function MainPanel() {
   return html`

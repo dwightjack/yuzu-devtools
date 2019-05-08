@@ -17,7 +17,7 @@ export default function AttrList(props) {
         }
         b {
           color: var(--color-accent);
-          font-weight: normal;
+          font-weight: inherit;
         }
         </style>
         <span>

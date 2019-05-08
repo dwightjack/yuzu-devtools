@@ -2,8 +2,6 @@ import { html } from 'lit-html';
 import { useEffect, component } from 'haunted';
 import Split from 'split-grid';
 
-// import * as styles from './Panels.styles';
-
 export default function Panels() {
   const gutter = document.createElement('div');
   gutter.className = 'gutter';
