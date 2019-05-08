@@ -6,22 +6,19 @@ export default function Panels() {
   const gutter = document.createElement('div');
   gutter.className = 'gutter';
 
-  useEffect(
-    () => {
-      Split({
-        // breaks as a custom element
-        // so explicitly set the initial value
-        gridTemplateColumns: '1fr 6px 0.5fr',
-        columnGutters: [
-          {
-            track: 1,
-            element: gutter,
-          },
-        ],
-      });
-    },
-    [gutter],
-  );
+  useEffect(() => {
+    Split({
+      // breaks as a custom element
+      // so explicitly set the initial value
+      gridTemplateColumns: '1fr 6px 0.5fr',
+      columnGutters: [
+        {
+          track: 1,
+          element: gutter,
+        },
+      ],
+    });
+  }, [gutter]);
 
   return html`
     <style>

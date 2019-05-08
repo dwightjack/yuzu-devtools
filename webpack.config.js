@@ -8,7 +8,7 @@ module.exports = Object.assign({}, base, {
     initialize: './src/initialize.js',
   },
   plugins: [
-    new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin(),
     new CopyWebpackPlugin([
       {
         from: './src/*.html',

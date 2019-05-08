@@ -51,9 +51,8 @@ export default function Prop({
         display: inline-block;
       }
     </style>
-    ${
-      // prettier-ignore
-      watchable
+    ${// prettier-ignore
+    watchable
           ? html`
               <yzdt-watcher
                 uid=${uid}
@@ -61,8 +60,9 @@ export default function Prop({
                 ?watched=${watched}
                 @toggle=${({ detail }) => onWatchChange(uid, key, detail.watched)}
               ></yzdt-watcher>`
-          : ''
-    }<span class="label">${key}: </span
+          : ''}<span
+      class="label"
+      >${key}: </span
     ><span class="value" data-type=${type}>${val}</span>
   `;
 }
