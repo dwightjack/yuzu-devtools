@@ -14,6 +14,7 @@ const store = createStore(
     uiSelectedInstance: '_ui.4',
   },
   reducers,
+  ['watchers'],
 );
 
 const actions = createActions(store);

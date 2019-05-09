@@ -1,6 +1,6 @@
 module.exports = {
   roots: ['_ui.0', '_ui.5'],
-  watchers: ['_ui.4:*'],
+  watchers: [],
   tree: {
     '_ui.0': {
       uid: '_ui.0',

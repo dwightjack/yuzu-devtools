@@ -13,6 +13,23 @@ export const createEffects = (hooksExec) => ({
     }
   },
 
+  'hooks:init': function hooksInit({ watchers }, prev, { uid }) {
+    console.log(uid);
+    const match = uid && `${uid}:`;
+    if (!match) {
+      return;
+    }
+    watchers.forEach((hash) => {
+      if (hash.startsWith(match)) {
+        // requestAnimationFrame(() => {
+        //   requestAnimationFrame(() => {
+        //   });
+        // });
+        hooksExec(`logStart`, hash);
+      }
+    });
+  },
+
   'ui:select': function uiSelect({ uiSelectedInstance }) {
     hooksExec(`setGlobal`, uiSelectedInstance);
     hooksExec(`setCurrent`, uiSelectedInstance);
@@ -23,8 +40,8 @@ export const createEffects = (hooksExec) => ({
   },
 });
 
-export const match = (effects) => (state, prevState, { type } = {}) => {
+export const match = (effects) => (state, prevState, { type, action } = {}) => {
   if (type && effects[type]) {
-    effects[type](state, prevState);
+    effects[type](state, prevState, action);
   }
 };
