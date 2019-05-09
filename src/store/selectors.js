@@ -1,10 +1,12 @@
-const extract = (obj, key) => {
+function extract(obj, key) {
   const val = obj[key];
-  if (typeof val === 'string') {
+  try {
     return JSON.parse(val);
+  } catch (e) {
+    console.warn(`Unable to parse key ${key}`, e); // eslint-disable-line no-console
   }
   return val;
-};
+}
 
 export const getSidePanelData = (state = {}) => {
   const { uiSelectedInstance, tree, watchers } = state;
