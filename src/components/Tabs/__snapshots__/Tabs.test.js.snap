@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tabs default snapshot 1`] = `
+<ul role="tablist">
+  <li role="presentation">
+    <a role="tab"
+       href="#first-panel"
+       id="first-tab"
+       aria-selected="true"
+    >
+      FIRST
+    </a>
+  </li>
+  <li role="presentation">
+    <a role="tab"
+       href="#second-panel"
+       id="second-tab"
+       aria-selected="false"
+    >
+      SECOND
+    </a>
+  </li>
+</ul>
+<section role="tabpanel"
+         id="first-panel"
+         aria-labelledby="first-tab"
+>
+  <slot name="first">
+  </slot>
+</section>
+<section role="tabpanel"
+         id="second-panel"
+         aria-labelledby="second-tab"
+         hidden
+>
+  <slot name="second">
+  </slot>
+</section>
+`;
