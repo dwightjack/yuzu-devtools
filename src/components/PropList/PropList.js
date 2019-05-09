@@ -1,48 +1,83 @@
-import { wire } from 'hyperhtml';
-import Prop from '../Prop/Prop';
-import PropWatcher from '../PropWatcher/PropWatcher';
+import { html } from 'lit-html';
+import { component } from 'haunted';
 import { noop } from '../utils';
-import * as styles from './PropList.styles';
-
-const empty = (keys) => wire(keys)`<p class="${styles.empty}">empty object</p>`;
+import '../Prop/Prop';
+import '../PropWatcher/PropWatcher';
 
 export default function PropList({
   uid,
-  title = '',
+  name = '',
   onSelect = noop,
   props = {},
   watchers = [],
   watchable = false,
 }) {
-  const keys = Object.keys(props);
-  const list =
-    keys.length > 0
-      ? keys.map((key) => {
-          return Prop({
-            key,
-            uid,
-            watchable,
-            value: props[key],
-            onSelect,
-            watched: watchable && watchers.includes(`${uid}:${key}`),
-          });
-        })
-      : empty(keys);
+  const globalWatcher = watchable
+    ? html`
+        <yzdt-watcher
+          key="*"
+          uid=${uid}
+          ?watched="${watchers.includes(`${uid}:*`)}"
+          @toggle=${({ detail }) => onSelect(uid, '*', detail.watched)}
+        ></yzdt-watcher>
+      `
+    : '';
 
-  const globalWatcher =
-    keys.length && watchable
-      ? PropWatcher({
-          watched: watchers.includes(`${uid}:*`),
-          uid,
-          onSelect,
-          key: '*',
-        })
-      : '';
+  const entries = Object.entries(props);
 
-  return wire(props)`
-    <section class="${styles.root}">
-      <h3 class="${styles.title}"><span>${title}</span>${globalWatcher}</h3>
-      ${list}
+  return html`
+    <style>
+      :host(:not(:first-of-type)) {
+        display: block;
+        margin-top: var(--gutter);
+        border-top: 1px solid var(--color-light);
+      }
+
+      .title {
+        margin: var(--gutter);
+        font-size: var(--font-size-m);
+        font-weight: bold;
+        line-height: 1.2;
+      }
+
+      .empty {
+        margin: 0;
+        padding: 0 var(--gutter);
+        color: var(--color-quiet);
+        font-size: var(--font-size-m);
+        font-style: italic;
+      }
+    </style>
+    <section>
+      <h3 class="title"><span>${name}</span>&nbsp;${globalWatcher}</h3>
+      ${entries.length
+        ? entries.map(
+            ([key, value]) =>
+              html`
+                <yzdt-prop
+                  uid=${uid}
+                  key=${key}
+                  .value=${value}
+                  ?watchable=${watchable}
+                  .onWatchChange=${onSelect}
+                  ?watched=${watchers.includes(`${uid}:${key}`)}
+                >
+                </yzdt-prop>
+              `,
+          )
+        : html`
+            <p class="empty">empty object</p>
+          `}
     </section>
   `;
 }
+
+PropList.observedAttributes = [
+  'name',
+  'uid',
+  'watched',
+  'watchable',
+  'watchers',
+  'props',
+];
+customElements.define('yzdt-prop-list', component(PropList));

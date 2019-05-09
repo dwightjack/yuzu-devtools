@@ -1,12 +1,9 @@
-import PropWatcher from '../PropWatcher/PropWatcher';
+import { fireEvent } from 'dom-testing-library';
+import { toHTML } from '../test-utils';
 import * as utils from '../utils';
 
 import Prop from './Prop';
 
-jest.mock('../PropWatcher/PropWatcher', () => {
-  const { mockComponent } = require('../test-utils');
-  return jest.fn(mockComponent('PropWatcher'));
-});
 jest.mock('../utils', () => ({
   parseValue: jest.fn(),
   noop: () => {},
@@ -24,24 +21,27 @@ describe('Prop', () => {
     utils.parseValue.mockImplementation(() => vals);
   });
   test('matches default snapshot', () => {
-    expect(Prop({ ...props })).toMatchSnapshot();
+    const { html } = toHTML(Prop, props);
+    expect(html).toMatchSnapshot();
   });
   test('calls "utils.parseValue"', () => {
-    Prop({ ...props });
+    toHTML(Prop, props);
     expect(utils.parseValue).toHaveBeenCalledWith(props.value);
   });
 
-  test('calls "PropWatcher" when watchable is true', () => {
-    const onSelect = () => {};
+  test('renders a yzdt-watcher when "watchable" is true', () => {
+    const wrapper = toHTML(Prop, { ...props, watchable: true });
 
-    Prop({ ...props, onSelect, watchable: true, watched: true });
-    Prop({ ...props, onSelect, watchable: false, watched: true });
-    expect(PropWatcher).toHaveBeenCalledTimes(1);
-    expect(PropWatcher).toHaveBeenCalledWith({
-      key: props.key,
-      uid: props.uid,
-      watched: true,
-      onSelect,
-    });
+    expect(wrapper.html).toMatchSnapshot();
+    expect(wrapper.find('yzdt-watcher')).not.toBeUndefined();
+  });
+
+  test('attach a "toggle" event to yzdt-watcher', () => {
+    const onWatchChange = jest.fn();
+    const wrapper = toHTML(Prop, { ...props, watchable: true, onWatchChange });
+
+    const event = new CustomEvent('toggle', { detail: { watched: true } });
+    fireEvent(wrapper.find('yzdt-watcher'), event);
+    expect(onWatchChange).toHaveBeenCalledWith(props.uid, props.key, true);
   });
 });

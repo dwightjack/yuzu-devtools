@@ -1,85 +1,88 @@
-import { wire } from 'hyperhtml';
-import cc from 'classcat';
+import { html, nothing } from 'lit-html';
+import { unsafeHTML } from 'lit-html/directives/unsafe-html';
+import { classMap } from 'lit-html/directives/class-map';
+import { component } from 'haunted';
 import visibility from 'material-design-icons/action/svg/production/ic_visibility_24px.svg';
-import AttrList from '../AttrList/AttrList';
 import { noop } from '../utils';
-
 import * as styles from './Instance.styles';
+import '../AttrList/AttrList';
 
-function TagOpen(props) {
-  const { Component, uid, onSelect, attrs, watched } = props;
-  const watchMark = watched
-    ? wire(props, ':watched')`<span class="${
-        styles.watchMark
-      }" aria-label="Watching Component State">${{
-        html: visibility,
-      }}</span>`
-    : '';
-  return wire(props, ':uid')`<span
-  class="${styles.tag}"
-  onclick="${() => onSelect({ uid })}"
-  >${Component}${watchMark}${attrs}</span>`;
-}
-
-function TagClose(props) {
-  return wire(props, ':uid')`<span
-      class="${styles.tag}"
-    >${props.Component}</span>`;
-}
-
-function ExpandBtn(props) {
-  const { onClick, expanded, uid } = props;
-  return wire(props, ':expanded')`
-    <button
-      type="button"
-      class="${cc([styles.expander, { [styles.isExpanderActive]: expanded }])}"
-      onclick="${() => onClick({ uid, expanded: !expanded })}"
-      aria-label="Expand / collapse children"
-      aria-expanded="${expanded}"
-    ></button>`;
+if (process.env.NODE_ENV !== 'test') {
+  customElements.define(
+    'yzdt-tag',
+    component(
+      () => html`
+        ${styles.tag}<span><slot></slot></span>
+      `,
+    ),
+  );
 }
 
 export default function Instance(props = {}) {
   const {
-    Component,
+    name,
     uid,
-    childIds,
+    expandable = false,
     onClick = noop,
     onSelect = noop,
-    renderChild: Children = noop,
     expanded = false,
     selected = false,
     watched = false,
+    ref,
+    detached,
   } = props;
 
-  const classes = [
-    styles.root,
-    { [styles.isSelected]: selected, [styles.isWatched]: watched },
-  ];
+  // prettier-ignore
+  const watchMark = watched
+    ? html`<span
+          class="watchMark"
+          aria-label="Watching Component State"
+          >${unsafeHTML(visibility)}</span
+        >`
+    : nothing;
 
-  const tagOpen = TagOpen({
-    Component,
-    onSelect,
-    uid,
-    watched,
-    attrs: AttrList(props),
+  const classes = classMap({
+    root: true,
+    isSelected: selected,
   });
 
-  if (Array.isArray(childIds) && childIds.length > 0) {
-    classes.push({ [styles.isExpanded]: expanded });
-
-    return wire(props, ':uid')`
-     <div class="${cc(classes)}">
-        ${ExpandBtn({ uid, onClick, expanded })}${tagOpen}
-        <div class="${styles.childList}" hidden="${!expanded}">
-          ${Children(childIds)}
-        </div>
-        ${TagClose({ Component })}
-      </div>`;
-  }
-
-  return wire(props, ':uid')`
-    <div class="${cc(classes)}">
-      ${tagOpen}
-    </div>`;
+  // prettier-ignore
+  return html`
+      ${styles.root}
+      <div class=${classes}>
+        ${expandable ?
+          html`<button
+                type="button"
+                class="expander"
+                @click="${() => onClick({ uid, expanded: !expanded })}"
+                aria-label="Expand / collapse children"
+                aria-expanded="${expanded}"
+              ></button>`
+         : nothing}
+        <yzdt-tag
+          ?watched=${watched}
+          @click=${() => onSelect({ uid })}
+          ?selfclose=${!expandable}
+        >${name}${watchMark}<yzdt-attrs .ref=${ref} ?detached=${detached}></yzdt-attrs></yzdt-tag>
+        ${
+          expandable ? html`
+            <div class="children" ?hidden=${!expanded}>
+              <slot></slot>
+            </div>
+            <yzdt-tag ?watched=${watched} close>${name}</yzdt-tag>`
+          : nothing
+        }
+      </div>
+    `;
 }
+Instance.observedAttributes = [
+  'name',
+  'uid',
+  'expanded',
+  'expandable',
+  'selected',
+  'ref',
+  'watched',
+  'detached',
+];
+customElements.define('yzdt-component', component(Instance));

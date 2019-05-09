@@ -1,15 +1,5 @@
-// import Prop from '../Prop/Prop';
-// import PropWatcher from '../PropWatcher/PropWatcher';
+import { toHTML } from '../test-utils';
 import PropList from './PropList';
-
-jest.mock('../Prop/Prop', () => {
-  const { mockComponent } = require('../test-utils');
-  return jest.fn(mockComponent('Prop'));
-});
-jest.mock('../PropWatcher/PropWatcher', () => {
-  const { mockComponent } = require('../test-utils');
-  return jest.fn(mockComponent('PropWatcher'));
-});
 
 describe('PropList', () => {
   const props = {
@@ -18,24 +8,31 @@ describe('PropList', () => {
   };
 
   test('matches default snapshot', () => {
-    expect(
-      PropList({
-        uid: '_0',
-        title: 'TITLE',
-        props,
-      }),
-    ).toMatchSnapshot();
+    const { html } = toHTML(PropList, {
+      uid: '_0',
+      name: 'TITLE',
+      props,
+    });
+    expect(html).toMatchSnapshot();
+  });
+
+  test('matches empty snapshot', () => {
+    const { html } = toHTML(PropList, {
+      uid: '_0',
+      name: 'TITLE',
+      props: {},
+    });
+    expect(html).toMatchSnapshot();
   });
 
   test('matches watchable snapshot', () => {
-    expect(
-      PropList({
-        uid: '_0',
-        title: 'WATCHABLE LIST',
-        props,
-        watchable: true,
-        watchers: ['_0:name'],
-      }),
-    ).toMatchSnapshot();
+    const { html } = toHTML(PropList, {
+      uid: '_0',
+      name: 'WATCHABLE LIST',
+      props,
+      watchable: true,
+      watchers: ['_0:name'],
+    });
+    expect(html).toMatchSnapshot();
   });
 });

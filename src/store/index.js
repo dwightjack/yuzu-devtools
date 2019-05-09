@@ -1,7 +1,23 @@
-export default function createStore(initialState = {}, reducers = []) {
-  let state = initialState;
+import storage from './storage';
 
+export default function createStore(
+  initialState = {},
+  reducers = [],
+  persistKeys = [],
+) {
   const fns = [];
+
+  function withStorage(partialState) {
+    return persistKeys.reduce((acc, key) => {
+      const v = storage.get(key);
+      if (v !== undefined && v !== null) {
+        acc[key] = v;
+      }
+      return acc;
+    }, partialState);
+  }
+
+  let state = withStorage(initialState);
 
   return {
     action(payload = {}) {
@@ -9,6 +25,11 @@ export default function createStore(initialState = {}, reducers = []) {
       state = reducers.reduce((s, fn) => fn(s, payload), state);
       if (state !== prevState) {
         fns.forEach((fn) => fn(this.getState(), prevState, payload));
+        persistKeys.forEach((key) => {
+          if (state[key] !== prevState[key]) {
+            storage.set(key, state[key]);
+          }
+        });
       }
     },
 
@@ -17,7 +38,7 @@ export default function createStore(initialState = {}, reducers = []) {
     },
 
     resetState() {
-      state = initialState;
+      state = withStorage(initialState);
     },
 
     subscribe(fn) {

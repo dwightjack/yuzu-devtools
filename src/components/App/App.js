@@ -1,25 +1,27 @@
-import { bind } from 'hyperhtml';
-import Panels from '../Panels/Panels';
-import SidePanel from '../SidePanel/SidePanel';
-import MainPanel from '../MainPanel/MainPanel';
-import Tree from '../Tree/Tree';
+import { render, html } from 'lit-html';
 import { getSidePanelData, selectInstance } from '../../store/selectors';
-import './App.styles';
+import Tree from '../Tree/Tree';
+import '../Panels/Panels';
+import '../MainPanel/MainPanel';
+import '../SidePanel/SidePanel';
+import '../PropList/PropList';
+import { globalStyles } from './App.styles';
 
 export default function App({ container, actions = {} }) {
-  const $root = bind(container);
-
-  // fixed context to prevent some elements to re-render
-  const ctx = {};
-
   const renderActions = {
     onClick: actions.expandBranch,
     onSelect: actions.selectInstance,
   };
 
-  return {
-    $root,
+  const onPropCheck = (uid, key, watched) =>
+    actions.toggleWatcher({ uid, key, watched });
 
+  const parent = container.parentElement;
+  const styles = document.createDocumentFragment();
+  render(globalStyles, styles);
+  parent.prepend(styles);
+
+  return {
     render(state) {
       const { roots } = state;
 
@@ -28,22 +30,37 @@ export default function App({ container, actions = {} }) {
         getData: (id) => selectInstance(state, id),
       });
 
-      const SidePanelData = {
-        onPropCheck: (uid, key, watched) =>
-          actions.toggleWatcher({ uid, key, watched }),
-        ...getSidePanelData(state),
-        ctx,
-      };
+      const {
+        Component,
+        uid,
+        options: cOptions = {},
+        state: cState = {},
+        watchers,
+      } = getSidePanelData(state);
 
-      return $root`
-        <section>
-          ${Panels({
-            main: () => MainPanel({ ctx, render: () => treeRenderer(roots) }),
-            side: () => SidePanel(SidePanelData),
-            ctx,
-          })}
-        </section>
-        `;
+      render(
+        html`
+          <section>
+            <yzdt-panels>
+              <yzdt-main-panel slot="main">
+                ${treeRenderer(roots)}
+              </yzdt-main-panel>
+              <yzdt-side-panel slot="side" name=${Component} .uid=${uid}>
+                <yzdt-prop-list name="Options" .props=${cOptions}></yzdt-prop-list>
+                <yzdt-prop-list
+                  name="State"
+                  uid=${uid}
+                  ?watchable=${true}
+                  .onSelect=${onPropCheck}
+                  .props=${cState}
+                  .watchers=${watchers}
+                  ></yzdt-prop-list>
+              </yzdt-side-panel>
+
+          </section>
+        `,
+        container,
+      );
     },
   };
 }

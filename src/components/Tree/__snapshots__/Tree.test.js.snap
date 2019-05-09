@@ -1,18 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SidePanel matches default snapshot 1`] = `
-Array [
-  <instance
-    id="_0"
-    myAction={[Function]}
-    renderChild={[Function]}
-    style=""
-  />,
-  <instance
-    id="_1"
-    myAction={[Function]}
-    renderChild={[Function]}
-    style=""
-  />,
-]
+exports[`Tree matches default snapshot 1`] = `
+<yzdt-component name="DEMO_0"
+                uid="_0"
+>
+</yzdt-component>
+<yzdt-component name="DEMO_1"
+                uid="_1"
+>
+</yzdt-component>
+`;
+
+exports[`Tree matches nested snapshot 1`] = `
+<yzdt-component name="DEMO_0"
+                uid="_0"
+                expandable
+>
+  <yzdt-component name="DEMO_0-1"
+                  uid="_0-1"
+  >
+  </yzdt-component>
+</yzdt-component>
+<yzdt-component name="DEMO_1"
+                uid="_1"
+>
+</yzdt-component>
 `;
