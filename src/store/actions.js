@@ -13,6 +13,10 @@ const createActions = (store) => ({
   selectInstance(action) {
     store.action({ type: 'ui:select', action });
   },
+
+  inspectInstance(action) {
+    store.action({ type: 'ui:inspect', action });
+  },
   toggleWatcher(action) {
     store.action({ type: 'ui:watchstate', action });
   },
