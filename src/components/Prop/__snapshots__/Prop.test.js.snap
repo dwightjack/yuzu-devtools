@@ -1,33 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Prop matches default snapshot 1`] = `
-<div
-  class="css-1yfdty6"
-  data-prop=""
-  style=""
+<span class="label">
+  name:
+</span>
+<span class="value"
+      data-type="string"
 >
-  
-      
-  
-  
-  
-      
-  <span
-    class="css-68p123 css-1508h3c"
-    style=""
-  >
-    name
-    
-    : 
-  </span>
-  <span
-    class="css-fw3nso css-zeat2x"
-    style=""
-  >
-    DEMO
-    
-  </span>
-  
-    
-</div>
+  DEMO
+</span>
+`;
+
+exports[`Prop renders a yzdt-watcher when "watchable" is true 1`] = `
+<yzdt-watcher uid="_0"
+              key="name"
+>
+</yzdt-watcher>
+<span class="label">
+  name:
+</span>
+<span class="value"
+      data-type="string"
+>
+  DEMO
+</span>
 `;

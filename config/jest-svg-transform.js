@@ -1,3 +1,7 @@
+const { basename } = require('path');
+
 module.exports = {
-  process: (content) => 'module.exports = ' + JSON.stringify(content),
+  process(src, filename) {
+    return `module.exports = '<svg title="${basename(filename)}"></svg>'`;
+  },
 };

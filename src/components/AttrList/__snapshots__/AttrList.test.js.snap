@@ -1,20 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AttrList matches default snapshot 1`] = `
-Array [
-  <span
-    class="css-168bjza"
-    style=""
-  >
-    detached
-    
-  </span>,
-  <span
-    class="css-168bjza"
-    style=""
-  >
-    detached
-    
-  </span>,
-]
+<span>
+  ref
+  =
+  <b>
+    "DEMO"
+  </b>
+</span>
+<span>
+  detached
+</span>
 `;
+
+exports[`AttrList matches empty snapshot 1`] = ``;

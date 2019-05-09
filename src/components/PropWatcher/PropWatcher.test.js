@@ -1,21 +1,34 @@
 import { fireEvent } from 'dom-testing-library';
-import PropWatcher from './PropWatcher';
+import { virtual } from 'haunted';
+import { toHTMLAsync } from '../test-utils';
+import PropWatcherDefault from './PropWatcher';
+
+const PropWatcher = virtual(PropWatcherDefault);
 
 describe('PropWatcher', () => {
   const props = { uid: '_0', key: 'name' };
-  test('matches default snapshot', () => {
-    expect(PropWatcher(props)).toMatchSnapshot();
+  test('matches default snapshot', async () => {
+    const { html } = await toHTMLAsync(PropWatcher, props);
+    expect(html).toMatchSnapshot();
   });
 
-  test('matches checked snapshot', () => {
-    expect(PropWatcher({ ...props, watched: true })).toMatchSnapshot();
+  test('matches checked snapshot', async () => {
+    const { html } = await toHTMLAsync(PropWatcher, {
+      ...props,
+      watched: true,
+    });
+    expect(html).toMatchSnapshot();
   });
 
-  test('calls "onSelect" on click', () => {
-    const onSelect = jest.fn();
-    const root = PropWatcher({ ...props, onSelect, watched: true });
+  test('trigger a "toggle" event on the root when clicking on the checkbox', async () => {
+    const onToggle = jest.fn();
+    const wrapper = await toHTMLAsync(PropWatcher, { ...props, watched: true });
 
-    fireEvent(root.querySelector('input'), new Event('click'));
-    expect(onSelect).toHaveBeenCalledWith(props.uid, props.key, false);
+    wrapper.$root.addEventListener('toggle', ({ detail }) =>
+      onToggle(detail.watched),
+    );
+
+    fireEvent(wrapper.find('input'), new Event('click'));
+    expect(onToggle).toHaveBeenCalledWith(false);
   });
 });
