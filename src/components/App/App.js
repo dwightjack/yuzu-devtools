@@ -45,7 +45,7 @@ export default function App({ container, actions = {} }) {
               <yzdt-main-panel slot="main">
                 ${treeRenderer(roots)}
               </yzdt-main-panel>
-              <yzdt-side-panel slot="side" name=${Component} uid=${uid}>
+              <yzdt-side-panel slot="side" name=${Component} .uid=${uid}>
                 <yzdt-prop-list name="Options" .props=${cOptions}></yzdt-prop-list>
                 <yzdt-prop-list
                   name="State"
