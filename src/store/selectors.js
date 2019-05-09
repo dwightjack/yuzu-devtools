@@ -8,7 +8,7 @@ function extract(obj, key) {
   return val;
 }
 
-export const getSidePanelData = (state = {}) => {
+export const getElemenPanelData = (state = {}) => {
   const { uiSelectedInstance, tree, watchers } = state;
 
   if (!uiSelectedInstance) {
@@ -23,6 +23,20 @@ export const getSidePanelData = (state = {}) => {
     watchers: watchers.filter((w) => w.startsWith(`${uiSelectedInstance}:`)),
     ...baseObj,
   };
+};
+
+export const getWatchersPanelData = (state = {}) => {
+  const { watchers = [], tree = {} } = state;
+  const data = watchers.sort().reduce((acc, hash) => {
+    const [uid, key] = hash.split(':');
+    if (!acc[uid]) {
+      const { Component = 'unknown' } = tree[uid] || {};
+      acc[uid] = { keys: [], name: Component, uid };
+    }
+    acc[uid].keys.push(key);
+    return acc;
+  }, {});
+  return Object.values(data);
 };
 
 export const hasWatchers = (state, uid) =>
