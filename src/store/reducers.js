@@ -136,6 +136,20 @@ const ui = (state, { type, action }) => {
         ...state,
         uiSelectedInstance: action.uid,
       };
+    case 'ui:inspect': {
+      const { tree } = state;
+      const { uid } = action;
+      let { parent } = tree[uid];
+      while (parent) {
+        tree[parent] = { ...tree[parent], expanded: true };
+        ({ parent } = tree[parent]);
+      }
+      return {
+        ...state,
+        tree: { ...tree },
+        uiSelectedInstance: uid,
+      };
+    }
     default:
       return state;
   }
