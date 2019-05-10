@@ -8,7 +8,7 @@ function extract(obj, key) {
   return val;
 }
 
-export const getElemenPanelData = (state = {}) => {
+export const getElementPanelData = (state = {}) => {
   const { uiSelectedInstance, tree, watchers } = state;
 
   if (!uiSelectedInstance) {

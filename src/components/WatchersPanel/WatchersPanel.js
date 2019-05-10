@@ -1,14 +1,15 @@
 import { html } from 'lit-html';
-import { component } from 'haunted';
+import { component, useContext } from 'haunted';
 import { noop } from '../utils';
 import '../SidePanel/SidePanel';
 import '../BlankSlate/BlankSlate';
+import { StateContext } from '../../store/stateContext';
 
-export default function WatchersPanel({
-  watchers = [],
-  onToggleWatch = noop,
-  onShow = noop,
-} = {}) {
+export default function WatchersPanel() {
+  const { watchers = [], onToggleWatch = noop, onShow = noop } = useContext(
+    StateContext,
+  );
+
   return html`
     <style>
       .group {
@@ -48,53 +49,45 @@ export default function WatchersPanel({
       }
     </style>
     <yzdt-side-panel>
-      ${
-        watchers.length === 0
-          ? html`
-              <yzdt-blank-slate slot="body"
-                >No watchers listening</yzdt-blank-slate
-              >
-            `
-          : html`
-              <div class="wrap" slot="body">
-                ${
-                  watchers.map(({ uid, keys = [], name }) => {
-                    return html`
-                      <div class="group">
-                        <header>
-                          <h3>${name}#${uid}</h3>
-                          <button
-                            type="button"
-                            class="btn"
-                            @click=${() => onShow({ uid })}
-                          >
-                            show
-                          </button>
-                        </header>
-                        ${
-                          keys.map(
-                            (key) => html`
-                              <p>
-                                <yzdt-watcher
-                                  key=${key}
-                                  uid=${uid}
-                                  ?watched=${true}
-                                  @toggle=${
-                                    () => onToggleWatch(uid, key, false)
-                                  }
-                                ></yzdt-watcher>
-                                <b>${key === '*' ? '<all>' : key}</b>
-                              </p>
-                            `,
-                          )
-                        }
-                      </div>
-                    `;
-                  })
-                }
-              </div>
-            `
-      }
+      ${watchers.length === 0
+        ? html`
+            <yzdt-blank-slate slot="body"
+              >No watchers listening</yzdt-blank-slate
+            >
+          `
+        : html`
+            <div class="wrap" slot="body">
+              ${watchers.map(({ uid, keys = [], name }) => {
+                return html`
+                  <div class="group">
+                    <header>
+                      <h3>${name}#${uid}</h3>
+                      <button
+                        type="button"
+                        class="btn"
+                        @click=${() => onShow({ uid })}
+                      >
+                        show
+                      </button>
+                    </header>
+                    ${keys.map(
+                      (key) => html`
+                        <p>
+                          <yzdt-watcher
+                            key=${key}
+                            uid=${uid}
+                            ?watched=${true}
+                            @toggle=${() => onToggleWatch(uid, key, false)}
+                          ></yzdt-watcher>
+                          <b>${key === '*' ? '<all>' : key}</b>
+                        </p>
+                      `,
+                    )}
+                  </div>
+                `;
+              })}
+            </div>
+          `}
     </yzdt-side-panel>
   `;
 }
