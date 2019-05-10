@@ -19,27 +19,37 @@
       clearInterval(createPanelInterval);
       return;
     }
-    chrome.devtools.inspectedWindow.eval(
-      '!!(window.__YUZU_DEVTOOLS_GLOBAL_HOOK__.Component)',
-      (hasYuzu) => {
-        if (!hasYuzu || created) {
-          return;
-        }
-        clearInterval(createPanelInterval);
-        created = true;
 
-        chrome.devtools.panels.create(
-          'Yuzu',
-          'icon.png',
-          'panel.html',
-          (panel) => {
-            // panel loaded
-            panel.onShown.addListener(onPanelShown);
-            panel.onHidden.addListener(onPanelHidden);
-          },
-        );
-      },
+    let cbExecuted = false;
+
+    const yuzuCheck = (hasYuzu) => {
+      cbExecuted = true;
+      if (!hasYuzu || created) {
+        return;
+      }
+      clearInterval(createPanelInterval);
+      created = true;
+
+      chrome.devtools.panels.create(
+        'Yuzu',
+        'icon.png',
+        'panel.html',
+        (panel) => {
+          // panel loaded
+          panel.onShown.addListener(onPanelShown);
+          panel.onHidden.addListener(onPanelHidden);
+        },
+      );
+    };
+
+    const check = chrome.devtools.inspectedWindow.eval(
+      '!!(window.__YUZU_DEVTOOLS_GLOBAL_HOOK__.Component)',
+      yuzuCheck,
     );
+
+    if (cbExecuted === false && check && check.then) {
+      check.then(yuzuCheck);
+    }
   }
 
   chrome.devtools.network.onNavigated.addListener(createPanel);
