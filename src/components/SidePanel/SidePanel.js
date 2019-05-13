@@ -4,32 +4,28 @@ import { component } from 'haunted';
 export default function SidePanel() {
   return html`
     <style>
-      .root {
+      :host {
         display: grid;
         grid-template-rows: auto 1fr;
         grid-template-columns: 1fr;
         grid-template-areas: 'header' 'wrap';
         height: 100%;
       }
-      slot[name='header'] {
+      [slot='header'] {
         grid-area: header;
       }
 
       .panelWrap {
         grid-area: wrap;
-        min-height: 0;
-      }
-      .panelScroll {
         overflow-y: auto;
-        height: 100%;
+        min-height: 0;
+        padding-bottom: var(--gutter);
       }
     </style>
-    <section class="root">
-      <slot name="header"></slot>
-      <div class="panelWrap">
-        <div class="panelScroll"><slot name="body"></slot></div>
-      </div>
-    </section>
+    <slot name="header"></slot>
+    <div class="panelWrap">
+      <slot name="body"></slot>
+    </div>
   `;
 }
 

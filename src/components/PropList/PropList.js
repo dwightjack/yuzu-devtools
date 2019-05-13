@@ -27,8 +27,10 @@ export default function PropList({
 
   return html`
     <style>
-      :host(:not(:first-of-type)) {
+      :host {
         display: block;
+      }
+      :host(:not(:first-of-type)) {
         margin-top: var(--gutter);
         border-top: 1px solid var(--color-light);
       }
@@ -50,26 +52,24 @@ export default function PropList({
     </style>
     <section>
       <h3 class="title"><span>${name}</span>&nbsp;${globalWatcher}</h3>
-      ${
-        entries.length
-          ? entries.map(
-              ([key, value]) =>
-                html`
-                  <yzdt-prop
-                    uid=${uid}
-                    key=${key}
-                    .value=${value}
-                    ?watchable=${watchable}
-                    .onWatchChange=${onSelect}
-                    ?watched=${watchers.includes(`${uid}:${key}`)}
-                  >
-                  </yzdt-prop>
-                `,
-            )
-          : html`
-              <p class="empty">empty object</p>
-            `
-      }
+      ${entries.length
+        ? entries.map(
+            ([key, value]) =>
+              html`
+                <yzdt-prop
+                  uid=${uid}
+                  key=${key}
+                  .value=${value}
+                  ?watchable=${watchable}
+                  .onWatchChange=${onSelect}
+                  ?watched=${watchers.includes(`${uid}:${key}`)}
+                >
+                </yzdt-prop>
+              `,
+          )
+        : html`
+            <p class="empty">empty object</p>
+          `}
     </section>
   `;
 }
