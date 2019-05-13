@@ -18,7 +18,7 @@ module.exports = Object.assign({}, base, {
         flatten: true,
       },
       {
-        from: './src/{background,contentScript,detector,devtools}.js',
+        from: './src/{background,contentScript,detector,devtools,error}.js',
         to: base.output.path,
         flatten: true,
         transform(content) {

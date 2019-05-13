@@ -74,17 +74,7 @@
       <h1>An error has occurred</h1>
       <pre id="error-message"></pre>
     </div>
-    <script>
-      function globalErrorHandler(message, source, lineno, colno, error) {
-        const container = document.getElementById('container');
-        const err = document.getElementById('error');
-        const errMessage = document.getElementById('error-message');
-        errMessage.textContent = message;
-        err.hidden = false;
-        container.hidden = true;
-      }
-      window.onerror = globalErrorHandler;
-    </script>
+    <script src="error.js"></script>
     <script src="panel.js"></script>
   </body>
 </html>
