@@ -30,7 +30,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['*.test.js'],
+      files: ['*.test.js', '**/__mocks__/**/*'],
       env: {
         browser: true,
         es6: true,

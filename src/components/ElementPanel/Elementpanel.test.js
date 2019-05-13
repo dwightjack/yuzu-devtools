@@ -1,20 +1,22 @@
+import * as haunted from 'haunted';
 import { toHTML } from '../test-utils';
 import ElementPanel from './ElementPanel';
 
-const data = { uid: '_0', name: 'DEMO' };
+jest.mock('haunted');
+
+const data = { uid: '_0', Component: 'DEMO' };
 
 describe('ElementPanel', () => {
-  test('default snapshot', () => {
-    const { html } = toHTML(ElementPanel(data));
-    expect(html).toMatchSnapshot();
+  beforeEach(() => {
+    haunted.useContext.mockImplementation(() => data);
   });
-  test('empty snapshot', () => {
+  test('default snapshot', () => {
     const { html } = toHTML(ElementPanel());
     expect(html).toMatchSnapshot();
   });
-
-  test('has a slot', () => {
-    const wrapper = toHTML(ElementPanel(data));
-    expect(wrapper.find('slot')).toEqual(expect.any(HTMLSlotElement));
+  test('empty snapshot', () => {
+    haunted.useContext.mockImplementationOnce(() => ({}));
+    const { html } = toHTML(ElementPanel());
+    expect(html).toMatchSnapshot();
   });
 });
