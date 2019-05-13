@@ -9,37 +9,33 @@ export default function Tabs({ tabs = [] }) {
   return html`
     ${styles}
     <ul role="tablist">
-      ${
-        tabs.map(
-          ({ label, id }) => html`
-            <li role="presentation">
-              <a
-                role="tab"
-                href="#${id}-panel"
-                id="${id}-tab"
-                aria-selected=${current === id}
-                @click=${(e) => e.preventDefault() || setCurrent(id)}
-                >${unsafeHTML(label)}</a
-              >
-            </li>
-          `,
-        )
-      }
-    </ul>
-    ${
-      tabs.map(
-        ({ id }) => html`
-          <section
-            role="tabpanel"
-            id="${id}-panel"
-            aria-labelledby="${id}-tab"
-            ?hidden=${current !== id}
-          >
-            <slot name="${id}"></slot>
-          </section>
+      ${tabs.map(
+        ({ label, id }) => html`
+          <li role="presentation">
+            <a
+              role="tab"
+              href="#${id}-panel"
+              id="${id}-tab"
+              aria-selected=${current === id}
+              @click=${(e) => e.preventDefault() || setCurrent(id)}
+              >${unsafeHTML(label)}</a
+            >
+          </li>
         `,
-      )
-    }
+      )}
+    </ul>
+    ${tabs.map(
+      ({ id }) => html`
+        <section
+          role="tabpanel"
+          id="${id}-panel"
+          aria-labelledby="${id}-tab"
+          ?hidden=${current !== id}
+        >
+          <slot name="${id}"></slot>
+        </section>
+      `,
+    )}
   `;
 }
 

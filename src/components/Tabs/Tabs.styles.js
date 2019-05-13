@@ -2,7 +2,14 @@ import { html } from 'lit-html';
 
 export default html`
   <style>
+    :host {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 1fr;
+      grid-template-areas: 'tabs' 'tabpanels';
+    }
     ul {
+      grid-area: 'tabs';
       list-style-type: none;
       margin: 0;
       padding: 0;
@@ -40,6 +47,10 @@ export default html`
       vertical-align: baseline;
       position: relative;
       top: -0.4em;
+    }
+
+    section[role='tabpanel'] {
+      grid-area: 'tabpanels';
     }
   </style>
 `;

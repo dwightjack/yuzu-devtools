@@ -27,7 +27,9 @@ export default function SidePanel() {
     <section class="root">
       <slot name="header"></slot>
       <div class="panelWrap">
-        <div class="panelScroll"><slot name="body"></slot></div>
+        <div class="panelScroll">
+          <slot name="body"></slot>
+        </div>
       </div>
     </section>
   `;

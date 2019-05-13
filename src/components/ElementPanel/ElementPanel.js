@@ -20,21 +20,19 @@ export default function ElementPanel({ uid, name } = {}) {
       }
     </style>
     <yzdt-side-panel>
-      ${
-        !uid
-          ? html`
-              <yzdt-blank-slate slot="body"
-                >Select a component on the left panel to inspect its
-                properties</yzdt-blank-slate
-              >
-            `
-          : html`
-              <h2 slot="header" class="title">
-                ${name || 'Component'}<em>#${uid}</em>
-              </h2>
-              <slot slot="body"></slot>
-            `
-      }
+      ${!uid
+        ? html`
+            <yzdt-blank-slate slot="body"
+              >Select a component on the left panel to inspect its
+              properties</yzdt-blank-slate
+            >
+          `
+        : html`
+            <h2 slot="header" class="title">
+              ${name || 'Component'}<em>#${uid}</em>
+            </h2>
+            <slot slot="body"></slot>
+          `}
     </yzdt-side-panel>
   `;
 }
