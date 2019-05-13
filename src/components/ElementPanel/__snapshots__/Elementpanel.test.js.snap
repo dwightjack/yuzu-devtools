@@ -19,7 +19,7 @@ exports[`ElementPanel empty snapshot 1`] = `
 <yzdt-side-panel>
   <yzdt-blank-slate slot="body">
     Select a component on the left panel to inspect its
-                properties
+              properties
   </yzdt-blank-slate>
 </yzdt-side-panel>
 `;
