@@ -1,14 +1,15 @@
 import { html } from 'lit-html';
-import { component } from 'haunted';
+import { component, useContext } from 'haunted';
 import { noop } from '../utils';
 import '../SidePanel/SidePanel';
 import '../BlankSlate/BlankSlate';
+import { StateContext } from '../../store/stateContext';
 
-export default function WatchersPanel({
-  watchers = [],
-  onToggleWatch = noop,
-  onShow = noop,
-} = {}) {
+export default function WatchersPanel() {
+  const { watchers = [], onToggleWatch = noop, onShow = noop } = useContext(
+    StateContext,
+  );
+
   return html`
     <style>
       .group {

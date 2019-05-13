@@ -1,9 +1,20 @@
 import { html } from 'lit-html';
-import { component } from 'haunted';
+import { component, useContext } from 'haunted';
 import '../SidePanel/SidePanel';
 import '../BlankSlate/BlankSlate';
+import '../PropList/PropList';
+import { StateContext } from '../../store/stateContext';
 
-export default function ElementPanel({ uid, name } = {}) {
+export default function ElementPanel() {
+  const {
+    Component: name,
+    uid,
+    options = {},
+    state = {},
+    watchers,
+    onPropCheck,
+  } = useContext(StateContext);
+
   return html`
     <style>
       .title {
@@ -31,11 +42,21 @@ export default function ElementPanel({ uid, name } = {}) {
             <h2 slot="header" class="title">
               ${name || 'Component'}<em>#${uid}</em>
             </h2>
-            <slot slot="body"></slot>
+            <div slot="body">
+              <yzdt-prop-list name="Options" .props=${options}></yzdt-prop-list>
+              <yzdt-prop-list
+                name="State"
+                uid=${uid}
+                ?watchable=${true}
+                .onSelect=${onPropCheck}
+                .props=${state}
+                .watchers=${watchers}
+              ></yzdt-prop-list>
+            </div>
           `}
     </yzdt-side-panel>
   `;
 }
 
-ElementPanel.observedAttributes = ['name', 'uid'];
+// ElementPanel.observedAttributes = ['name', 'uid'];
 customElements.define('yzdt-element-panel', component(ElementPanel));
