@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ElementPanel default snapshot 1`] = `
+<yzdt-side-panel>
+  <h2 slot="header"
+      class="title"
+  >
+    DEMO
+    <em>
+      #_0
+    </em>
+  </h2>
+  <slot slot="body">
+  </slot>
+</yzdt-side-panel>
+`;
+
+exports[`ElementPanel empty snapshot 1`] = `
+<yzdt-side-panel>
+  <yzdt-blank-slate slot="body">
+    Select a component on the left panel to inspect its
+              properties
+  </yzdt-blank-slate>
+</yzdt-side-panel>
+`;

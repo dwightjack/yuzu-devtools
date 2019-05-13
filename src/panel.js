@@ -27,7 +27,7 @@ const app = App({
 store.subscribe((state) => app.render(state));
 store.subscribe(effectsMatcher);
 
-const port = chrome.extension.connect({
+const port = chrome.runtime.connect({
   name: `${chrome.devtools.inspectedWindow.tabId}`,
 });
 

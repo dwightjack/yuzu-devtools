@@ -1,64 +1,32 @@
 import { html } from 'lit-html';
 import { component } from 'haunted';
 
-const blankSlate = html`
-  <style>
-    .blank {
-      margin: 0;
-      padding: var(--gutter);
-      color: var(--color-quiet);
-      font-size: var(--font-size-m);
-      font-style: italic;
-    }
-  </style>
-  <p class="blank">
-    Select a component on the left panel to inspect its properties
-  </p>
-`;
-
-export default function SidePanel({ uid, name } = {}) {
-  if (!uid) {
-    return blankSlate;
-  }
-
+export default function SidePanel() {
   return html`
     <style>
-      .root {
+      :host {
         display: grid;
         grid-template-rows: auto 1fr;
         grid-template-columns: 1fr;
-        grid-template-areas: 'title' 'wrap';
+        grid-template-areas: 'header' 'wrap';
         height: 100%;
       }
-      .title {
-        grid-area: title;
-        margin: 0;
-        padding: 8px var(--gutter);
-        font-size: var(--font-size-l);
-        font-weight: bold;
-        line-height: 1.2;
-        background-color: var(--color-lighter);
+      [slot='header'] {
+        grid-area: header;
       }
-      .title > em {
-        font-size: 0.75em;
-      }
+
       .panelWrap {
         grid-area: wrap;
-        min-height: 0;
-      }
-      .panelScroll {
         overflow-y: auto;
-        height: 100%;
+        min-height: 0;
+        padding-bottom: var(--gutter);
       }
     </style>
-    <section class="root">
-      <h2 class="title">${name || 'Component'}<em>#${uid}</em></h2>
-      <div class="panelWrap">
-        <div class="panelScroll"><slot></slot></div>
-      </div>
-    </section>
+    <slot name="header"></slot>
+    <div class="panelWrap">
+      <slot name="body"></slot>
+    </div>
   `;
 }
 
-SidePanel.observedAttributes = ['name', 'uid'];
 customElements.define('yzdt-side-panel', component(SidePanel));

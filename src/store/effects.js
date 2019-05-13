@@ -14,7 +14,6 @@ export const createEffects = (hooksExec) => ({
   },
 
   'hooks:init': function hooksInit({ watchers }, prev, { uid }) {
-    console.log(uid);
     const match = uid && `${uid}:`;
     if (!match) {
       return;

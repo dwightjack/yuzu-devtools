@@ -27,8 +27,10 @@ export default function PropList({
 
   return html`
     <style>
-      :host(:not(:first-of-type)) {
+      :host {
         display: block;
+      }
+      :host(:not(:first-of-type)) {
         margin-top: var(--gutter);
         border-top: 1px solid var(--color-light);
       }

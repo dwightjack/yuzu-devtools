@@ -1,7 +1,90 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      :root {
+        --color-accent: rgb(136, 18, 128);
+        --color-accent-secondary: rgb(200, 0, 0);
+        --color-accent-ter: rgb(153, 69, 0);
+        --color-quiet: rgb(136, 136, 136);
+        --color-light: rgb(218, 218, 218);
+        --color-dark: #333;
+        --color-lighter: #efefef;
+        --color-error: rgb(200, 0, 0);
+        --gutter: 16px;
+        --font-size-s: 0.75rem;
+        --font-size-m: 0.875rem;
+        --font-size-l: 1rem;
+        --font-default: sans-serif;
+        --font-monospace: Menlo, Consolas, monospace;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      *::before,
+      *::after {
+        box-sizing: inherit;
+      }
+      html,
+      body {
+        height: 100vh;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+        font-family: var(--font-default);
+        font-size: 100%;
+        color: var(--color-dark);
+      }
+      #loader {
+        margin: 0;
+        padding: var(--gutter);
+        color: var(--color-quiet);
+        font-size: var(--font-size-m);
+        font-style: italic;
+      }
+
+      #error {
+        color: var(--color-error);
+        padding: var(--gutter);
+      }
+
+      #error h1 {
+        font-size: var(--font-size-l);
+      }
+
+      #error-message {
+        padding: var(--gutter);
+        border: 1px solid currentColor;
+        background-color: currentColor;
+        background-image: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.9),
+          rgba(255, 255, 255, 0.9)
+        );
+      }
+    </style>
+  </head>
   <body>
-    <div id="container">Unable to load JS</div>
+    <div id="container">
+      <p id="loader">Loading devtools...</p>
+    </div>
+    <div id="error" hidden>
+      <h1>An error has occurred</h1>
+      <pre id="error-message"></pre>
+    </div>
+    <script>
+      function globalErrorHandler(message, source, lineno, colno, error) {
+        const container = document.getElementById('container');
+        const err = document.getElementById('error');
+        const errMessage = document.getElementById('error-message');
+        errMessage.textContent = message;
+        err.hidden = false;
+        container.hidden = true;
+      }
+      window.onerror = globalErrorHandler;
+    </script>
     <script src="panel.js"></script>
   </body>
 </html>

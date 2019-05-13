@@ -1,41 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SidePanel default component title snapshot 1`] = `
-<section class="root">
-  <h2 class="title">
-    Component
-    <em>
-      #_0
-    </em>
-  </h2>
-  <div class="panelWrap">
-    <div class="panelScroll">
-      <slot>
-      </slot>
-    </div>
-  </div>
-</section>
-`;
-
 exports[`SidePanel default snapshot 1`] = `
-<section class="root">
-  <h2 class="title">
-    DEMO
-    <em>
-      #_0
-    </em>
-  </h2>
-  <div class="panelWrap">
-    <div class="panelScroll">
-      <slot>
-      </slot>
-    </div>
-  </div>
-</section>
-`;
-
-exports[`SidePanel empty snapshot 1`] = `
-<p class="blank">
-  Select a component on the left panel to inspect its properties
-</p>
+<slot name="header">
+</slot>
+<div class="panelWrap">
+  <slot name="body">
+  </slot>
+</div>
 `;

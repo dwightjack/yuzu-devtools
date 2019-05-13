@@ -1,10 +1,17 @@
 import { render, html } from 'lit-html';
-import { getSidePanelData, selectInstance } from '../../store/selectors';
+import { useMemo, virtual } from 'haunted';
+import {
+  getElementPanelData,
+  getWatchersPanelData,
+  selectInstance,
+} from '../../store/selectors';
+import '../../store/stateContext';
 import Tree from '../Tree/Tree';
 import '../Panels/Panels';
 import '../MainPanel/MainPanel';
-import '../SidePanel/SidePanel';
-import '../PropList/PropList';
+import '../ElementPanel/ElementPanel';
+import '../WatchersPanel/WatchersPanel';
+import '../Tabs/Tabs';
 import { globalStyles } from './App.styles';
 
 export default function App({ container, actions = {} }) {
@@ -21,46 +28,63 @@ export default function App({ container, actions = {} }) {
   render(globalStyles, styles);
   parent.prepend(styles);
 
+  const _App = virtual(({ state, treeRenderer }) => {
+    const { watchers, tree, roots, uiSelectedInstance } = state;
+
+    const tabs = useMemo(
+      () => [
+        { id: 'element', label: 'Element' },
+        {
+          id: 'watchers',
+          label: `Watchers${
+            watchers.length ? `<sup>(${watchers.length})</sup>` : ''
+          }`,
+        },
+      ],
+      [watchers.length],
+    );
+
+    const elementPanelData = useMemo(
+      () => ({
+        ...getElementPanelData(state),
+        onPropCheck,
+      }),
+      [watchers, tree[uiSelectedInstance]],
+    );
+
+    const watchersPanelData = useMemo(
+      () => ({
+        watchers: getWatchersPanelData(state),
+        onShow: actions.inspectInstance,
+        onToggleWatch: onPropCheck,
+      }),
+      [watchers],
+    );
+
+    return html`
+      <yzdt-panels>
+        <yzdt-main-panel slot="main">
+          ${treeRenderer(roots, state)}
+        </yzdt-main-panel>
+        <yzdt-tabs slot="side" .tabs=${tabs}>
+          <yzdt-state-provider slot="element" .value=${elementPanelData}>
+            <yzdt-element-panel></yzdt-element-panel>
+          </yzdt-state-provider>
+          <yzdt-state-provider slot="watchers" .value=${watchersPanelData}>
+            <yzdt-watchers-panel></yzdt-watchers-panel>
+          </yzdt-state-provider> </yzdt-tabs
+      ></yzdt-panels>
+    `;
+  });
+
+  const treeRenderer = Tree({
+    actions: renderActions,
+    getData: selectInstance,
+  });
+
   return {
     render(state) {
-      const { roots } = state;
-
-      const treeRenderer = Tree({
-        actions: renderActions,
-        getData: (id) => selectInstance(state, id),
-      });
-
-      const {
-        Component,
-        uid,
-        options: cOptions = {},
-        state: cState = {},
-        watchers,
-      } = getSidePanelData(state);
-
-      render(
-        html`
-          <section>
-            <yzdt-panels>
-              <yzdt-main-panel slot="main">
-                ${treeRenderer(roots)}
-              </yzdt-main-panel>
-              <yzdt-side-panel slot="side" name=${Component} .uid=${uid}>
-                <yzdt-prop-list name="Options" .props=${cOptions}></yzdt-prop-list>
-                <yzdt-prop-list
-                  name="State"
-                  uid=${uid}
-                  ?watchable=${true}
-                  .onSelect=${onPropCheck}
-                  .props=${cState}
-                  .watchers=${watchers}
-                  ></yzdt-prop-list>
-              </yzdt-side-panel>
-
-          </section>
-        `,
-        container,
-      );
+      render(_App({ state, treeRenderer }), container);
     },
   };
 }

@@ -18,8 +18,8 @@ chrome.runtime.onMessage.addListener((message, sender) => {
   }
 });
 
-chrome.extension.onConnect.addListener((port) => {
-  chrome.extension.onMessage.addListener((message, sender) => {
+chrome.runtime.onConnect.addListener((port) => {
+  chrome.runtime.onMessage.addListener((message, sender) => {
     if (port.name === sender.tab.id.toString()) {
       port.postMessage(message);
     }

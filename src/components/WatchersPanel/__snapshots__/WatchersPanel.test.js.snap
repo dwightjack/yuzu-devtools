@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WatchersPanel matches default snapshot 1`] = `
+<yzdt-side-panel>
+  <div class="wrap"
+       slot="body"
+  >
+    <div class="group">
+      <header>
+        <h3>
+          DEMO#_0
+        </h3>
+        <button type="button"
+                class="btn"
+        >
+          show
+        </button>
+      </header>
+      <p>
+        <yzdt-watcher key="*"
+                      uid="_0"
+                      watched
+        >
+        </yzdt-watcher>
+        <b>
+          &lt;all&gt;
+        </b>
+      </p>
+      <p>
+        <yzdt-watcher key="name"
+                      uid="_0"
+                      watched
+        >
+        </yzdt-watcher>
+        <b>
+          name
+        </b>
+      </p>
+    </div>
+  </div>
+</yzdt-side-panel>
+`;
+
+exports[`WatchersPanel matches empty snapshot 1`] = `
+<yzdt-side-panel>
+  <yzdt-blank-slate slot="body">
+    No watchers listening
+  </yzdt-blank-slate>
+</yzdt-side-panel>
+`;

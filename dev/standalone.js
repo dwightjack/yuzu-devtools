@@ -11,7 +11,7 @@ const store = createStore(
   {
     ...initialState,
     ...fixtures,
-    uiSelectedInstance: '_ui.4',
+    // uiSelectedInstance: '_ui.4',
   },
   reducers,
   ['watchers'],
