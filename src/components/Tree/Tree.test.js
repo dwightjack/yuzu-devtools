@@ -9,7 +9,7 @@ describe('Tree', () => {
     myAction: () => {},
   };
 
-  const dataMock = (id) => ({ uid: id, Component: `DEMO${id}` });
+  const dataMock = (_, id) => ({ uid: id, Component: `DEMO${id}` });
 
   beforeEach(() => {
     getData = jest.fn(dataMock);
@@ -27,8 +27,8 @@ describe('Tree', () => {
   test('matches nested snapshot', () => {
     const childIds = ['_0-1'];
     const spy = jest.fn(renderer);
-    getData.mockImplementationOnce((id) => ({
-      ...dataMock(id),
+    getData.mockImplementationOnce((_, id) => ({
+      ...dataMock(_, id),
       childIds,
     }));
     const { html } = toHTML(spy(dummyData));

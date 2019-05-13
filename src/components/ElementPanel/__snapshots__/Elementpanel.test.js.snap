@@ -10,8 +10,15 @@ exports[`ElementPanel default snapshot 1`] = `
       #_0
     </em>
   </h2>
-  <slot slot="body">
-  </slot>
+  <div slot="body">
+    <yzdt-prop-list name="Options">
+    </yzdt-prop-list>
+    <yzdt-prop-list name="State"
+                    uid="_0"
+                    watchable
+    >
+    </yzdt-prop-list>
+  </div>
 </yzdt-side-panel>
 `;
 
