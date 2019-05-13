@@ -9,7 +9,7 @@ export default html`
       grid-template-areas: 'tabs' 'tabpanels';
     }
     ul {
-      grid-area: 'tabs';
+      grid-area: tabs;
       list-style-type: none;
       margin: 0;
       padding: 0;
@@ -50,7 +50,8 @@ export default html`
     }
 
     section[role='tabpanel'] {
-      grid-area: 'tabpanels';
+      grid-area: tabpanels;
+      min-height: 0;
     }
   </style>
 `;
