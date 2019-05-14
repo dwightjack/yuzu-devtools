@@ -2,6 +2,16 @@
 
 exports[`WatchersPanel matches default snapshot 1`] = `
 <yzdt-side-panel>
+  <p slot="header"
+     class="header"
+  >
+    <label>
+      <input type="checkbox"
+             name="persist-watchers"
+      >
+      Persist upon reloads
+    </label>
+  </p>
   <div class="wrap"
        slot="body"
   >
@@ -43,6 +53,16 @@ exports[`WatchersPanel matches default snapshot 1`] = `
 
 exports[`WatchersPanel matches empty snapshot 1`] = `
 <yzdt-side-panel>
+  <p slot="header"
+     class="header"
+  >
+    <label>
+      <input type="checkbox"
+             name="persist-watchers"
+      >
+      Persist upon reloads
+    </label>
+  </p>
   <yzdt-blank-slate slot="body">
     No watchers listening
   </yzdt-blank-slate>

@@ -29,20 +29,14 @@ export default function App({ container, actions = {} }) {
   parent.prepend(styles);
 
   const _App = virtual(({ state, treeRenderer }) => {
-    const { watchers, tree, roots, uiSelectedInstance } = state;
-
-    const tabs = useMemo(
-      () => [
-        { id: 'element', label: 'Element' },
-        {
-          id: 'watchers',
-          label: `Watchers${
-            watchers.length ? `<sup>(${watchers.length})</sup>` : ''
-          }`,
-        },
-      ],
-      [watchers.length],
-    );
+    const {
+      watchers,
+      tree,
+      roots,
+      uiSelectedInstance,
+      treeCount,
+      uiPersistState,
+    } = state;
 
     const elementPanelData = useMemo(
       () => ({
@@ -54,11 +48,29 @@ export default function App({ container, actions = {} }) {
 
     const watchersPanelData = useMemo(
       () => ({
-        watchers: getWatchersPanelData(state),
+        ...getWatchersPanelData(state),
         onShow: actions.inspectInstance,
         onToggleWatch: onPropCheck,
+        persist: !!uiPersistState.watchers,
+        onPersistToggle: () =>
+          actions.updatePersistState({ watchers: !uiPersistState.watchers }),
       }),
-      [watchers],
+      [watchers, treeCount, uiPersistState],
+    );
+
+    const tabs = useMemo(
+      () => [
+        { id: 'element', label: 'Element' },
+        {
+          id: 'watchers',
+          label: `Watchers${
+            watchersPanelData.total
+              ? `<sup>(${watchersPanelData.total})</sup>`
+              : ''
+          }`,
+        },
+      ],
+      [watchersPanelData.total],
     );
 
     return html`
