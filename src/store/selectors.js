@@ -27,16 +27,24 @@ export const getElementPanelData = (state = {}) => {
 
 export const getWatchersPanelData = (state = {}) => {
   const { watchers = [], tree = {} } = state;
+  let total = 0;
   const data = watchers.sort().reduce((acc, hash) => {
     const [uid, key] = hash.split(':');
+    if (!tree[uid]) {
+      return acc;
+    }
     if (!acc[uid]) {
-      const { Component = 'unknown' } = tree[uid] || {};
+      const { Component } = tree[uid] || {};
       acc[uid] = { keys: [], name: Component, uid };
     }
     acc[uid].keys.push(key);
+    total += 1;
     return acc;
   }, {});
-  return Object.values(data);
+  return {
+    watchers: Object.values(data),
+    total,
+  };
 };
 
 export const hasWatchers = (state, uid) =>

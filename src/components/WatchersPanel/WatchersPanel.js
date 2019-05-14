@@ -6,12 +6,20 @@ import '../BlankSlate/BlankSlate';
 import { StateContext } from '../../store/stateContext';
 
 export default function WatchersPanel() {
-  const { watchers = [], onToggleWatch = noop, onShow = noop } = useContext(
-    StateContext,
-  );
+  const {
+    watchers = [],
+    onToggleWatch = noop,
+    onShow = noop,
+    onPersistToggle = noop,
+    persist = false,
+  } = useContext(StateContext);
 
   return html`
     <style>
+      .header {
+        margin: 0;
+        padding: calc(var(--gutter) / 2);
+      }
       .group {
         padding: var(--gutter) var(--gutter) calc(var(--gutter) / 2);
       }
@@ -49,6 +57,17 @@ export default function WatchersPanel() {
       }
     </style>
     <yzdt-side-panel>
+      <p slot="header" class="header">
+        <label>
+          <input
+            type="checkbox"
+            name="persist-watchers"
+            @click=${onPersistToggle}
+            ?checked=${persist}
+          />
+          Persist upon reloads
+        </label>
+      </p>
       ${watchers.length === 0
         ? html`
             <yzdt-blank-slate slot="body"

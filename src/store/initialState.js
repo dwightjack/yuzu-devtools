@@ -1,7 +1,8 @@
 export default {
   tree: {},
   roots: [],
-  // uiPanels: {},
-  uiSelectedInstance: null,
   watchers: [],
+  treeCount: 0,
+  uiSelectedInstance: null,
+  uiPersistState: {},
 };

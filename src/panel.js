@@ -5,7 +5,7 @@ import initialState from './store/initialState';
 import createActions from './store/actions';
 import * as effects from './store/effects';
 
-const store = createStore(initialState, reducers, ['watchers']);
+const store = createStore(initialState, reducers);
 
 const actions = createActions(store);
 

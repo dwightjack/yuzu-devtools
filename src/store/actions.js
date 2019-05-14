@@ -20,6 +20,9 @@ const createActions = (store) => ({
   toggleWatcher(action) {
     store.action({ type: 'ui:watchstate', action });
   },
+  updatePersistState(action) {
+    store.action({ type: 'ui:persiststate', action });
+  },
 });
 
 export default createActions;

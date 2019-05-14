@@ -1,4 +1,5 @@
 import difference from 'lodash-es/difference';
+import storage from './storage';
 
 export const createEffects = (hooksExec) => ({
   'ui:watchstate': function logState(state, prevState) {
@@ -11,6 +12,17 @@ export const createEffects = (hooksExec) => ({
     if (added.length > 0) {
       added.forEach((watchHash) => hooksExec(`logStart`, watchHash));
     }
+  },
+
+  'ui:persiststate': function watchersStorage(state, _, payload = {}) {
+    Object.entries(payload).forEach(([key, value]) => {
+      if (value) {
+        storage.set(key, state[key]);
+      } else {
+        storage.remove(key);
+      }
+    });
+    storage.set('uiPersistState', state.uiPersistState);
   },
 
   'hooks:init': function hooksInit({ watchers }, prev, { uid }) {

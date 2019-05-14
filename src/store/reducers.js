@@ -7,6 +7,8 @@ const hooksInit = (state, { type, action }) => {
       [action.uid]: Object.assign({}, state.tree[action.uid], action),
     };
 
+    const treeCount = Object.keys(tree).length;
+
     if (action.parent) {
       const parent = tree[action.parent] || {};
 
@@ -18,12 +20,14 @@ const hooksInit = (state, { type, action }) => {
       return {
         ...state,
         tree,
+        treeCount,
       };
     }
     return {
       ...state,
       roots: [...roots, action.uid],
       tree,
+      treeCount,
     };
   }
   return state;
@@ -54,11 +58,13 @@ const hooksDestroy = (state, { type, action }) => {
     const tree = { ...state.tree };
 
     delete tree[uid];
+    const treeCount = Object.keys(tree).length;
 
     if (roots.includes(uid)) {
       return {
         ...state,
         tree,
+        treeCount,
         roots: roots.filter((id) => id !== uid),
       };
     }
@@ -78,6 +84,7 @@ const hooksDestroy = (state, { type, action }) => {
     return {
       ...state,
       tree,
+      treeCount,
     };
   }
   return state;
@@ -150,6 +157,21 @@ const ui = (state, { type, action }) => {
         uiSelectedInstance: uid,
       };
     }
+    case 'ui:persiststate': {
+      const uiPersistState = { ...state.uiPersistState };
+      Object.entries(action).forEach(([key, value]) => {
+        if (!value) {
+          delete uiPersistState[key];
+        } else {
+          uiPersistState[key] = !!value;
+        }
+      });
+      return {
+        ...state,
+        uiPersistState,
+      };
+    }
+
     default:
       return state;
   }
