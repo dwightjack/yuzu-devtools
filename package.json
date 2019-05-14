@@ -59,7 +59,7 @@
       "^.+\\.svg$": "<rootDir>/config/jest-svg-transform.js"
     },
     "transformIgnorePatterns": [
-      "/node_modules/(?!material-design-icons|lit-html|haunted)"
+      "/node_modules/(?!material-design-icons|lit-html|haunted|lodash-es)"
     ],
     "collectCoverage": false,
     "testMatch": [
