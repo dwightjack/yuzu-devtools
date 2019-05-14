@@ -1,4 +1,4 @@
-import difference from 'lodash/difference';
+import difference from 'lodash-es/difference';
 
 export const createEffects = (hooksExec) => ({
   'ui:watchstate': function logState(state, prevState) {
