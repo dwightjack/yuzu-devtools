@@ -1,6 +1,6 @@
 {
   "name": "Yuzu Inspector",
-  "description": "Inspect Yuzu components in Chrome DevTools",
+  "description": "Inspect Yuzu components in browser devtools",
   "devtools_page": "devtools.html",
   "manifest_version": 2,
   "icons": {
