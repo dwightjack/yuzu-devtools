@@ -55,7 +55,7 @@ You can watch the entire state by selecting the _eye_ icon on the right of the p
 
 The _Watchers_ sub-panel show a list of the state properties you are currently watching.
 
-![Extension right panel](images/right-panel.png)
+![Extension right panel](images/right-panel-watchers.png)
 
 If the `Persist upon reloads` checkbox is checked the inspector will save the watcher and will re-apply it at page reload. This will let the inspector log properties changes occurring at initialization time.  
 **Note**: this feature is experimental and subject to possible false positive results.
