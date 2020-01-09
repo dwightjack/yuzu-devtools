@@ -6,12 +6,10 @@ This extension lets you inspect and track changes of Yuzu Components in a webpag
 
 ## Installation
 
-This extension support:
+This extension supports:
 
-- Chrome
-- Firefox
-
-(WIP)
+- [Chrome](https://chrome.google.com/webstore/detail/yuzu-inspector/)
+- [Firefox](https://addons.mozilla.org/en-US/firefox/addon/yuzu-inspector/)
 
 ## Usage
 
